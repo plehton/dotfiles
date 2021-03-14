@@ -1,7 +1,3 @@
-" set runtimepath^=~/.vim runtimepath+=~/.vim/after
-" let &packpath = &runtimepath
-" source ~/.vim/vimrc
-
 " The obvious                                                                       {{{1
 " --------------------------------------------------------------------------------------
 "
@@ -28,8 +24,12 @@ Plug 'romainl/vim-cool'                 " Disable highlight after searching
 Plug 'christoomey/vim-tmux-navigator'   " Seamless switching between vim windows and tmux pane's
 Plug 'epeli/slimux'                     " Send vim buffer contents to other tmux pane
 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
 " Programming
 Plug 'neovim/nvim-lspconfig'
+
 
 " Color schemes
 Plug 'arcticicestudio/nord-vim'
@@ -140,8 +140,13 @@ vnoremap <leader>sv :SlimuxREPLSendSelection<CR>
 nnoremap <leader>sk :SlimuxSendKeysPrompt<CR>
 nnoremap <leader>sr :SlimuxREPLConfigure<CR>
 
-" Bufkill 
-nnoremap <leader>q :BD<CR>
-
 " LSP
 lua require'lsp-config'
+
+" FZF 
+nmap <C-p> :FZF<CR>
+nmap <Leader>ff :execute ":FZF " . expand('%:p:h')<CR>
+nmap <Leader>fb :Buffers<CR>
+nmap <Leader>fm :History<CR>
+nmap <Leader>fg :Rg<CR>
+
