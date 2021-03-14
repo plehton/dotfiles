@@ -1,0 +1,21 @@
+[user]
+email = petri.j.lehtonen@gmail.com
+name = Petri Lehtonen
+
+# define command which will be used when "nvim" is set as a merge tool
+[mergetool "nvim"]
+cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
+
+# set "nvim" as tool for merging
+[merge]
+tool = nvim
+
+# automatically launch merge tool without displaying a prompt
+[mergetool]
+prompt = false
+
+[alias]
+st = status
+l  = log --oneline --no-merges
+co = checkout
+cm = commit -m
