@@ -104,7 +104,11 @@ set statusline+=%=                         " right align the rest
 set statusline+=\ \ %(%l,%c%)              " row/col
 set statusline+=\ \ %P                     " position in file %
 
-
+" use rg for grepping
+if executable("rg")
+  set grepprg=rg\ --vimgrep\ --no-heading
+  set grepformat=%f:%l:%c:%m
+endif
 
 " Mappings                                                                          {{{1
 " --------------------------------------------------------------------------------------
