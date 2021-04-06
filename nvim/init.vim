@@ -1,4 +1,4 @@
-" The obvious                                                                       {{{1
+" Essentials                                                                        {{{1
 " --------------------------------------------------------------------------------------
 "
 let mapleader = "\<Space>"
@@ -29,25 +29,28 @@ Plug 'junegunn/fzf.vim'
 
 " Programming
 Plug 'neovim/nvim-lspconfig'
-
+Plug 'hrsh7th/nvim-compe'
 
 " Color schemes
 Plug 'arcticicestudio/nord-vim'
 Plug 'gruvbox-community/gruvbox'
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
 " Settings                                                                          {{{1
 " --------------------------------------------------------------------------------------
+
 set clipboard=unnamed
 set hidden
 set termguicolors
-set cpoptions+=$  " Vi-compatible options
-set shortmess+=c  " suppress ins-completion-menu messages
-set lazyredraw   " don't redraw screen while running macros
-set number
-set showmatch " highlight matching parens
+set shortmess+=c                          " suppress ins-completion-menu messages
+set lazyredraw                            " don't redraw screen while running macros
+set number 
+set showmatch                             " highlight matching parens
+set completeopt=menuone,longest,noselect  " always show menu, match longest common and force to select one
 set wildmode=longest:full,full
+set nobackup nowritebackup                " skip backups completely
 
 set noincsearch
 set ignorecase
@@ -84,31 +87,46 @@ set listchars+=extends:»
 set listchars+=precedes:«
 set nolist
 
-
-" Colors                                                                            {{{1
-" --------------------------------------------------------------------------------------
-colorscheme gruvbox
-
-
-" Statusline                                                                        {{{1
-" --------------------------------------------------------------------------------------
-"
-set statusline=
-set statusline+=[%n]                       " Buffer Number
-set statusline+=%y                         " file type
-set statusline+=\ %q                       " Quick/Location list
-set statusline+=\ %{fugitive#statusline()} " current branch
-set statusline+=\ %f                       " path to file in buffer
-set statusline+=%m%r%w                     " path (help, modified, read-only, preview)
-set statusline+=%=                         " right align the rest
-set statusline+=\ \ %(%l,%c%)              " row/col
-set statusline+=\ \ %P                     " position in file %
-
 " use rg for grepping
 if executable("rg")
   set grepprg=rg\ --vimgrep\ --no-heading
   set grepformat=%f:%l:%c:%m
 endif
+
+
+" Colors                                                                            {{{1
+" --------------------------------------------------------------------------------------
+"colorscheme gruvbox
+
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+hi Statement gui=none
+
+
+" Statusline                                                                        {{{1
+"" --------------------------------------------------------------------------------------
+""
+"hi User1 gui=inverse,italic guibg=#665c54
+"set statusline=
+"" set statusline+=%1*\ %n\ %*                   " Buffer Number
+"" set statusline+=\ %q                          " Quick/Location list
+"" set statusline+=%1*\ %{fugitive#head()}\ %*   " current branch
+"set statusline+=\ %m%r%w                        " path (help, modified, read-only, preview)
+"set statusline+=\ %f                            " path to file in buffer
+"set statusline+=\ %y                            " file type
+"set statusline+=%=                              " right align the rest
+"set statusline+=\ \ %P                          " position in file %
+"set statusline+=\ %(%l\:%c%)                    " row/col
+
+lua require'pjl.statusline'.set()
+
+augroup PjlStatusline
+    autocmd!
+    autocmd BufWinEnter,BufModifiedSet * lua require'pjl.statusline'.check_modified()
+augroup end
 
 " Mappings                                                                          {{{1
 " --------------------------------------------------------------------------------------
@@ -117,6 +135,9 @@ endif
 " Enter ex mode without shift
 nnoremap , :
 vnoremap , :
+
+" 
+nnoremap <leader>o <C-^>
 
 " Edit dotfiles 
 nnoremap <leader>ev :execute ":e $MYVIMRC"<CR>
@@ -145,7 +166,7 @@ nnoremap <leader>sk :SlimuxSendKeysPrompt<CR>
 nnoremap <leader>sr :SlimuxREPLConfigure<CR>
 
 " LSP
-lua require'lsp-config'
+luafile ~/.config/nvim/lua/config/lsp.lua
 
 " FZF 
 nmap <C-p> :FZF<CR>
@@ -153,4 +174,5 @@ nmap <Leader>ff :execute ":FZF " . expand('%:p:h')<CR>
 nmap <Leader>fb :Buffers<CR>
 nmap <Leader>fm :History<CR>
 nmap <Leader>fg :Rg<CR>
+nmap <Leader>fw :execute ":Rg " . expand('<cword>')<CR>
 
