@@ -103,6 +103,7 @@ bindkey ' ' magic-space # do history expansion on space
 #
 
 source $HOME/.zsh/aliases
+source $HOME/.zsh/exports
 
 # Third party                                                               }}}1
 #

@@ -1,0 +1,14 @@
+alias vim=nvim
+alias vi=nvim
+alias v='nvim $(fzf $1)'
+alias -g CP="|pbcopy"
+alias -g L="|less"
+alias -g FZF="|fzf"
+alias zs='echo ''Sourcing .zshrc''; source ~/.zshrc'
+alias ze='nvim ~/.zshrc'
+alias b16='eval $(alias | grep base16 | cut -d '=' -f1 | fzf )'
+
+# Git
+alias glt='git log --oneline --max-count 20'
+
+# vi:ft=zsh
