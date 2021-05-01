@@ -16,6 +16,15 @@ prompt = false
 
 [alias]
 st = status
-l  = log --oneline --no-merges
+l  = log --oneline
+lt = log --oneline -n15
 co = checkout
 cm = commit -m
+[credential]
+	helper = osxkeychain
+[pull]
+	rebase = true
+[fetch]
+	prune = true
+[core]
+	editor = nvim
