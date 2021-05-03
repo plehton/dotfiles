@@ -22,10 +22,9 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' use-simple true
-zstyle ':vcs_info:*' stagedstr "%F{green}●%f" # default 'S'
-zstyle ':vcs_info:*' unstagedstr "%F{red}●%f" # default 'U'
+zstyle ':vcs_info:*' stagedstr "%F{green}●%f" # default 'S' , ●⇡
+zstyle ':vcs_info:*' unstagedstr "%F{red}●%f" # default 'U', ●✘
 zstyle ':vcs_info:*' formats '[%b%m%c%u] '
-#zstyle ':vcs_info:git*:*' actionformats '[%b|%a%m%c%u] '
 zstyle ':vcs_info:git*:*' actionformats '[%b|%a] '
 zstyle ':vcs_info:git+set-message:*' hooks git-untracked
 
@@ -38,7 +37,7 @@ function +vi-git-untracked() {
 
 RPROMPT_BASE="%F{20}\${vcs_info_msg_0_}%f%F{blue}%~%f"
 export RPROMPT=$RPROMPT_BASE
-export PS1="%F{blue}%1~%f%F{green}\${VENV_INFO}%f%F{magenta}❯%f "
+export PS1="%F{green}\${VENV_INFO}%f%F{blue}%1~%f%F{magenta}❯%f "
 
 
 #
