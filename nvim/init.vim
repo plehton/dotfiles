@@ -162,8 +162,8 @@ nnoremap <leader>sl :SlimuxREPLSendLine<CR>
 nnoremap <leader>sp :SlimuxREPLSendParagraph<CR>
 nnoremap <leader>sb :SlimuxREPLSendBuffer<CR>
 vnoremap <leader>sv :SlimuxREPLSendSelection<CR>
-nnoremap <leader>sk :SlimuxSendKeysPrompt<CR>
-nnoremap <leader>sr :SlimuxREPLConfigure<CR>
+nnoremap <leader>sp :SlimuxSendKeysPrompt<CR>
+nnoremap <leader>sc :SlimuxREPLConfigure<CR>
 
 " LSP
 luafile ~/.config/nvim/lua/config/lsp.lua
