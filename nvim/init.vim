@@ -30,6 +30,9 @@ Plug 'junegunn/fzf.vim'
 " Programming
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'hashivim/vim-terraform'
+Plug 'godlygeek/tabular'
 
 " Color schemes
 Plug 'arcticicestudio/nord-vim'
@@ -44,13 +47,14 @@ call plug#end()
 set clipboard=unnamed
 set hidden
 set termguicolors
+set number 
+set relativenumber
+set nobackup nowritebackup                " skip backups completely
 set shortmess+=c                          " suppress ins-completion-menu messages
 set lazyredraw                            " don't redraw screen while running macros
-set number 
 set showmatch                             " highlight matching parens
 set completeopt=menuone,longest,noselect  " always show menu, match longest common and force to select one
 set wildmode=longest:full,full
-set nobackup nowritebackup                " skip backups completely
 
 set noincsearch
 set ignorecase
@@ -73,7 +77,7 @@ set modelines=0
 set formatoptions=tcq1jr
 set textwidth=88
 set expandtab " tabs to spaces
-set shiftwidth=4 " indent = spaces 
+set shiftwidth=4 " indent with spaces 
 set softtabstop=4 " tab = 4 spaces
 
 " whitespace characters
@@ -87,39 +91,22 @@ set listchars+=extends:»
 set listchars+=precedes:«
 set nolist
 
-" use rg for grepping
-if executable("rg")
-  set grepprg=rg\ --vimgrep\ --no-heading
-  set grepformat=%f:%l:%c:%m
-endif
+set grepprg=rg\ --vimgrep\ --no-heading
+set grepformat=%f:%l:%c:%m
 
 
-" Colors                                                                            {{{1
+" Colors set using base16                                                           {{{1
 " --------------------------------------------------------------------------------------
-"colorscheme gruvbox
 
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
+let base16colorspace=256
+source ~/.vimrc_background
 
-hi Statement gui=none
+" hi Statement gui=none
 
 
 " Statusline                                                                        {{{1
 "" --------------------------------------------------------------------------------------
 ""
-"hi User1 gui=inverse,italic guibg=#665c54
-"set statusline=
-"" set statusline+=%1*\ %n\ %*                   " Buffer Number
-"" set statusline+=\ %q                          " Quick/Location list
-"" set statusline+=%1*\ %{fugitive#head()}\ %*   " current branch
-"set statusline+=\ %m%r%w                        " path (help, modified, read-only, preview)
-"set statusline+=\ %f                            " path to file in buffer
-"set statusline+=\ %y                            " file type
-"set statusline+=%=                              " right align the rest
-"set statusline+=\ \ %P                          " position in file %
-"set statusline+=\ %(%l\:%c%)                    " row/col
 
 lua require'pjl.statusline'.set()
 
