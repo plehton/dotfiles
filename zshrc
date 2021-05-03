@@ -195,7 +195,7 @@ add-zsh-hook precmd -git-info
 
 function -venv_info() {
     if [[ -n $VIRTUAL_ENV ]]; then
-        export VENV_INFO=" (${VIRTUAL_ENV##*/})"
+        export VENV_INFO="(${VIRTUAL_ENV##*/}) "
     else
         export VENV_INFO=
     fi
