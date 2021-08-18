@@ -27,6 +27,8 @@ Plug 'epeli/slimux'                     " Send vim buffer contents to other tmux
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+Plug 'wincent/corpus'
+
 " Programming
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
