@@ -157,6 +157,9 @@ nnoremap <leader>sc :SlimuxREPLConfigure<CR>
 " LSP
 luafile ~/.config/nvim/lua/config/lsp.lua
 
+" Corpus
+luafile ~/.config/nvim/lua/config/corpus.lua
+
 " FZF 
 nmap <C-p> :FZF<CR>
 nmap <Leader>ff :execute ":FZF " . expand('%:p:h')<CR>
