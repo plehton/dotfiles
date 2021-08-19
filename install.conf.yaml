@@ -1,0 +1,13 @@
+- defaults:
+    link:
+      relink: true
+      create: true
+
+- clean: ['~']
+
+- link:
+    ~/.zshrc: zshrc
+    ~/.zsh: zsh
+    ~/.config/nvim: nvim
+    ~/.config/base16-shell: base16-shell
+    ~/.tmux.conf: tmux/tmux.conf
