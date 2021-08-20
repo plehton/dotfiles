@@ -11,3 +11,13 @@
     ~/.config/nvim: nvim
     ~/.config/base16-shell: base16-shell
     ~/.tmux.conf: tmux/tmux.conf
+
+- create:
+    ~/.ssh:
+      mode: 0700
+    ~/.config:
+    ~/code:
+    ~/.venv:
+
+- shell:
+    - brew tap homebrew/cask-fonts
