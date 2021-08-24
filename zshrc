@@ -118,8 +118,9 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 # z
 . /usr/local/etc/profile.d/z.sh
 
-# pyenv
+# pyenv + virtualenv
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 
 #
