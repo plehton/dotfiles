@@ -3,7 +3,7 @@ __PJL[ITALIC_ON]=$'\e[3m'
 __PJL[ITALIC_OFF]=$'\e[23m'
 
 #
-# Shell settings                                                            }}}1
+# Shell settings                                                           }}}1
 #
 autoload -Uz compinit
 if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
@@ -13,7 +13,7 @@ else
 fi
 
 #
-# Prompt                                                                    }}}1
+# Prompt                                                                   }}}1
 #
 
 setopt PROMPT_SUBST
@@ -104,7 +104,7 @@ bindkey ' ' magic-space # do history expansion on space
 source $HOME/.zsh/aliases
 source $HOME/.zsh/exports
 
-# Third party                                                               }}}1
+# Third party                                                              }}}1
 #
 
 BASE16_SHELL="$HOME/.config/base16-shell/"
@@ -125,7 +125,7 @@ eval "$(rbenv init -)"
 
 
 #
-# Hooks                                                                     }}}1
+# Hooks                                                                    }}}1
 #
 
 autoload -U add-zsh-hook
