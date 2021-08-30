@@ -31,7 +31,10 @@ Plug 'wincent/corpus'
 
 " Programming
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'hashivim/vim-terraform'
 Plug 'godlygeek/tabular'
