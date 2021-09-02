@@ -5,6 +5,8 @@ __PJL[ITALIC_OFF]=$'\e[23m'
 #
 # Shell settings                                                           }}}1
 #
+
+fpath=($HOME/.zsh/completions/ $fpath)
 autoload -Uz compinit
 if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
   compinit
