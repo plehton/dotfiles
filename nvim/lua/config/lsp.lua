@@ -1,26 +1,5 @@
 local lsp= require('lspconfig')
 
-require'compe'.setup {
-  min_length = 1;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = false;
-    spell = false;
-    tags = false;
-    vsnip = false;
-    snippets_nvim = false;
-    treesitter = true;
-  };
-}
-
-
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
@@ -34,43 +13,43 @@ local check_back_space = function()
     end
 end
 
-
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-   --elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    --return t "<Plug>(vsnip-jump-prev)"
-  else
-    return t "<S-Tab>"
-  end
-end
-
-_G.compe_confirm_enter = function()
-    if vim.fn.pumvisible() == 1 then
-        return vim.fn['compe#confirm']
-    else
-        return t "<CR>"
-    end
-end
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<CR>", "v:lua.compe_confirm_enter()", {expr = true})
-vim.api.nvim_set_keymap("s", "<CR>", "v:lua.compe_confirm_enter()", {expr = true})
-
-
+local cmp = require'cmp'
+cmp.setup {
+    mapping = {
+        ['<Tab>'] = function(fallback)
+            if vim.fn.pumvisible() == 1 then
+              vim.api.nvim_feedkeys(t('<C-n>'), 'n', true)
+            elseif check_back_space() then
+              vim.api.nvim_feedkeys(t('<Tab>'), 'n', true)
+            -- elseif vim.fn['vsnip#available']() == 1 then
+              -- vim.api.nvim_feedkeys(t('<Plug>(vsnip-expand-or-jump)'), '', true)
+            else
+              fallback()
+            end
+        end,
+        ['<S-Tab>'] = function(fallback)
+            if vim.fn.pumvisible() == 1 then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+            elseif luasnip.jumpable(-1) then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+            else
+                fallback()
+            end
+        end,
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true
+          }),
+      },
+      sources = {
+          { name = "buffer" },
+          { name = "nvim_lsp" },
+      }
+  }
 
 local on_attach = function(client, bufnr)
 
@@ -84,6 +63,7 @@ local on_attach = function(client, bufnr)
   map('n', 'K',  '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   map('n', '<C-CR>',  '<cmd>lua vim.lsp.buf.()<CR>', opts)
   map('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)

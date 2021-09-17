@@ -31,7 +31,11 @@ Plug 'wincent/corpus'
 
 " Programming
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'hashivim/vim-terraform'
 Plug 'godlygeek/tabular'
@@ -55,7 +59,7 @@ set nobackup nowritebackup                " skip backups completely
 set shortmess+=c                          " suppress ins-completion-menu messages
 set lazyredraw                            " don't redraw screen while running macros
 set showmatch                             " highlight matching parens
-set completeopt=menuone,longest,noselect  " always show menu, match longest common and force to select one
+set completeopt=menuone,noselect          " always show menu, match longest common and force to select one
 set wildmode=longest:full,full
 
 set noincsearch
