@@ -6,7 +6,7 @@ filetype plugin indent on
 syntax enable
 
 
-" Load plugins                                                                      {{{1 
+" Plugins                                                                           {{{1 
 " --------------------------------------------------------------------------------------
 " 
 "
@@ -46,6 +46,12 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'chriskempson/base16-vim'
 
 call plug#end()
+
+" Plugin settings                                                                   {{{1
+" --------------------------------------------------------------------------------------
+
+luafile ~/.config/nvim/lua/config/lsp.lua
+luafile ~/.config/nvim/lua/config/corpus.lua
 
 " Settings                                                                          {{{1
 " --------------------------------------------------------------------------------------
@@ -120,55 +126,4 @@ augroup PjlStatusline
     autocmd!
     autocmd BufWinEnter,BufModifiedSet * lua require'pjl.statusline'.check_modified()
 augroup end
-
-" Mappings                                                                          {{{1
-" --------------------------------------------------------------------------------------
-"
-
-" Enter ex mode without shift
-nnoremap , :
-vnoremap , :
-
-" 
-nnoremap <leader>o <C-^>
-
-" Edit dotfiles 
-nnoremap <leader>ev :execute ":e $MYVIMRC"<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
-nnoremap <leader>ez :e ~/.zshrc<CR>
-nnoremap <leader>et :e ~/.tmux.conf<CR>
-
-" command mode shortcut for active file's directory
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-
-
-
-" Plugin settings                                                                   {{{1
-" --------------------------------------------------------------------------------------
-
-" fugitive
-nnoremap <leader>g :G<CR>
-nnoremap <leader>ge :Ge:<CR>
-
-" Slimux 
-nnoremap <leader>sl :SlimuxREPLSendLine<CR>
-nnoremap <leader>sp :SlimuxREPLSendParagraph<CR>
-nnoremap <leader>sb :SlimuxREPLSendBuffer<CR>
-vnoremap <leader>sv :SlimuxREPLSendSelection<CR>
-nnoremap <leader>sp :SlimuxSendKeysPrompt<CR>
-nnoremap <leader>sc :SlimuxREPLConfigure<CR>
-
-" LSP
-luafile ~/.config/nvim/lua/config/lsp.lua
-
-" Corpus
-luafile ~/.config/nvim/lua/config/corpus.lua
-
-" FZF 
-nmap <C-p> :FZF<CR>
-nmap <Leader>ff :execute ":FZF " . expand('%:p:h')<CR>
-nmap <Leader>fb :Buffers<CR>
-nmap <Leader>fm :History<CR>
-nmap <Leader>fg :Rg<CR>
-nmap <Leader>fw :execute ":Rg " . expand('<cword>')<CR>
 
