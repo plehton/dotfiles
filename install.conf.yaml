@@ -19,6 +19,7 @@
     ~/.config:
     ~/code:
     ~/.venv:
+    ~/.local/tmp/nvim/undo:
 
 - shell:
     - brew tap homebrew/cask-fonts
