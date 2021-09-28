@@ -50,21 +50,20 @@ set softtabstop=4 " tab = 4 spaces
 "
 set listchars=""
 set listchars+=tab:⇥\  
-set listchars+=eol:¬
+set listchars+=space:·
+set listchars+=eol:↵
 set listchars+=lead:·
 set listchars+=trail:·
 set listchars+=extends:»
 set listchars+=precedes:«
 set nolist
 
-set showbreak=↪
 set breakindent
-set breakindentopt=shift:2
+let &showbreak='↪ '
+let &breakindentopt = 'sbr,shift:' . eval(&shiftwidth-2)
 
 set termguicolors
 let &l:colorcolumn='+' . join(range(0,200),',+')
 
 set grepprg=rg\ --vimgrep\ --no-heading
 set grepformat=%f:%l:%c:%m
-
-

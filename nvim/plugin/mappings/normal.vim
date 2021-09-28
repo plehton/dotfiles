@@ -1,15 +1,15 @@
-" Enter ex mode without shift
+" ex mode without shift
 nnoremap , :
-vnoremap , :
 
 " 
-nnoremap <leader>o <C-^>
+nnoremap <leader><leader> <C-^>
 
 " Open/Close folds with Tab
 nnoremap <Tab> za
 
 " Relying on Karabiner-Elements (macOS) or Interception Tools (Linux) to avoid
 " collision between <Tab> and <C-i> (have it send F6 instead for <C-i>).
+" source: Greg Hurrell
 nnoremap <F6> <C-i>
 
 " Edit dotfiles 
@@ -17,9 +17,6 @@ nnoremap <leader>ev :execute ":e $MYVIMRC"<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>ez :e ~/.zshrc<CR>
 nnoremap <leader>et :e ~/.tmux.conf<CR>
-
-" command mode shortcut for active file's directory
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " Arrows mapped to quicklist
 nnoremap <silent> <Up> :cprevious<CR>
