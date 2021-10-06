@@ -1,8 +1,8 @@
 local statusline = {}
 
 -- default colors
-local modified_lhs_color = ' DiffDelete'
-local default_lhs_color = ' DiffChange'
+local modified_lhs_color = 'DiffDelete'
+local default_lhs_color = 'DiffChange'
 local status_highlight = default_lhs_color
 
 
@@ -33,7 +33,7 @@ end
 
 
 statusline.lhs = function()
-    return '  '
+    return ' x '
 end
 
 
@@ -58,6 +58,7 @@ statusline.rhs = function()
 
     return rhs
 end
+
 
 statusline.set = function()
 
