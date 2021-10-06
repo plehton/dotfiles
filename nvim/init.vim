@@ -63,8 +63,3 @@ call plug#end()
 luafile ~/.config/nvim/lua/config/lsp.lua
 luafile ~/.config/nvim/lua/config/corpus.lua
 
-" Colors                                                                           {{{1
-" -------------------------------------------------------------------------------------
-let base16colorspace=256                " Colorschemes from base-16
-source ~/.vimrc_background
-

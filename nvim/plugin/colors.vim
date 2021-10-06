@@ -1,3 +1,5 @@
 let base16colorspace=256                " Colorschemes from base-16
 source ~/.vimrc_background
-" hi Statement gui=none
+
+" No bg in vertical splits = thinner split borders
+highlight! VertSplit guibg=none ctermbg=none

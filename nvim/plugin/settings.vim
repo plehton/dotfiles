@@ -46,6 +46,9 @@ set expandtab " tabs to spaces
 set shiftwidth=4 " indent with spaces 
 set softtabstop=4 " tab = 4 spaces
 
+" fillchars
+" set fillchars+=vert:│
+
 " whitespace characters
 "
 set listchars=""
