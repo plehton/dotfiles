@@ -105,6 +105,7 @@ bindkey ' ' magic-space # do history expansion on space
 
 source $HOME/.zsh/aliases
 source $HOME/.zsh/exports
+for f in $HOME/.zsh/functions/*; do source $f; done
 
 # Third party                                                              }}}1
 #
