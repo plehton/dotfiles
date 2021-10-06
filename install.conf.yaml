@@ -12,6 +12,7 @@
     ~/.config/base16-shell: base16-shell
     ~/.tmux.conf: tmux/tmux.conf
     ~/.config/karabiner/assets/complex_modifications/modifications.json: karabiner/modifications.json
+    ~/.config/bat/config: bat/config
 
 - create:
     ~/.ssh:
