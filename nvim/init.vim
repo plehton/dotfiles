@@ -5,17 +5,8 @@ let mapleader = "\<Space>"
 filetype plugin indent on
 syntax enable
 
-" Statusline                                                                       {{{1
-" -------------------------------------------------------------------------------------
+
 "
-
-lua require'pjl.statusline'.set()
-
-augroup PjlStatusline
-    autocmd!
-    autocmd BufWinEnter,BufModifiedSet * lua require'pjl.statusline'.check_modified()
-augroup end
-
 " Plugins                                                                          {{{1 
 " -------------------------------------------------------------------------------------
 " 
