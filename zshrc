@@ -1,22 +1,15 @@
+# Initial settings                                                         {{{1
+
 typeset -A __PJL
 __PJL[ITALIC_ON]=$'\e[3m'
 __PJL[ITALIC_OFF]=$'\e[23m'
 
+# Set global variable(s)                                                   {{{1
 #
-# Shell settings                                                           }}}1
-#
-
 fpath=($HOME/.zsh/completions/ $fpath)
 autoload -Uz compinit
-if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
-  compinit
-else
-  compinit -C
-fi
 
-#
-# Prompt                                                                   }}}1
-#
+# Prompt                                                                   {{{1
 
 setopt PROMPT_SUBST
 autoload -U colors && colors
@@ -43,16 +36,15 @@ export PS1="%F{green}\${VENV_INFO}%f%F{blue}%1~%f%F{magenta}❯%f "
 
 
 #
-# History                                                                  }}}1
+# History                                                                  {{{1
 #
 
 HISTFILE=~/.history
 HISTSIZE=4000
 SAVEHIST=$HISTSIZE
 
-
 #
-# Options                                                                  }}}1
+# Options                                                                  {{{1
 #
 setopt AUTO_CD                # Change dirs without cd and with ../...
 setopt NO_CASE_GLOB           # Case insensitive globbing
@@ -68,18 +60,16 @@ setopt HIST_REDUCE_BLANKS     # removes blank lines from history
 setopt HIST_VERIFY            # Don't execute command substituted from history
 
 
-#
-# Plugins
+# Plugins                                                                 {{{1 
 #
 
 
 # NOTE: must come before zsh-history-substring-search & zsh-syntax-highlighting.
 autoload -U select-word-style
 select-word-style bash # only alphanumeric chars are considered WORDCHARS
-
 source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
 
-# Bindings                                                                 }}}1
+# Bindings                                                                 {{{1
 #
 
 if tput cbt &> /dev/null; then
@@ -100,14 +90,14 @@ bindkey '^x^x' edit-command-line
 bindkey ' ' magic-space # do history expansion on space
 
 #
-# Source others                                                            }}}1
+# Source others                                                            {{{1
 #
 
 source $HOME/.zsh/aliases
 source $HOME/.zsh/exports
 for f in $HOME/.zsh/functions/*; do source $f; done
 
-# Third party                                                              }}}1
+# Third party                                                              {{{1
 #
 
 BASE16_SHELL="$HOME/.config/base16-shell/"
@@ -127,11 +117,10 @@ eval "$(rbenv init -)"
 
 
 #
-# Hooks                                                                    }}}1
+# Hooks                                                                    {{{1
 #
 
 autoload -U add-zsh-hook
-
 
 typeset -F SECONDS
 function -record-start-time() {
@@ -207,3 +196,13 @@ function -venv_info() {
     fi
 }
 add-zsh-hook precmd -venv_info
+
+#
+# Init completion system                                                   {{{1
+#
+if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $HOME/.zcompdump) ]; then
+  compinit
+else
+  compinit -C
+fi
+# vim: ft=zsh foldmethod=marker foldmarker={{{,}}}
