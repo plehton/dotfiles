@@ -23,17 +23,12 @@ statusline.update_highlight = function()
 end
 
 
-statusline.modified = function()
-    if vim.bo.modified then
-        return '✗'
-    else 
-        return ''
-    end
-end
-
-
 statusline.lhs = function()
-    return ' x '
+    if vim.bo.modified then
+        return ' ✗ '
+    else 
+        return '   '
+    end
 end
 
 
@@ -67,7 +62,6 @@ statusline.set = function()
         .. '%{luaeval("require\'pjl.statusline\'.lhs()")}'
         .. '%*'
         .. '%f'
-        .. '%{luaeval("require\'pjl.statusline\'.modified()")}'
         .. '%='
         .. '%2*'
         .. '%{luaeval("require\'pjl.statusline\'.rhs()")}'
