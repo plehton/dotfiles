@@ -1,6 +1,6 @@
 # Initial settings                                                         {{{1
 
-# typeset -A __PJL
+typeset -A __PJL
 __PJL[ITALIC_ON]=$'\e[3m'
 __PJL[ITALIC_OFF]=$'\e[23m'
 
