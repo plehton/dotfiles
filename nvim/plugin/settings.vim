@@ -61,7 +61,12 @@ set listchars+=extends:»
 set listchars+=precedes:«
 set nolist
 
+" when wrap is on, break lines on linebreak characters,
+" show symbol at the beginning of the line, 
+" indent wrapped lines using shiftwidth amount of chars
+" 
 set breakindent
+set linebreak
 let &showbreak='↪ '
 let &breakindentopt = 'sbr,shift:' . eval(&shiftwidth-2)
 
