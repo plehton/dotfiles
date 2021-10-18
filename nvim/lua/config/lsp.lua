@@ -13,37 +13,23 @@ local check_back_space = function()
     end
 end
 
+
+-- nvim-cmp supports additional completion capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 local cmp = require'cmp'
 cmp.setup {
     mapping = {
-        ['<Tab>'] = function(fallback)
-            if vim.fn.pumvisible() == 1 then
-              vim.api.nvim_feedkeys(t('<C-n>'), 'n', true)
-            elseif check_back_space() then
-              vim.api.nvim_feedkeys(t('<Tab>'), 'n', true)
-            -- elseif vim.fn['vsnip#available']() == 1 then
-              -- vim.api.nvim_feedkeys(t('<Plug>(vsnip-expand-or-jump)'), '', true)
-            else
-              fallback()
-            end
-        end,
-        ['<S-Tab>'] = function(fallback)
-            if vim.fn.pumvisible() == 1 then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
-            elseif luasnip.jumpable(-1) then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
-            else
-                fallback()
-            end
-        end,
+        ['<Tab>'] = cmp.mapping.select_next_item(),
+        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true
-          }),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
       },
       sources = {
           { name = "buffer" },
@@ -80,16 +66,14 @@ local on_attach = function(client, bufnr)
 
 end
 
+
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
 local servers = { "pyright" }
 for _, server in ipairs(servers) do
-  lsp[server].setup { on_attach = on_attach }
+    lsp[server].setup { 
+        on_attach = on_attach,
+        capabilities = capabilities
+    }
 end
 
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "python", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-  },
-}
