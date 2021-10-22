@@ -39,23 +39,23 @@ cmp.setup {
 
 local on_attach = function(client, bufnr)
 
-  local function map(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local opts = { noremap=true, silent=true }
+  local function map(key, val) vim.api.nvim_buf_set_keymap(bufnr, 'n', key, val, opts) end
   local function setopt(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   setopt('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
-  local opts = { noremap=true, silent=true }
-  map('n', 'K',  '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  map('n', '<C-CR>',  '<cmd>lua vim.lsp.buf.()<CR>', opts)
-  map('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  map('n', '<leader>d', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  map('n', '<leader>dl', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  map('K'          , '<cmd>lua vim.lsp.buf.hover()<CR>'                       )
+  map('<C-CR>'     , '<cmd>lua vim.lsp.buf.()<CR>'                            )
+  map('<C-]>'      , '<cmd>lua vim.lsp.buf.definition()<CR>'                  )
+  map('gd'         , '<cmd>lua vim.lsp.buf.definition()<CR>'                  )
+  map('gr'         , '<cmd>lua vim.lsp.buf.references()<CR>'                  )
+  map('[d'         , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'            )
+  map(']d'         , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'            )
+  map('<leader>d'  , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+  map('<leader>dl' , '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'          )
+  map('<leader>rn' , '<cmd>lua vim.lsp.buf.rename()<CR>'                      )
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
@@ -76,4 +76,3 @@ for _, server in ipairs(servers) do
         capabilities = capabilities
     }
 end
-
