@@ -13,4 +13,4 @@ CorpusDirectories = {
        base = './',
        transform = 'local',
      }
- }
+}
