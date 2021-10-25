@@ -66,13 +66,43 @@ local on_attach = function(client, bufnr)
 
 end
 
-
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
-local servers = { "pyright" }
-for _, server in ipairs(servers) do
-    lsp[server].setup { 
-        on_attach = on_attach,
-        capabilities = capabilities
-    }
-end
+lsp["pyright"].setup { 
+    on_attach = on_attach,
+    capabilities = capabilities
+}
+
+-- nvim-metals
+vim.g.metals_server_version = "0.10.7+119-90f26c65-SNAPSHOT"
+metals_config = require("metals").bare_config()
+metals_config.settings = {
+  showImplicitArguments = true,
+  excludedPackages = { "akka.actor.typed.javadsl", 
+    "com.github.swagger.akka.javadsl" },
+}
+
+metals_config.handlers["textDocument/publishDiagnostics"] 
+    = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  virtual_text = { prefix = "E" },
+})
+
+metals_config.init_options.statusBarProvider = "on"
+
+-- metals needs autogroup and it's easier to set it up here, since
+-- we have the metals_config available 
+vim.cmd [[
+augroup LspMetals
+    autocmd!
+    autocmd FileType scala setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    autocmd FileType scala lua require("metals").initialize_or_attach(metals_config)
+    autocmd FileType scala setlocal completeopt=menu,noinsert,noselect
+    autocmd FileType scala setlocal shortmess-=F shortmess+=c
+augroup end
+]]
+
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- metals_config.capabilities = capabilities
+--
+metals_config.on_attach = on_attach 
