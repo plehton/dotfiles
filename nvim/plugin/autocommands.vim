@@ -5,5 +5,5 @@ augroup end
 
 augroup PjlColors
   autocmd!
-  autocmd BufRead,BufWinEnter,VimEnter * let &l:colorcolumn='+' . join(range(0,200),',+')
+  autocmd BufNew, BufRead, BufWinEnter,VimEnter * let &colorcolumn='+' . join(range(0,200),',+')
 augroup end

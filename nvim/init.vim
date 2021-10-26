@@ -75,7 +75,7 @@ let &showbreak='↪ '
 let &breakindentopt = 'sbr,shift:' . eval(&shiftwidth-2)
 
 set termguicolors
-let &l:colorcolumn='+' . join(range(0,200),',+')
+let &colorcolumn='+' . join(range(0,200),',+')
 
 set grepprg=rg\ --vimgrep\ --no-heading
 set grepformat=%f:%l:%c:%m
