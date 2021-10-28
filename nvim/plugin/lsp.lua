@@ -74,7 +74,6 @@ lsp["pyright"].setup {
 }
 
 -- nvim-metals
-vim.g.metals_server_version = "0.10.7+119-90f26c65-SNAPSHOT"
 metals_config = require("metals").bare_config()
 metals_config.settings = {
   showImplicitArguments = true,
