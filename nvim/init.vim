@@ -40,19 +40,17 @@ set sidescrolloff=10
 set sidescroll=5
 set modelines=0
 
-" t     Auto-wrap text using textwidth
-" c     Auto-wrap comments
 " q     Allow formatting of comments with gq
 " j     Remove comment leader when joining lines
 " r     Automatically insert comment leader after hitting <Enter>
-set formatoptions=tcq1jr
+set formatoptions=cqjr
 set textwidth=80
-set expandtab " tabs to spaces
-set shiftwidth=4 " indent with spaces 
-set softtabstop=4 " tab = 4 spaces
+set expandtab                               " tabs to spaces
+set shiftwidth=4                            " indent with spaces 
+set softtabstop=4                           " tab = 4 spaces
 
 " fillchars
-" set fillchars+=vert:│
+set fillchars+=vert:│
 
 " whitespace characters
 "
@@ -70,6 +68,7 @@ set nolist
 " show symbol at the beginning of the line, 
 " indent wrapped lines using shiftwidth amount of chars
 " 
+set nowrap
 set breakindent
 set linebreak
 let &showbreak='↪ '
