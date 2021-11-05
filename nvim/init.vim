@@ -14,8 +14,9 @@ set number
 set relativenumber
 
 " Backup & Undo
-set nobackup nowritebackup                " skip backups completely
-set noswapfile                            " don't write swap files
+set noswapfile                              " don't write swap files
+set updatetime=2000                          " changing update time to subsecond, requires that we don't write swapfile
+set nobackup nowritebackup                  " skip backups completely
 set undolevels=1000
 set undofile
 set undodir=~/.local/tmp/nvim/undo
