@@ -1,5 +1,5 @@
 require('nvim-treesitter.configs').setup {
-  ensure_installed = "python",
+  ensure_installed = { "python","scala" },
   highlight = {
     enable = true, -- false will disable the whole extension
   },
