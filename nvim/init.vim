@@ -8,7 +8,7 @@ syntax enable
 set clipboard=unnamed
 set hidden
 set history=1000
-set belloff=all                           " No bells, ever
+set belloff=all                             " No bells, ever
 
 set number 
 set relativenumber
