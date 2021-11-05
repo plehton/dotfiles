@@ -2,7 +2,10 @@
 nnoremap , :
 
 " 
+" double leader changes to alternate file 
 nnoremap <leader><leader> <C-^>
+
+nnoremap <leader>o :only<CR>
 
 " Open/Close folds with Tab
 nnoremap <Tab> za
