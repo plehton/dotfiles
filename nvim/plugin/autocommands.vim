@@ -5,5 +5,5 @@ augroup end
 
 augroup PjlColors
   autocmd!
-  autocmd BufNew, BufRead, BufWinEnter,VimEnter * let &colorcolumn='+' . join(range(0,200),',+')
+  autocmd BufNew,BufRead,BufWinEnter,VimEnter * call v:lua.require('pjl.autocommands').colorcolumn
 augroup end

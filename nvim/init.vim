@@ -21,10 +21,10 @@ set undolevels=1000
 set undofile
 set undodir=~/.local/tmp/nvim/undo
 
-set shortmess+=c                          " suppress ins-completion-menu messages
-set lazyredraw                            " don't redraw screen while running macros
-set showmatch                             " highlight matching parens
-set completeopt=menuone,noselect          " always show menu, match longest common and force to select one
+set shortmess+=c                            " suppress ins-completion-menu messages
+set lazyredraw                              " don't redraw screen while running macros
+set showmatch                               " highlight matching parens
+set completeopt=menuone,noselect            " always show menu, match longest common and force to select one
 set wildmode=longest:full,full
 
 set noincsearch
