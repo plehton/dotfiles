@@ -1,7 +1,6 @@
 " ex mode without shift
 nnoremap , :
 
-" 
 " double leader changes to alternate file 
 nnoremap <leader><leader> <C-^>
 
@@ -14,12 +13,6 @@ nnoremap <Tab> za
 " collision between <Tab> and <C-i> (have it send F6 instead for <C-i>).
 " source: Greg Hurrell
 nnoremap <F6> <C-i>
-
-" Edit dotfiles 
-nnoremap <leader>ev :execute ":e $MYVIMRC"<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
-nnoremap <leader>ez :e ~/.zshrc<CR>
-nnoremap <leader>et :e ~/.tmux.conf<CR>
 
 " Arrows mapped to quicklist
 nnoremap <silent> <Up> :cprevious<CR>
@@ -45,4 +38,11 @@ nnoremap <Leader>fm :Telescope oldfiles<CR>
 nnoremap <Leader>lg :Telescope live_grep<CR>
 nnoremap <Leader>fw :Telescope grep_string<CR>
 
+" Vim-snip
+" Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
+" See https://github.com/hrsh7th/vim-vsnip/pull/50
+nmap s <Plug>(vsnip-select-text)
+nmap S <Plug>(vsnip-cut-text)
+xmap s Plug>(vsnip-select-text)
+xmap S <Plug>(vsnip-cut-text)
 
