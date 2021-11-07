@@ -47,8 +47,8 @@ local on_attach = function(client, bufnr)
   map('n', 'gd'        , '<cmd>lua vim.lsp.buf.definition()<CR>')
   map('n', 'gr'        , '<cmd>lua vim.lsp.buf.references()<CR>')
 
-  map('n', '<leader>a' , '<cmd>lua vim.lsp.buf.code_action()<CR>')
-  map('n', '<leader>r' , '<cmd>lua vim.lsp.buf.rename()<CR>')
+  map('n', '<leader>a' , '<cmd>lua require(\'lspsaga.codeaction\').code_action()<CR>')
+  map('n', '<leader>r' , '<cmd>lua require(\'lspsaga.rename\').rename()<CR>')
   map('n', '<leader>=' , '<cmd>lua vim.lsp.buf.formatting()<CR>')
   map('v', "<leader>=" , '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 
@@ -57,13 +57,25 @@ local on_attach = function(client, bufnr)
   map('n', '<leader>e' , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})<CR>')
   map('n', '<leader>ee', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
 
+  -- vim.cmd([[augroup PjlLspOnAttach]])
+  -- vim.cmd([[autocmd!]])
+  -- vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]])
+  -- vim.cmd([[augroup end]])
 
+  -- Need for symbol highlights to work correctly
+  -- vim.cmd([[hi! link LspReferenceText NonText]])
+  -- vim.cmd([[hi! link LspReferenceRead NonText]])
+  -- vim.cmd([[hi! link LspReferenceWrite NonText]])
+
+  -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  --                  vim.lsp.handlers.hover, {
+  --                    -- Use a sharp border with `FloatBorder` highlights
+  --                    border = "single"
+  --                  }
+  --                )
+  --
 end
 
-
-
--- Use a loop to conveniently both setup defined servers 
--- and map buffer local keybindings when the language server attaches
 lsp["pyright"].setup { 
     on_attach = on_attach,
     capabilities = capabilities

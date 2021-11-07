@@ -109,6 +109,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'scalameta/nvim-metals'
 Plug 'kevinhwang91/nvim-bqf'
+Plug 'glepnir/lspsaga.nvim'
+
 " Completion
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-buffer'
