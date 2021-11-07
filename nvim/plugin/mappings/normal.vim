@@ -37,11 +37,12 @@ nnoremap <leader>sp :SlimuxREPLSendParagraph<CR>
 nnoremap <leader>sb :SlimuxREPLSendBuffer<CR>
 nnoremap <leader>sc :SlimuxREPLConfigure<CR>
 
-" FZF 
-nnoremap <C-p> :FZF<CR>
-nnoremap <Leader>ff :execute ":FZF " . expand('%:p:h')<CR>
-nnoremap <Leader>fb :Buffers<CR>
-nnoremap <Leader>fm :History<CR>
-nnoremap <Leader>fg :Rg<CR>
-nnoremap <Leader>fw :execute ":Rg " . expand('<cword>')<CR>
+" Telescope 
+nnoremap <C-p> :Telescope find_files<CR>
+nnoremap <Leader>ff :execute ':Telescope find_files cwd=' . expand('%:p:h')<CR>
+nnoremap <Leader>fb :Telescope buffers<CR>
+nnoremap <Leader>fm :Telescope oldfiles<CR>
+nnoremap <Leader>lg :Telescope live_grep<CR>
+nnoremap <Leader>fw :Telescope grep_string<CR>
+
 

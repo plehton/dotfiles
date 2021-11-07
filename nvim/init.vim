@@ -99,22 +99,20 @@ Plug 'romainl/vim-cool'                 " Disable highlight after searching
 Plug 'christoomey/vim-tmux-navigator'   " Seamless switching between vim windows and tmux pane's
 Plug 'epeli/slimux'                     " Send vim buffer contents to other tmux pane
 Plug 'wincent/corpus'                   " Notes
+Plug 'godlygeek/tabular'                " Tabularize stuff
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-" Programming
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/plenary.nvim'
+
+" LSP stuff
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'scalameta/nvim-metals'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-nvim-lua'
-Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'scalameta/nvim-metals'
-Plug 'hashivim/vim-terraform'
-Plug 'godlygeek/tabular'
 
 " Color schemes
 Plug 'chriskempson/base16-vim'
