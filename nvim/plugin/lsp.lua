@@ -57,44 +57,44 @@ local on_attach = function(client, bufnr)
   map('n', '<leader>e' , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})<CR>')
   map('n', '<leader>ee', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
 
-  -- vim.cmd([[augroup PjlLspOnAttach]])
-  -- vim.cmd([[autocmd!]])
-  -- vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]])
-  -- vim.cmd([[augroup end]])
-
-  -- Need for symbol highlights to work correctly
-  -- vim.cmd([[hi! link LspReferenceText NonText]])
-  -- vim.cmd([[hi! link LspReferenceRead NonText]])
-  -- vim.cmd([[hi! link LspReferenceWrite NonText]])
-
-  -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-  --                  vim.lsp.handlers.hover, {
-  --                    -- Use a sharp border with `FloatBorder` highlights
-  --                    border = "single"
-  --                  }
-  --                )
-  --
 end
+
+local handlers = {
+    ["textDocument/publishDiagnostics"] = vim.lsp.with(
+        vim.lsp.diagnostic.on_publish_diagnostics,
+        { virtual_text = false,
+          signs = true
+      })
+}
 
 lsp["pyright"].setup { 
     on_attach = on_attach,
-    capabilities = capabilities
+    capabilities = capabilities,
+    handlers = handlers
 }
+
+-- -- nvim-metals
+-- metals_config = require("metals").bare_config()
+-- metals_config.init_options.statusBarProvider = "on"
+-- metals_config.settings = {
+--   showImplicitArguments = true,
+--   excludedPackages = {},
+-- }
+-- metals_config.on_attach = on_attach 
+-- metals_config.capabilities = capabilities
+-- metals_config.handlers = handlers
 
 -- nvim-metals
-metals_config = require("metals").bare_config()
-metals_config.settings = {
-  showImplicitArguments = true,
-  excludedPackages = {},
+metals_config = {
+    init_options = { statusBarProvider = "on" },
+    settings = {
+      showImplicitArguments = true,
+      excludedPackages = {},
+    },
+    on_attach = on_attach,
+    capabilities = capabilities,
+    handlers = handlers
 }
-metals_config.handlers["textDocument/publishDiagnostics"] 
-  = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, 
-  { virtual_text = { prefix = "! " }, })
-
-metals_config.init_options.statusBarProvider = "on"
-
-metals_config.capabilities = capabilities
-metals_config.on_attach = on_attach 
 
 vim.cmd([[
 augroup PjlLspMetals
