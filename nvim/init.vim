@@ -80,6 +80,8 @@ let &colorcolumn='+' . join(range(0,200),',+')
 set grepprg=rg\ --vimgrep\ --no-heading
 set grepformat=%f:%l:%c:%m
 
+
+"
 "
 " Plugins                                                                  {{{1 
 " -----------------------------------------------------------------------------
@@ -128,3 +130,11 @@ Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'chriskempson/base16-vim'
 
 call plug#end()
+
+" Colorscheme                                                              {{{1
+"
+" Source here to have it applied when re-sourcing init.vim without restart
+"
+let g:base16colorspace=256
+source ~/.vimrc_background
+
