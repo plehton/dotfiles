@@ -1,19 +1,16 @@
--- Colorscheme from base16
-vim.g.base16colorspace=256
-vim.cmd("source ~/.vimrc_background")
+local colors = require('pjl.colors')
 
 -- Lighten default background a little for columns after wrapmargin and rows
 -- after EndOfBuffer
-local colors = require('pjl.colors')
-local bg = colors.fromhl("Normal").bg
-local fg = colors.fromhl("Comment").fg
+local old_bg = colors.fromhl("Normal").bg
 local color = { 
-    bg = colors.change_brightness(bg, 6),
-    fg = fg
+    bg = colors.change_brightness(old_bg, 5), 
+    fg = colors.fromhl("Comment").fg 
 }
+color = colors.tohl(color)
 
-hl = colors.highlight("ColorColumn", color)
-vim.cmd(hl)
+vim.cmd("highlight clear ColorColumn")
+vim.cmd("highlight ColorColumn " .. color)
 vim.cmd("highlight clear EndOfBuffer")
 vim.cmd("highlight link EndOfBuffer ColorColumn")
 vim.cmd("highlight clear VertSplit")

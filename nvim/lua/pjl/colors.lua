@@ -27,6 +27,14 @@ colors.highlight = function(group, color)
   return hl
 end
 
+colors.tohl= function(color)
+  local style = color.style and "gui=" .. color.style or "gui=NONE"
+  local fg = color.fg and "guifg=" .. color.fg or "guifg=NONE"
+  local bg = color.bg and "guibg=" .. color.bg or "guibg=NONE"
+  local sp = color.sp and "guisp=" .. color.sp or ""
+  return style .. " " .. fg .. " " .. bg .. " " .. sp
+end
+
 colors.fromhl = function(hl)
   local result = {}
   local list = vim.api.nvim_get_hl_by_name(hl, true)
