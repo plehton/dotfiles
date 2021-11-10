@@ -1,18 +1,42 @@
+local bit = require('bit')
+local math = require('math')
+
 local colors = {}
+
+
+colors.to_rgb = function(hexcolor)
+
+    color_code = hexcolor:sub(2)
+    color_num = tonumber(color_code,16)
+   
+    red = bit.rshift(color_num, 16)
+    blue = bit.band(bit.rshift(color_num, 8), 0x00FF)
+    green = bit.band(color_num, 0x0000FF)
+
+    return {red = red, blue = blue, green = green}
+
+end
+
+colors.get_brightness = function(rgb)
+
+    return (rgb.red / 255.0) * 0.3 + (rgb.green / 255.0) * 0.59 + (rgb.blue / 255.0) * 0.11
+
+end
+
 
 colors.change_brightness = function(color, amount)
 
-    local bit = require('bit')
-    local math = require('math')
-
-    local color_code = color:sub(2)
-    local color_num = tonumber(color_code,16)
+    rgb = colors.to_rgb(color)
    
-    local red = math.max(math.min(bit.rshift(color_num, 16) + amount, 255),0)
-    local blue = math.max(math.min(bit.band(bit.rshift(color_num, 8), 0x00FF) + amount, 255), 0)
-    local green = math.max(math.min(bit.band(color_num, 0x0000FF) + amount, 255), 0)
+    -- check the brightness of the background and
+    -- lighten when dark and darken when light
+    if colors.get_brightness(rgb) > 0.5 then amount = -amount end
 
-    local changed = bit.bor(green, bit.lshift(blue, 8), bit.lshift(red, 16))
+    red = math.max(math.min(rgb.red + amount, 255),0)
+    blue = math.max(math.min(rgb.blue + amount, 255), 0)
+    green = math.max(math.min(rgb.green+ amount, 255), 0)
+
+    changed = bit.bor(green, bit.lshift(blue, 8), bit.lshift(red, 16))
 
     return string.format("#%06x", changed)
 
