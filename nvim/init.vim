@@ -135,6 +135,11 @@ call plug#end()
 "
 " Source here to have it applied when re-sourcing init.vim without restart
 "
+augroup PjlColors
+  autocmd!
+  autocmd ColorScheme * call v:lua.require'pjl.autocommands'.colors()
+augroup end
+
 let g:base16colorspace=256
 source ~/.vimrc_background
 

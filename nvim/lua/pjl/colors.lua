@@ -3,7 +3,6 @@ local math = require('math')
 
 local colors = {}
 
-
 colors.to_rgb = function(hexcolor)
 
     color_code = hexcolor:sub(2)
@@ -24,13 +23,16 @@ colors.get_brightness = function(rgb)
 end
 
 
-colors.change_brightness = function(color, amount)
+colors.change_brightness = function(hexcolor, amount)
 
-    rgb = colors.to_rgb(color)
+    rgb = colors.to_rgb(hexcolor)
    
     -- check the brightness of the background and
     -- lighten when dark and darken when light
-    if colors.get_brightness(rgb) > 0.5 then amount = -amount end
+    brightness = colors.get_brightness(rgb)
+
+    if brightness > 0.5 then amount = -amount end
+    -- amount = colors.get_brightness(rgb) < 0.5 and amount or -amount
 
     red = math.max(math.min(rgb.red + amount, 255),0)
     blue = math.max(math.min(rgb.blue + amount, 255), 0)
@@ -42,16 +44,7 @@ colors.change_brightness = function(color, amount)
 
 end
 
-colors.highlight = function(group, color)
-  local style = color.style and "gui=" .. color.style or "gui=NONE"
-  local fg = color.fg and "guifg=" .. color.fg or "guifg=NONE"
-  local bg = color.bg and "guibg=" .. color.bg or "guibg=NONE"
-  local sp = color.sp and "guisp=" .. color.sp or ""
-  local hl = "highlight " .. group .. " " .. style .. " " .. fg .. " " .. bg .. " " .. sp
-  return hl
-end
-
-colors.tohl= function(color)
+colors.to_highlight_color = function(color)
   local style = color.style and "gui=" .. color.style or "gui=NONE"
   local fg = color.fg and "guifg=" .. color.fg or "guifg=NONE"
   local bg = color.bg and "guibg=" .. color.bg or "guibg=NONE"
@@ -59,14 +52,20 @@ colors.tohl= function(color)
   return style .. " " .. fg .. " " .. bg .. " " .. sp
 end
 
-colors.fromhl = function(hl)
+colors.from_highlight = function(highlight)
   local result = {}
-  local list = vim.api.nvim_get_hl_by_name(hl, true)
+  local list = vim.api.nvim_get_hl_by_name(highlight, true)
   for k, v in pairs(list) do
     local name = k == "background" and "bg" or "fg"
     result[name] = string.format("#%06x", v)
   end
   return result
+end
+
+colors.get_dimmed_background = function(amount) 
+    local normal = colors.from_highlight("Normal")
+    local dimmed = colors.change_brightness(normal.bg, amount) 
+    return colors.to_highlight_color({ bg = dimmed })
 end
 
 return colors
