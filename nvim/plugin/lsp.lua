@@ -7,8 +7,14 @@ end
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
--- this is from metals config sample
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
 
 local cmp = require'cmp'
 cmp.setup {
@@ -57,15 +63,37 @@ local on_attach = function(client, bufnr)
   map('n', '<leader>e' , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})<CR>')
   map('n', '<leader>ee', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
 
+  local signs = { Error = ' ', Warn = ' ', Hint = ' ', Info = ' ' }
+
+  for sign, icon in pairs(signs) do
+      local hl = 'DiagnosticSign' .. sign
+      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+  end
+
+  require "lsp_signature".on_attach({
+    bind = true,
+    doc_lines = 0,
+    hint_enable = true,
+    hint_prefix = "<< ",
+    hi_parameter = "Underlined",
+    floating_window = true,
+    use_lspsaga = false 
+    }
+  )
+
 end
 
 local handlers = {
     ["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics,
-        { virtual_text = false,
-          signs = true
-      })
+        { virtual_text = false, 
+          signs = { priority = 50 }, 
+          underline = true, 
+          update_in_insert = false 
+        }
+    )
 }
+
 
 lsp["pyright"].setup { 
     on_attach = on_attach,
