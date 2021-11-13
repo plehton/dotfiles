@@ -14,6 +14,8 @@ nnoremap <Tab> za
 " source: Greg Hurrell
 nnoremap <F6> <C-i>
 
+nnoremap CC :c$
+
 " Arrows mapped to quicklist
 nnoremap <silent> <Up> :cprevious<CR>
 nnoremap <silent> <Down> :cnext<CR>
