@@ -56,13 +56,8 @@ set fillchars+=vert:│
 "
 set listchars=""
 set listchars+=tab:⇥\  
-set listchars+=space:·
-set listchars+=eol:↵
-set listchars+=lead:·
 set listchars+=trail:·
-set listchars+=extends:»
-set listchars+=precedes:«
-set nolist
+set list
 
 " when wrap is on, break lines on linebreak characters,
 " show symbol at the beginning of the line, 
