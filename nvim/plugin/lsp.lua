@@ -61,9 +61,9 @@ local on_attach = function(client, bufnr)
   map('n', '[d'        , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
   map('n', ']d'        , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
   map('n', '<leader>e' , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})<CR>')
-  map('n', '<leader>ee', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
+  map('n', '<leader>ee', '<cmd>lua vim.lsp.diagnostic.set_qflist()<CR>')
 
-  local signs = { Error = ' ', Warn = ' ', Hint = ' ', Info = ' ' }
+  local signs = { Error = '', Warn = '', Hint = '', Info = '' }
 
   for sign, icon in pairs(signs) do
       local hl = 'DiagnosticSign' .. sign
