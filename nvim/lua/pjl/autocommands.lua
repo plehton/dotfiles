@@ -19,18 +19,27 @@ end
 -- after EndOfBuffer
 autocommands.colors = function()
 
-    local cc_color = colors.get_dimmed_background(7)
-    local vs_color = colors.from_highlight("StatusLineNc").fg
+    -- Make buffer content pop out from background and
+    -- lighten/darken background color after textwidth and end of buffer
+    local bg = colors.change_bg_brightness(7)
+    local split = colors.get_highlight_colors("StatusLineNc").fg
 
-    local commands = { 
-    "highlight clear ColorColumn",
-    "highlight ColorColumn " .. cc_color,
-    "highlight link EndOfBuffer ColorColumn",
-    -- show vertical bar between buffers
-    "highlight clear VertSplit",
-    "highlight VertSplit guifg=" .. vs_color
-    }
-    return vim.cmd(table.concat(commands,"\n")) 
+    local highlights = { 
+        "highlight clear ColorColumn",
+        "highlight ColorColumn " .. bg,
+        "highlight link EndOfBuffer ColorColumn",
+        "highlight clear VertSplit",
+        "highlight VertSplit guifg=" .. split
+        }
+
+    -- Diagnostic Signs have same background as SignColumn
+    local signs = { "Error", "Warn", "Hint", "Info" }
+    local sign_bg = colors.get_highlight_colors("SignColumn").bg
+    for _, sign in ipairs(signs) do
+        table.insert(highlights, "highlight Diagnostic" .. sign .. " guibg=" .. sign_bg)
+    end
+
+    return vim.cmd(table.concat(highlights, "\n"))
 
 end
 
