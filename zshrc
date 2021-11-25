@@ -110,12 +110,20 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 # z
 . /usr/local/etc/profile.d/z.sh
 
-# 
+#
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
 
 
+# Personal                                                                  {{{1
 #
+
+# shorcuts for changing sessions in TMUX
+[[ -v TMUX ]] && make_session_aliases
+
+
+
+
 # Hooks                                                                    {{{1
 #
 
