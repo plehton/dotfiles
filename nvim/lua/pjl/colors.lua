@@ -22,7 +22,7 @@ end
 
 -- Get brightness of a vim color as value between 0 and 1
 colors.get_brightness = function(hexcolor)
-    
+
     rgb = colors.to_rgb(hexcolor)
 
     return (rgb.red   / 255.0) * 0.30
@@ -94,7 +94,7 @@ colors.change_bg_brightness = function(amount)
     local old_bg = colors.get_highlight_colors("Normal").bg
 
     local brightness = colors.get_brightness(old_bg)
-    if brightness > 0.5 then amount = -amount-5 end
+    if brightness > 0.5 then amount = -amount-1 end
 
     local new_bg = colors.change_brightness(old_bg, amount) 
 

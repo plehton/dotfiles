@@ -21,7 +21,7 @@ autocommands.colors = function()
 
     -- Make buffer content pop out from background and
     -- lighten/darken background color after textwidth and end of buffer
-    local bg = colors.change_bg_brightness(7)
+    local bg = colors.change_bg_brightness(5)
     local split = colors.get_highlight_colors("StatusLineNc").fg
 
     local highlights = { 
