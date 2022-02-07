@@ -133,8 +133,10 @@ call plug#end()
 augroup PjlColors
   autocmd!
   autocmd ColorScheme * call v:lua.require'pjl.autocommands'.colors()
+  autocmd ColorScheme * call v:lua.require'pjl.autocommands'.base16_customize()
 augroup end
 
 let g:base16colorspace=256
 source ~/.vimrc_background
+
 

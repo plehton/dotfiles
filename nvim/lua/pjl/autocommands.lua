@@ -43,4 +43,18 @@ autocommands.colors = function()
 
 end
 
+autocommands.base16_customize = function()
+
+    local highlights = {}
+
+    if vim.g.colors_name == "base16-solarized-dark" then
+        local statusline = colors.get_highlight_colors("StatusLine")
+        statusline["bg"] = colors.change_brightness(statusline.bg, -30)
+        table.insert(highlights, "highlight StatusLine " .. colors.to_highlight_color(statusline))
+    end
+
+    return vim.cmd(table.concat(highlights, "\n"))
+
+end
+
 return autocommands
