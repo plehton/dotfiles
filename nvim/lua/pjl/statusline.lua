@@ -1,17 +1,22 @@
 local statusline = {}
 
 -- default colors
-local modified_lhs_color = 'DiffDelete'
-local default_lhs_color = 'DiffChange'
+vim.cmd [[ hi User3 cterm=bold ctermfg=231 ctermbg=160 gui=bold guifg=White guibg=Red ]]
+local modified_lhs_color = 'User3'
+local default_lhs_color = 'Statusline'
 local status_highlight = default_lhs_color
 
+statusline.changed = ' '
 
 statusline.check_modified = function()
     local modified = vim.bo.modified
+
     if modified and status_highlight ~= modified_lhs_color then
-       status_highlight = modified_lhs_color 
+       status_highlight = modified_lhs_color
+       statusline.changed = ' '
     else
        status_highlight = default_lhs_color
+       statusline.changed = ' '
     end
     statusline.update_highlight()
 end
@@ -24,11 +29,10 @@ end
 
 
 statusline.lhs = function()
-    if vim.bo.modified then
-        return ' ✗ '
-    else 
-        return '   '
-    end
+    -- line numbers + foldcolumn
+    local numwidth = math.max(string.len(vim.api.nvim_buf_line_count(0)), vim.wo.numberwidth)
+    local padding = numwidth + vim.wo.foldcolumn + 1
+    return string.rep(' ', padding)
 end
 
 
@@ -60,8 +64,9 @@ statusline.set = function()
     vim.api.nvim_set_option('statusline', ''
         .. '%1*'
         .. '%{luaeval("require\'pjl.statusline\'.lhs()")}'
-        .. '%*'
+        .. '%* '
         .. '%f'
+        .. '%{luaeval("require\'pjl.statusline\'.changed")}'
         .. '%='
         .. '%2*'
         .. '%{luaeval("require\'pjl.statusline\'.rhs()")}'
