@@ -5,6 +5,7 @@ augroup PjlDotfiles
 augroup end
 
 augroup PjlFileTypes
+augroup PjlQuickQuit
   autocmd!
-  autocmd BufRead quickfix nnoremap <buffer> q :q<CR>
+  autocmd FileType quickfix,help nnoremap <buffer> q :q<CR>
 augroup end
