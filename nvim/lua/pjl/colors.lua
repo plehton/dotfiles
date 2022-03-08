@@ -9,7 +9,7 @@ colors.to_rgb = function(hexcolor)
     -- remove leading # and change hex to int
     color_code = hexcolor:sub(2)
     color_num = tonumber(color_code,16)
-   
+
     -- extract r,b,g values from color number
     red   = bit.rshift(color_num, 16)
     green = bit.band(color_num, 0x0000FF)
@@ -72,11 +72,16 @@ end
 colors.get_highlight_colors = function(highlight)
 
   local result = {}
+  local mapping = {
+        background = "bg",
+        foreground = "fg"
+    }
 
   local list = vim.api.nvim_get_hl_by_name(highlight, true)
+
   for group, color in pairs(list) do
-    local name = group == "background" and "bg" or "fg"
-    result[name] = string.format("#%06x", color)
+    local name = mapping[group] ~= nil and mapping[group] or group
+    result[name] = type(color) == "boolean" and color or string.format("#%06x", color)
   end
 
   return result
