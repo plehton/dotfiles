@@ -27,8 +27,8 @@ cmp.setup {
         ['<S-Tab>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-5),
+        ['<C-d>'] = cmp.mapping.scroll_docs(5),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.close(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
@@ -58,12 +58,12 @@ local on_attach = function(client, bufnr)
   map('n', '<leader>=' , '<cmd>lua vim.lsp.buf.formatting()<CR>')
   map('v', "<leader>=" , '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 
-  map('n', '[d'        , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-  map('n', ']d'        , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-  map('n', '<leader>e' , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})<CR>')
-  map('n', '<leader>ee', '<cmd>lua vim.lsp.diagnostic.set_qflist()<CR>')
+  map('n', '[d'        , '<cmd>lua vim.diagnostic.goto_prev()<CR>')
+  map('n', ']d'        , '<cmd>lua vim.diagnostic.goto_next()<CR>')
+  map('n', '<leader>e' , '<cmd>lua vim.diagnostic.open_float()<CR>')
+  map('n', '<leader>ee', '<cmd>lua vim.diagnostic.setqflist()<CR>')
 
-  local signs = { Error = '', Warn = '', Hint = '', Info = '' }
+  local signs = { Error = '栗', Warn = '', Hint = '', Info = '' }
 
   for sign, icon in pairs(signs) do
       local hl = 'DiagnosticSign' .. sign
