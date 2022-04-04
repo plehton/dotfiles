@@ -136,8 +136,8 @@ Plug 'hrsh7th/vim-vsnip-integ'
 
 " Misc. stuff
 " Plug 'dstein64/vim-startuptime'
-" Plug 'chriskempson/base16-vim'
-Plug 'NLKNguyen/papercolor-theme'
+Plug 'chriskempson/base16-vim'
+Plug 'GEverding/vim-hocon'
 
 call plug#end()
 
@@ -151,8 +151,8 @@ augroup PjlColors
   autocmd ColorScheme * call v:lua.require'pjl.autocommands'.base16_customize()
 augroup end
 
-" let g:base16colorspace=256
-" source ~/.vimrc_background
+let g:base16colorspace=256
+source ~/.vimrc_background
 
 
 
