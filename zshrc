@@ -6,8 +6,15 @@ __PJL[ITALIC_OFF]=$'\e[23m'
 
 # Set global variable(s)                                                   {{{1
 #
-fpath=($HOME/.zsh/completions/ $fpath)
+fpath=($HOME/.zsh/completions/ /opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functinos $fpath)
 autoload -Uz compinit
+
+# Sourced                                                                   {{{1
+#
+
+source $HOME/.zsh/aliases
+source $HOME/.zsh/exports
+for f in $HOME/.zsh/functions/*; do source $f; done
 
 # Prompt                                                                   {{{1
 
@@ -30,7 +37,14 @@ function +vi-git-untracked() {
   fi
 }
 
-RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}%~%f"
+function rprompt_path() {
+    last_dir="/${PWD##*/}"
+    rpath=${PWD%$last_dir}
+    rdir=${rpath/$HOME/~}
+    echo ${rdir}
+}
+RPATH='$(rprompt_path)'
+export RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}${RPATH}%f"
 export RPROMPT=$RPROMPT_BASE
 export PS1="%F{green}\${VENV_INFO}%F{blue}%1~%F{magenta}❯%f "
 
@@ -45,18 +59,19 @@ SAVEHIST=$HISTSIZE
 #
 # Options                                                                  {{{1
 #
-setopt AUTO_CD                # Change dirs without cd and with ../...
-setopt NO_CASE_GLOB           # Case insensitive globbing
-setopt GLOB_COMPLETE          # Don't insert completion results to command line, use menu instead
-setopt APPEND_HISTORY         # append history, do not owerwrite
-setopt INC_APPEND_HISTORY     # adds commands as they are typed, not at shell exit
-setopt EXTENDED_HISTORY       # add metadata to history
-setopt SHARE_HISTORY          # share history between sessions
-setopt HIST_EXPIRE_DUPS_FIRST # expire duplicates first
-setopt HIST_IGNORE_DUPS       # do not store duplicates
-setopt HIST_FIND_NO_DUPS      # ignore duplicates when searching
-setopt HIST_REDUCE_BLANKS     # removes blank lines from history
-setopt HIST_VERIFY            # Don't execute command substituted from history
+setopt EMACS                    # Command line editing in EMACS mode
+setopt AUTO_CD                  # Change dirs without cd and with ../...
+setopt NO_CASE_GLOB             # Case insensitive globbing
+setopt GLOB_COMPLETE            # Don't insert completion results to command line, use menu instead
+setopt APPEND_HISTORY           # append history, do not owerwrite
+setopt INC_APPEND_HISTORY       # adds commands as they are typed, not at shell exit
+setopt EXTENDED_HISTORY         # add metadata to history
+setopt SHARE_HISTORY            # share history between sessions
+setopt HIST_IGNORE_DUPS         # do not store duplicates
+setopt HIST_FIND_NO_DUPS        # ignore duplicates when searching
+setopt HIST_EXPIRE_DUPS_FIRST   # expire duplicates first
+setopt HIST_REDUCE_BLANKS       # removes blank lines from history
+setopt HIST_VERIFY              # Don't execute command substituted from history
 
 
 # Plugins                                                                 {{{1 
@@ -67,6 +82,7 @@ setopt HIST_VERIFY            # Don't execute command substituted from history
 autoload -U select-word-style
 select-word-style bash # only alphanumeric chars are considered WORDCHARS
 source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+
 
 # Bindings                                                                 {{{1
 #
@@ -89,41 +105,6 @@ bindkey '^x^x' edit-command-line
 bindkey ' ' magic-space # do history expansion on space
 
 #
-# Source others                                                            {{{1
-#
-
-source $HOME/.zsh/aliases
-source $HOME/.zsh/exports
-for f in $HOME/.zsh/functions/*; do source $f; done
-
-# Third party                                                              {{{1
-#
-
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && eval "$("$BASE16_SHELL/profile_helper.sh")"
-
-# fzf
-export FZF_DEFAULT_COMMAND='fd --type f --follow --hidden --exclude .git'
-export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-. ~/.fzf.zsh
-
-# z
-. /usr/local/etc/profile.d/z.sh
-
-#
-eval "$(pyenv init -)"
-eval "$(rbenv init -)"
-
-
-# Personal                                                                  {{{1
-#
-
-# shorcuts for changing sessions in TMUX
-[[ -v TMUX ]] && make_session_aliases
-
-
-
-
 # Hooks                                                                    {{{1
 #
 
@@ -140,10 +121,10 @@ function -report-start-time() {
   emulate -L zsh
   if [ $ZSH_START_TIME ]; then
     local DELTA=$(($SECONDS - $ZSH_START_TIME))
-    local DAYS=$((~~($DELTA / 86400)))
-    local HOURS=$((~~(($DELTA - $DAYS * 86400) / 3600)))
-    local MINUTES=$((~~(($DELTA - $DAYS * 86400 - $HOURS * 3600) / 60)))
-    local SECS=$(($DELTA - $DAYS * 86400 - $HOURS * 3600 - $MINUTES * 60))
+    local DAYS=$(( ~~($DELTA / 86400) ))
+    local HOURS=$(( ~~(($DELTA - $DAYS * 86400) / 3600) ))
+    local MINUTES=$((~~(($DELTA - $DAYS * 86400 - $HOURS * 3600) / 60) ))
+    local SECS=$(($DELTA - $DAYS * 86400 - $HOURS * 3600 - $MINUTES * 60 ))
     local ELAPSED=''
     test "$DAYS" != '0' && ELAPSED="${DAYS}d"
     test "$HOURS" != '0' && ELAPSED="${ELAPSED}${HOURS}h"
@@ -175,7 +156,7 @@ function -maybe-show-vcs-info() {
   local LAST="$__PJL[LAST_COMMAND]"
 
   # In case user just hit enter, overwrite LAST_COMMAND, because preexec
-  # won't run and it will otherwise linger.
+  # wont run and it will otherwise linger.
   __PJL[LAST_COMMAND]="<unset>"
 
   # Check first word; via:
@@ -212,4 +193,29 @@ if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $HOME/.zcompdump) ]; then
 else
   compinit -C
 fi
+# Third party settings                                                      {{{1
+#
+
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && eval "$("$BASE16_SHELL/profile_helper.sh")"
+
+# fzf
+export FZF_DEFAULT_COMMAND='fd --type f --follow --hidden --exclude .git'
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+. ~/.fzf.zsh
+
+# z
+. /opt/homebrew/etc/profile.d/z.sh
+
+#
+eval "$(pyenv init -)"
+eval "$(rbenv init -)"
+
+
+# Personal                                                                  {{{1
+#
+
+# add shorcuts for changing sessions in TMUX
+[[ -v TMUX ]] && make_session_aliases
+
 # vim: ft=zsh foldmethod=marker foldmarker={{{,}}}
