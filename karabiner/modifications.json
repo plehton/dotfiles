@@ -131,7 +131,7 @@
       ]
     },
     {
-      "description": "Zowie side buttons to forward/back in Safari",
+      "description": "Mouse buttons to forward/back in Safari",
       "manipulators": [
         {
           "conditions": [
