@@ -4,8 +4,14 @@ augroup PjlDotfiles
   autocmd BufRead **/dotfiles/zsh/** set filetype=zsh
 augroup end
 
-augroup PjlFileTypes
+" augroup PjlLineNumbers
+"   autocmd!
+"   autocmd InsertLeave * if &nu | set rnu   | endif
+"   autocmd InsertEnter * if &nu | set nornu | endif
+" augroup end
+
+
 augroup PjlQuickQuit
   autocmd!
-  autocmd FileType quickfix,help nnoremap <buffer> q :q<CR>
+  autocmd FileType qf,help nnoremap <buffer> q :q<CR>
 augroup end
