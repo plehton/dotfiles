@@ -24,13 +24,13 @@ nnoremap <silent> <Right> :cnfile<CR>
 nnoremap <leader>g :G<CR>
 nnoremap <leader>ge :Ge:<CR>
 
-" Slimux 
+" Slimux
 nnoremap <leader>sl :SlimuxREPLSendLine<CR>
 nnoremap <leader>sp :SlimuxREPLSendParagraph<CR>
 nnoremap <leader>sb :SlimuxREPLSendBuffer<CR>
 nnoremap <leader>sc :SlimuxREPLConfigure<CR>
 
-" Telescope 
+" Telescope
 nnoremap <C-p> :Telescope find_files<CR>
 nnoremap <Leader>ff :execute ':Telescope find_files cwd=' . expand('%:p:h')<CR>
 nnoremap <Leader>fb :Telescope buffers<CR>
@@ -46,3 +46,8 @@ nmap S <Plug>(vsnip-cut-text)
 xmap s Plug>(vsnip-select-text)
 xmap S <Plug>(vsnip-cut-text)
 
+
+" nvim-tree
+nnoremap <C-t> :NvimTreeToggle<CR>
+" nnoremap <leader>r :NvimTreeRefresh<CR>
+" nnoremap <leader>n :NvimTreeFindFile<CR>
