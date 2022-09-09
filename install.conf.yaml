@@ -13,6 +13,7 @@
     ~/.tmux.conf: tmux/tmux.conf
     ~/.config/karabiner/assets/complex_modifications/modifications.json: karabiner/modifications.json
     ~/.config/bat/config: bat/config
+    ~/.finicky.js: finicky.js
 
 - create:
     ~/.ssh:
