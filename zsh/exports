@@ -2,4 +2,7 @@ export EDITOR=nvim
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.pyenv/shims:$HOME/.rbenv/bin:$PATH"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export LESS=RFX
+export NVM_DIR="$HOME/.nvm"
+
+
 

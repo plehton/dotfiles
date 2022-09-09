@@ -207,10 +207,15 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 # z
 . /opt/homebrew/etc/profile.d/z.sh
 
-#
+# Python environemts
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Ruby environments
 eval "$(rbenv init -)"
 
+# nvm
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
 
 # Personal                                                                  {{{1
 #
