@@ -88,7 +88,7 @@ local handlers = {
     ["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics,
         { virtual_text = false, 
-          signs = { priority = 50 }, 
+          -- signs = { priority = 50 }, 
           underline = true, 
           update_in_insert = false 
         }
@@ -102,18 +102,8 @@ lsp["pyright"].setup {
     handlers = handlers
 }
 
--- -- nvim-metals
--- metals_config = require("metals").bare_config()
--- metals_config.init_options.statusBarProvider = "on"
--- metals_config.settings = {
---   showImplicitArguments = true,
---   excludedPackages = {},
--- }
--- metals_config.on_attach = on_attach 
--- metals_config.capabilities = capabilities
--- metals_config.handlers = handlers
-
 -- nvim-metals
+metals_config = require("metals").bare_config()
 metals_config = {
     init_options = { statusBarProvider = "on" },
     settings = {
@@ -125,10 +115,13 @@ metals_config = {
     handlers = handlers
 }
 
-vim.cmd([[
-augroup PjlLspMetals
-    autocmd!
-    autocmd FileType scala lua require("metals").initialize_or_attach(metals_config)
-augroup end
-]])
+local metals_augroup = "pjl-lsp-metals"
+vim.api.nvim_create_augroup(metals_augroup, { clear = true })
+vim.api.nvim_create_autocmd("Filetype", {
+    group = metals_augroup,
+    pattern = { "scala", "sbt", "java" },
+    callback = function()
+        require("metals").initialize_or_attach(metals_config)
+    end
+})
 
