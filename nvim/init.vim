@@ -104,21 +104,19 @@ Plug 'christoomey/vim-tmux-navigator'   " Seamless switching between vim windows
 Plug 'epeli/slimux'                     " Send vim buffer contents to other tmux pane
 Plug 'wincent/corpus'                   " Notes
 Plug 'godlygeek/tabular'                " Tabularize stuff
-
 Plug 'justinmk/vim-dirvish'             " Fast director viewer (like tpope's vinegar)
 Plug 'kyazdani42/nvim-tree.lua'         " Project Drawer
 
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-lua/plenary.nvim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
-" LSP stuff
+" Programming
+Plug 'nvim-lua/plenary.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'scalameta/nvim-metals'
 Plug 'kevinhwang91/nvim-bqf'
-" Plug 'glepnir/lspsaga.nvim' <<< broken with neovim 0.6
-Plug 'tami5/lspsaga.nvim'
 Plug 'ray-x/lsp_signature.nvim'
 
 " Completion

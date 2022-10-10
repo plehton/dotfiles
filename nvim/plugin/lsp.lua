@@ -54,8 +54,8 @@ local on_attach = function(client, bufnr)
   map('n', 'gd'        , '<cmd>lua vim.lsp.buf.definition()<CR>')
   map('n', 'gr'        , '<cmd>lua vim.lsp.buf.references()<CR>')
 
-  map('n', '<leader>a' , '<cmd>lua require(\'lspsaga.codeaction\').code_action()<CR>')
-  map('n', '<leader>r' , '<cmd>lua require(\'lspsaga.rename\').rename()<CR>')
+  map('n', '<leader>a' , '<cmd>lua vim.lsp.buf.code_action()<CR>')
+  map('n', '<leader>r' , '<cmd>lua vim.lsp.buf.rename()<CR>')
   map('n', '<leader>=' , '<cmd>lua vim.lsp.buf.formatting()<CR>')
   map('v', "<leader>=" , '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 

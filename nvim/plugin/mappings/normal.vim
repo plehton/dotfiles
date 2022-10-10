@@ -20,6 +20,14 @@ nnoremap <silent> <Down> :cnext<CR>
 nnoremap <silent> <Left> :cpfile<CR>
 nnoremap <silent> <Right> :cnfile<CR>
 
+" FZF 
+nnoremap <C-p> :FZF<CR>
+nnoremap <Leader>ff :execute ":FZF " . expand('%:p:h')<CR>
+nnoremap <Leader>fb :Buffers<CR>
+nnoremap <Leader>fm :History<CR>
+nnoremap <Leader>fg :Rg<CR>
+nnoremap <Leader>fw :execute ":Rg " . expand('<cword>')<CR>
+
 " fugitive
 nnoremap <leader>g :G<CR>
 nnoremap <leader>ge :Ge:<CR>
@@ -30,13 +38,6 @@ nnoremap <leader>sp :SlimuxREPLSendParagraph<CR>
 nnoremap <leader>sb :SlimuxREPLSendBuffer<CR>
 nnoremap <leader>sc :SlimuxREPLConfigure<CR>
 
-" Telescope
-nnoremap <C-p> :Telescope find_files<CR>
-nnoremap <Leader>ff :execute ':Telescope find_files cwd=' . expand('%:p:h')<CR>
-nnoremap <Leader>fb :Telescope buffers<CR>
-nnoremap <Leader>fm :Telescope oldfiles<CR>
-nnoremap <Leader>lg :Telescope live_grep<CR>
-nnoremap <Leader>fw :Telescope grep_string<CR>
 
 " Vim-snip
 " Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
@@ -45,7 +46,6 @@ nmap s <Plug>(vsnip-select-text)
 nmap S <Plug>(vsnip-cut-text)
 xmap s Plug>(vsnip-select-text)
 xmap S <Plug>(vsnip-cut-text)
-
 
 " nvim-tree
 nnoremap <C-t> :NvimTreeToggle<CR>
