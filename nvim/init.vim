@@ -116,7 +116,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'scalameta/nvim-metals'
-Plug 'kevinhwang91/nvim-bqf'
 Plug 'ray-x/lsp_signature.nvim'
 
 " Completion
