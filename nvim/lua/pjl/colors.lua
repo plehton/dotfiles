@@ -31,10 +31,9 @@ colors.get_brightness = function(hexcolor)
 
 end
 
-
 -- Changes the brightness of a color
 --
-colors.change_brightness = function(hexcolor, amount)
+colors.set_brightness = function(hexcolor, amount)
 
     local max = function(value)
         return math.max(math.min(value, 255), 0)
@@ -53,7 +52,7 @@ colors.change_brightness = function(hexcolor, amount)
 end
 
 
--- Convert a highlight table to a highlight definition string
+-- Convert a table of highlights to a highlight definition string
 --
 colors.to_highlight_color = function(color)
 
@@ -94,16 +93,61 @@ end
 -- Check if we're changing light or dark background and and if bg is light,
 -- lighten a bit more than what's given to make the difference more distinct.
 --
-colors.change_bg_brightness = function(amount) 
+colors.dim_bg = function(amount) 
 
     local old_bg = colors.get_highlight_colors("Normal").bg
 
     local brightness = colors.get_brightness(old_bg)
     if brightness > 0.5 then amount = -amount-1 end
 
-    local new_bg = colors.change_brightness(old_bg, amount) 
+    local new_bg = colors.set_brightness(old_bg, amount) 
 
     return colors.to_highlight_color({ bg = new_bg })
 end
 
+-- Lighten default background a little for columns after wrapmargin and rows
+-- after EndOfBuffer
+colors.fix_bg_color = function(amount)
+
+    -- Make buffer content pop out from background and
+    -- lighten/darken background color after textwidth and end of buffer
+    local bg = colors.dim_bg(amount)
+    local split = colors.get_highlight_colors("StatusLineNc").fg
+
+    local highlights = { 
+        "highlight clear ColorColumn",
+        "highlight ColorColumn " .. bg,
+        "highlight link EndOfBuffer ColorColumn",
+        "highlight clear VertSplit",
+        "highlight VertSplit guifg=" .. split
+        }
+
+    -- Diagnostic Signs have same background as SignColumn
+    local signs = { "Error", "Warn", "Hint", "Info" }
+    local sign_bg = colors.get_highlight_colors("SignColumn").bg
+    for _, sign in ipairs(signs) do
+        table.insert(highlights, "highlight Diagnostic" .. sign .. " guibg=" .. sign_bg)
+    end
+
+    return vim.cmd(table.concat(highlights, "\n"))
+
+end
+
+colors.base16_customize = function()
+
+    local highlights = {}
+
+    if vim.g.colors_name == "base16-solarized-dark" then
+        local statusline = colors.get_highlight_colors("StatusLine")
+        statusline["bg"] = colors.change_brightness(statusline.bg, -30)
+        table.insert(highlights, "highlight StatusLine " .. colors.to_highlight_color(statusline))
+    elseif vim.g.colors_name == "base16-solarized-light" then
+        local statusline = colors.get_highlight_colors("StatusLine")
+        statusline["fg"] = "#" .. vim.api.nvim_get_var("base16_gui01")
+        table.insert(highlights, "highlight StatusLine " .. colors.to_highlight_color(statusline))
+    end
+
+    return vim.cmd(table.concat(highlights, "\n"))
+
+end
 return colors
