@@ -108,7 +108,7 @@ Plug 'justinmk/vim-dirvish'             " Fast director viewer (like tpope's vin
 Plug 'kyazdani42/nvim-tree.lua'         " Project Drawer
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 
 " Programming
 Plug 'nvim-lua/plenary.nvim'
