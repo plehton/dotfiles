@@ -20,13 +20,13 @@ nnoremap <silent> <Down> :cnext<CR>
 nnoremap <silent> <Left> :cpfile<CR>
 nnoremap <silent> <Right> :cnfile<CR>
 
-" FZF 
-nnoremap <C-p> :FZF<CR>
-nnoremap <Leader>ff :execute ":FZF " . expand('%:p:h')<CR>
-nnoremap <Leader>fb :Buffers<CR>
-nnoremap <Leader>fm :History<CR>
-nnoremap <Leader>fg :Rg<CR>
-nnoremap <Leader>fw :execute ":Rg " . expand('<cword>')<CR>
+" FZF
+nnoremap <C-p> <cmd>lua require('fzf-lua').files()<CR>
+nnoremap <Leader>ff <cmd>execute "<cmd>FzfLua files cwd=" . expand('%:p:h')<CR>
+nnoremap <Leader>fb <cmd>lua require('fzf-lua').buffers()<CR>
+nnoremap <Leader>fm <cmd>lua require('fzf-lua').oldfiles()<CR>
+nnoremap <Leader>fg <cmd>lua require('fzf-lua').grep()<CR>
+nnoremap <Leader>fw <cmd>execute ":Rg " . expand('<cword>')<CR>
 
 " fugitive
 nnoremap <leader>g :G<CR>
@@ -44,7 +44,7 @@ nnoremap <leader>sc :SlimuxREPLConfigure<CR>
 " See https://github.com/hrsh7th/vim-vsnip/pull/50
 nmap s <Plug>(vsnip-select-text)
 nmap S <Plug>(vsnip-cut-text)
-xmap s Plug>(vsnip-select-text)
+xmap s <Plug>(vsnip-select-text)
 xmap S <Plug>(vsnip-cut-text)
 
 " nvim-tree
