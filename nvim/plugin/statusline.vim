@@ -1,4 +1,4 @@
-lua require'pjl.statusline'.set()
+set statusline=%!v:lua.require'pjl.statusline'.set()
 
 augroup PjlStatusline
     autocmd!
