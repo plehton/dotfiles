@@ -50,14 +50,12 @@ local on_attach = function(client, bufnr)
 
   -- Mappings.
   map('n', 'K'         , '<cmd>lua vim.lsp.buf.hover()<CR>')
-  map('n', '<C-]>'     , '<cmd>lua vim.lsp.buf.definition()<CR>')
   map('n', 'gd'        , '<cmd>lua vim.lsp.buf.definition()<CR>')
   map('n', 'gr'        , '<cmd>lua vim.lsp.buf.references()<CR>')
 
   map('n', '<leader>a' , '<cmd>lua vim.lsp.buf.code_action()<CR>')
   map('n', '<leader>r' , '<cmd>lua vim.lsp.buf.rename()<CR>')
-  map('n', '<leader>=' , '<cmd>lua vim.lsp.buf.formatting()<CR>')
-  map('v', "<leader>=" , '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
+  map('n', '<leader>=' , '<cmd>lua vim.lsp.buf.format()<CR>')
 
   map('n', '[d'        , '<cmd>lua vim.diagnostic.goto_prev()<CR>')
   map('n', ']d'        , '<cmd>lua vim.diagnostic.goto_next()<CR>')
@@ -78,7 +76,6 @@ local on_attach = function(client, bufnr)
     hint_prefix = "<< ",
     hi_parameter = "Underlined",
     floating_window = true,
-    use_lspsaga = false 
     }
   )
 
