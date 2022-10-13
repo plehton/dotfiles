@@ -1,38 +1,35 @@
 local statusline = {}
 
 -- set user colors
--- user3 = lhs, when buffer is modified
--- user2 = rhs
-vim.cmd [[ hi User3 cterm=bold ctermfg=231 ctermbg=160 gui=bold guifg=White guibg=Red ]]
-vim.cmd [[ hi User2 cterm=bold,inverse gui=bold,inverse ]]
+vim.cmd [[ hi pjlStatusLhs gui=bold guifg=White guibg=Red ]]
+vim.cmd [[ hi pjlStatusLhsModified gui=bold guifg=White guibg=#00d787 ]]
+vim.cmd [[ hi pjlStatusRhs gui=inverse ]]
+vim.cmd [[ hi pjlStatusBranch guifg=LightGrey guibg=BrightBlack ]]
 
-local modified_lhs_color = 'User3'
-local default_lhs_color = 'Statusline'
+local default_lhs_color = 'pjlStatusLhs'
+local modified_lhs_color = 'pjlStatusLhsModified'
 local status_highlight = default_lhs_color
 
 statusline.changed = ' '
-statusline.lhs_flag = ' '
+statusline.branch = ''
 
-statusline.update_highlight = function()
-    vim.cmd('hi link User1 ' .. status_highlight)
+
+statusline.get_branch = function()
+
+    local branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\n'")
+
+    if branch == '' or branch == nil then return '' end
+
+    -- local maxlen = 20
+    -- if #branch > maxlen then
+    --     branch = branch:sub(1,maxlen-3) .. '...'
+    -- end
+
+    return string.format("  %s ", branch)
+
 end
 
-statusline.check_modified = function()
-    local modified = vim.bo.modified
-
-    if modified and status_highlight ~= modified_lhs_color then
-       status_highlight = modified_lhs_color
-       statusline.changed = ' '
-       statusline.lhs_flag =  ''
-    else
-       status_highlight = default_lhs_color
-       statusline.changed = ' '
-       statusline.lhs_flag =  ' '
-    end
-    statusline.update_highlight()
-end
-
-statusline.file_or_lsp_status = function()
+statusline.lsp_status = function()
     -- Neovim keeps the messages send from the language server in a buffer and
     -- get_progress_messages polls the messages
     local messages = vim.lsp.util.get_progress_messages()
@@ -42,7 +39,7 @@ statusline.file_or_lsp_status = function()
     -- If neovim isn't in normal mode, or if there are no messages from the
     -- language server and no metals status info display the file name
     if mode ~= 'n' or (vim.tbl_isempty(messages) and (metals_status == '' or metals_status == nil)) then
-        return vim.fn.expand('%:f')
+        return nil
     end
 
     -- if metals status exists, use that, otherwise
@@ -71,14 +68,49 @@ statusline.file_or_lsp_status = function()
     else
         return table.concat(result, ', ')
     end
+
+end
+
+
+statusline.filename = function()
+
+    -- if lsp has a status message, use that
+    local lsp_status = statusline.lsp_status()
+    if lsp_status then
+        return lsp_status
+    end
+
+    -- otherwise, return filename with additional info
+    -- filename.ext [filetype,format,encoding]
+    local opts = {
+        vim.bo.filetype,
+        vim.bo.fileformat == 'unix' and '' or vim.bo.fileformat,
+        vim.bo.fileencoding == 'utf-8' and '' or vim.bo.fileencoding,
+    }
+
+    local flags = ''
+    for i, opt in ipairs(opts) do
+        if i > 1 and opt ~= '' then
+            flags = flags .. ',' 
+        end
+        flags = flags .. opt
+    end
+
+    if flags ~= '' then flags = ' [' .. flags .. ']' end
+
+    return vim.fn.expand('%:F') .. flags
+
 end
 
 
 statusline.lhs = function()
-    -- line numbers + foldcolumn
+
+    local content = statusline.changed .. ' '
+
     local numwidth = math.max(string.len(vim.api.nvim_buf_line_count(0)), vim.wo.numberwidth)
-    local padding = numwidth + vim.wo.foldcolumn + 1
-    return string.rep(' ', padding)
+    local padding = numwidth + vim.wo.foldcolumn
+
+    return string.rep(' ', padding) .. content
 end
 
 
@@ -89,18 +121,14 @@ statusline.rhs = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     local height = vim.api.nvim_buf_line_count(0)
     local column =  vim.fn.virtcol('.')
-    -- width of a line without $ > number of chars
+    -- width of a line without $
     local width =  vim.fn.virtcol('$') - 1
 
     rhs = rhs .. 'ℓ '
-    rhs = rhs .. line
+    rhs = rhs .. string.format(string.format("%%%ds", string.len(height)), line)
     rhs = rhs .. '/'
     rhs = rhs .. height
-    rhs = rhs .. ' 𝚌 '
-    rhs = rhs .. column
-    rhs = rhs .. '/'
-    rhs = rhs .. width 
-    rhs = rhs .. ' '
+    rhs = rhs .. string.format("%-11s",  ' 𝚌 ' ..column .. '/' .. width)
 
     return rhs
 end
@@ -112,14 +140,31 @@ statusline.set = function()
         [[%1*]],
         [[%{luaeval("require'pjl.statusline'.lhs()")}]],
         [[%*]],
-        -- [[ %f%r]],
-        [[%{luaeval("require'pjl.statusline'.file_or_lsp_status()")}]],
-        [[%{luaeval("require'pjl.statusline'.changed")}]],
+        [[%<]],
+        [[ %{luaeval("require'pjl.statusline'.filename()")} ]],
         [[%=]],
-        [[%2*]],
-        [[ %{luaeval("require'pjl.statusline'.rhs()")}]],
+        [[%#pjlStatusBranch#]],
+        [[%{luaeval("require'pjl.statusline'.branch")}]],
+        [[%#pjlStatusRhs#]],
+        [[ %{luaeval("require'pjl.statusline'.rhs()")} ]],
     }
     return table.concat(parts,'')
+
+end
+
+statusline.update = function()
+
+    local modified = vim.bo.modified
+    if modified and status_highlight ~= modified_lhs_color then
+       status_highlight = modified_lhs_color
+       statusline.changed = ''
+    else
+       status_highlight = default_lhs_color
+       statusline.changed = ' '
+    end
+
+    statusline.branch = statusline.get_branch()
+    vim.cmd('hi link User1 ' .. status_highlight)
 
 end
 
