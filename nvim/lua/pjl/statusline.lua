@@ -3,7 +3,7 @@ local statusline = {}
 -- set user colors
 vim.cmd [[ hi pjlStatusLhs gui=bold guifg=White guibg=Red ]]
 vim.cmd [[ hi pjlStatusLhsModified gui=bold guifg=White guibg=#00d787 ]]
-vim.cmd [[ hi pjlStatusRhs gui=inverse ]]
+vim.cmd [[ hi link pjlStatusRhs Cursor ]]
 vim.cmd [[ hi pjlStatusBranch guifg=LightGrey guibg=BrightBlack ]]
 
 local default_lhs_color = 'pjlStatusLhs'
