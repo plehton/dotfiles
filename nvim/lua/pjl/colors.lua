@@ -139,7 +139,7 @@ colors.base16_customize = function()
 
     if vim.g.colors_name == "base16-solarized-dark" then
         local statusline = colors.get_highlight_colors("StatusLine")
-        statusline["bg"] = colors.change_brightness(statusline.bg, -30)
+        statusline["bg"] = colors.set_brightness(statusline.bg, -30)
         table.insert(highlights, "highlight StatusLine " .. colors.to_highlight_color(statusline))
     elseif vim.g.colors_name == "base16-solarized-light" then
         local statusline = colors.get_highlight_colors("StatusLine")
