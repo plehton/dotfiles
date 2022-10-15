@@ -144,7 +144,7 @@ call plug#end()
 "
 augroup PjlColors
   autocmd!
-  autocmd ColorScheme * call v:lua.require'pjl.colors'.fix_bg_color(5)
+  autocmd ColorScheme * call v:lua.require'pjl.colors'.fix_bg_color(10)
   autocmd ColorScheme * call v:lua.require'pjl.colors'.base16_customize()
 augroup end
 
