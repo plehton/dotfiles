@@ -1,0 +1,14 @@
+function color {
+
+    local THEME
+
+    [[ -n $1 ]] && THEME=base16-$1
+
+    if [[ -n $THEME ]]; then
+        source $BASE16_SHELL/scripts/$THEME.sh
+        echo $THEME >$HOME/.base16
+    else
+        echo "Current base16 theme is: $(cat $HOME/.base16)"
+    fi
+
+}

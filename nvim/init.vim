@@ -142,17 +142,18 @@ call plug#end()
 "
 " Source here to have it applied when re-sourcing init.vim without restart
 "
+if filereadable(expand('~/.base16'))
+    let s:theme = readfile(expand('~/.base16'), '', 1)
+    let base16colorspace=256
+    execute 'colorscheme ' . s:theme[0]
+endif
+
 augroup PjlColors
   autocmd!
   autocmd ColorScheme * call v:lua.require'pjl.colors'.fix_bg_color(10)
   autocmd ColorScheme * call v:lua.require'pjl.colors'.base16_customize()
 augroup end
 
-if exists('$BASE16_THEME')
-      \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
-    let base16colorspace=256
-    colorscheme base16-$BASE16_THEME
-endif
 
 
 
