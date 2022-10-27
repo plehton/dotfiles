@@ -136,6 +136,8 @@ end
 
 statusline.set = function()
 
+    -- todo: add powerline arrows 
+
     parts = {
         [[%1*]],
         [[%{luaeval("require'pjl.statusline'.lhs()")}]],
@@ -152,18 +154,24 @@ statusline.set = function()
 
 end
 
-statusline.update = function()
+statusline.check_modified = function()
 
     local modified = vim.bo.modified
     if modified and status_highlight ~= modified_lhs_color then
        status_highlight = modified_lhs_color
        statusline.changed = ''
-    else
+    elseif not modified then
        status_highlight = default_lhs_color
        statusline.changed = ' '
     end
 
     statusline.branch = statusline.get_branch()
+    statusline.update_highlights()
+
+end
+
+statusline.update_highlights = function()
+
     vim.cmd('hi link User1 ' .. status_highlight)
 
 end
