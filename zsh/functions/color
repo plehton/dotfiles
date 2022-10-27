@@ -8,7 +8,7 @@ function color {
         source $BASE16_SHELL/scripts/$THEME.sh
         echo $THEME >$HOME/.base16
     else
-        echo "Current base16 theme is: $(cat $HOME/.base16)"
+        echo "Current theme is: $(cat $HOME/.base16)"
     fi
 
 }

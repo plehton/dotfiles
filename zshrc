@@ -196,10 +196,10 @@ fi
 # Third party settings                                                      {{{1
 #
 
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-    source "$BASE16_SHELL/profile_helper.sh"
+# Base16 theme for shell
+BASE16_SHELL="$HOME/.config/base16-shell"
+BASE16_THEME=$(<$HOME/.base16)
+[ -n "$PS1" ] && source "$BASE16_SHELL/scripts/$BASE16_THEME.sh"
 
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f --follow --hidden --exclude .git'
