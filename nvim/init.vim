@@ -142,18 +142,24 @@ call plug#end()
 "
 " Source here to have it applied when re-sourcing init.vim without restart
 "
-if filereadable(expand('~/.base16'))
-    let s:theme = readfile(expand('~/.base16'), '', 1)
-    let base16colorspace=256
-    execute 'colorscheme ' . s:theme[0]
-endif
+set termguicolors
 
-augroup PjlColors
-  autocmd!
-  autocmd ColorScheme * call v:lua.require'pjl.colors'.fix_bg_color(10)
-  autocmd ColorScheme * call v:lua.require'pjl.colors'.base16_customize()
-augroup end
+function! SetColorscheme()
+  if filereadable(expand('~/.base16'))
+    let theme = readfile(expand('~/.base16'), '', 1)
+  else
+    let theme = 'base16-default-dark'
+  endif
+  let base16colorspace=256
+  execute 'colorscheme ' . theme[0]
+  lua require'pjl.colors'.base16_customize()
+  lua require'pjl.colors'.fix_bg_color(3)
+endfunction
 
+call SetColorscheme()
 
-
+" augroup PjlColors
+"   autocmd!
+"   autocmd FocusGained * call SetColorscheme()
+" augroup end
 
