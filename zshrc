@@ -6,15 +6,15 @@ __PJL[ITALIC_OFF]=$'\e[23m'
 
 # Set global variable(s)                                                   {{{1
 #
-fpath=($HOME/.zsh/completions/ /opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functinos $fpath)
-autoload -Uz compinit
+fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ /opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functions $fpath)
+autoload -Uz $HOME/.zsh/functions/*(:t)
+autoload -Uz compinit 
 
 # Sourced                                                                   {{{1
 #
 
 source $HOME/.zsh/aliases
 source $HOME/.zsh/exports
-for f in $HOME/.zsh/functions/*; do source $f; done
 
 # Prompt                                                                   {{{1
 
