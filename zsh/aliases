@@ -1,3 +1,4 @@
+alias ls='ls -G'
 alias ll='ls -l'
 alias la='ls -a'
 alias lal='ls -al'
@@ -8,16 +9,10 @@ alias -g CP="|pbcopy"
 alias -g L="|less"
 alias -g FZF="|fzf"
 alias zs='echo ''Sourcing .zshrc''; source ~/.zshrc'
-alias ze='nvim ~/.zshrc'
 alias b16='eval $(alias | rg base16 | cut -d '=' -f1 | fzf-tmux -p --reverse)'
-
-# timetrap shortcuts
-# all entries starting from yesterday with ids
-alias ty='t yesterday --all --ids'
-alias tw='t week --all --format weekly'
-
 
 # Git
 alias glt='git log --oneline --max-count 20'
+alias gst='git status'
 
 # vi:ft=zsh
