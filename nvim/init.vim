@@ -145,21 +145,28 @@ call plug#end()
 set termguicolors
 
 function! SetColorscheme()
+
   if filereadable(expand('~/.base16'))
-    let theme = readfile(expand('~/.base16'), '', 1)
+    let theme = readfile(expand('~/.base16'), '', 1)[0]
   else
     let theme = 'base16-default-dark'
   endif
+
+  if exists("g:colors_name") && (g:colors_name == theme)
+    return
+  endif
+
   let base16colorspace=256
-  execute 'colorscheme ' . theme[0]
+  execute 'colorscheme ' . theme
   lua require'pjl.colors'.base16_customize()
-  lua require'pjl.colors'.fix_bg_color(3)
+  lua require'pjl.colors'.fix_bg_color(4)
+
 endfunction
 
 call SetColorscheme()
 
-" augroup PjlColors
-"   autocmd!
-"   autocmd FocusGained * call SetColorscheme()
-" augroup end
+augroup PjlColors
+  autocmd!
+  autocmd FocusGained * call SetColorscheme()
+augroup end
 
