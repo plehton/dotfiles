@@ -165,8 +165,8 @@ endfunction
 
 call SetColorscheme()
 
-augroup PjlColors
+augroup PjlColorscheme
   autocmd!
-  autocmd FocusGained * call SetColorscheme()
+  autocmd FocusGained,ColorScheme * call SetColorscheme()
 augroup end
 
