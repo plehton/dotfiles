@@ -9,7 +9,7 @@ alias -g CP="|pbcopy"
 alias -g L="|less"
 alias -g FZF="|fzf"
 alias zs='echo ''Sourcing .zshrc''; source ~/.zshrc'
-alias b16='eval $(alias | rg base16 | cut -d '=' -f1 | fzf-tmux -p --reverse)'
+alias b16='color $(print -l $BASE16_SHELL/scripts/*(:t:r:s/base16-//) | fzf-tmux -p --reverse)'
 
 # Git
 alias glt='git log --oneline --max-count 20'
