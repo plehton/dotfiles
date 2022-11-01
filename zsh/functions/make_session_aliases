@@ -1,6 +1,0 @@
-function make_session_aliases() {
-    for S in $(tmux list-sessions | cut -f1 -d':')
-    do
-        alias "$S"="tmux switch -t $S"
-    done
-}

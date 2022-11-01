@@ -6,11 +6,6 @@ function ts() {
         tmux has-session -t $SESSION_NAME 2>/dev/null
     }
 
-    # if we're not running tmux, do nothing
-    if [[ -z "$TMUX" ]]; then
-        return
-    fi
-
     # check if tmux has session and switch to it
     if session_exists; then
         tmux switch -t $SESSION_NAME
@@ -25,7 +20,10 @@ function ts() {
     fi
 
     # if there's no match/nothing selected from fzf list, return
-    [[ -z "$WD" ]] && return
+    if [[ -z "$WD" ]]; then
+        echo "No working dir set. Session not created."
+        return
+    fi
 
     # set session name according to the found wd:
     # extract tail from path and remove unwanted prefixes
@@ -33,6 +31,10 @@ function ts() {
 
     # create new session in wd and switch to it
     tmux new -ds $SESSION_NAME -c $WD
-    tmux switch -t $SESSION_NAME
+    if [[ -v TMUX ]]; then
+        tmux switch -t $SESSION_NAME
+    else
+        tmux attach -t $SESSION_NAME
+    fi
 
 }

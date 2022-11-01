@@ -222,7 +222,4 @@ eval "$(rbenv init -)"
 # Personal                                                                  {{{1
 #
 
-# add shorcuts for changing sessions in TMUX
-[[ -v TMUX ]] && make_session_aliases
-
 # vim: ft=zsh foldmethod=marker foldmarker={{{,}}}
