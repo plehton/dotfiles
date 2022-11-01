@@ -7,14 +7,13 @@ __PJL[ITALIC_OFF]=$'\e[23m'
 # Set global variable(s)                                                   {{{1
 #
 fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ /opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functions $fpath)
-autoload -Uz $HOME/.zsh/functions/*(:t)
-autoload -Uz compinit 
 
 # Sourced                                                                   {{{1
 #
 
 source $HOME/.zsh/aliases
 source $HOME/.zsh/exports
+autoload -Uz $HOME/.zsh/functions/*(:t)
 
 # Prompt                                                                   {{{1
 
@@ -188,6 +187,7 @@ add-zsh-hook precmd -venv_info
 #
 # Init completion system                                                   {{{1
 #
+autoload -Uz compinit
 if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $HOME/.zcompdump) ]; then
   compinit
 else
@@ -214,7 +214,7 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 # Ruby environments
-eval "$(rbenv init -)"
+# eval "$(rbenv init -)"
 
 # nvm
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
