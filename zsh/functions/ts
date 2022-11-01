@@ -1,0 +1,38 @@
+function ts() {
+
+    SESSION_NAME=${1-__NA__}
+
+    session_exists() {
+        tmux has-session -t $SESSION_NAME 2>/dev/null
+    }
+
+    # if we're not running tmux, do nothing
+    if [[ -z "$TMUX" ]]; then
+        return
+    fi
+
+    # check if tmux has session and switch to it
+    if session_exists; then
+        tmux switch -t $SESSION_NAME
+        return
+    fi
+
+    # set working directory to top match of z or pick one from z database
+    if [[ $SESSION_NAME == "__NA__" ]]; then
+        WD=$(z -l | sort -rn | cut -w -f2 | fzf-tmux -p)
+    else
+        WD=$(z -e $SESSION_NAME)
+    fi
+
+    # if there's no match/nothing selected from fzf list, return
+    [[ -z "$WD" ]] && return
+
+    # set session name according to the found wd:
+    # extract tail from path and remove unwanted prefixes
+    SESSION_NAME=${WD:t:s/adp-//}
+
+    # create new session in wd and switch to it
+    tmux new -ds $SESSION_NAME -c $WD
+    tmux switch -t $SESSION_NAME
+
+}
