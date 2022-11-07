@@ -2,15 +2,19 @@ function ts() {
 
     SESSION_NAME=${1-__NA__}
 
-    session_exists() {
+    local session_exists() {
         tmux has-session -t $SESSION_NAME 2>/dev/null
     }
 
-    # check if tmux has session and switch to it
-    if session_exists; then
-        tmux switch -t $SESSION_NAME
-        return
-    fi
+    local connect_session() {
+        if [[ -v TMUX ]]; then
+            tmux switch -t $SESSION_NAME
+        else
+            tmux attach -t $SESSION_NAME
+        fi
+    }
+
+    session_exists && connect_session && return
 
     # set working directory to top match of z or pick one from z database
     if [[ $SESSION_NAME == "__NA__" ]]; then
@@ -21,7 +25,7 @@ function ts() {
 
     # if there's no match/nothing selected from fzf list, return
     if [[ -z "$WD" ]]; then
-        echo "No working dir set. Session not created."
+        echo "No matches for $SESSION in z database. Session not created."
         return
     fi
 
@@ -29,12 +33,16 @@ function ts() {
     # extract tail from path and remove unwanted prefixes
     SESSION_NAME=${WD:t:s/adp-//}
 
+    session_exists && connect_session && return
+
     # create new session in wd and switch to it
     tmux new -ds $SESSION_NAME -c $WD
-    if [[ -v TMUX ]]; then
-        tmux switch -t $SESSION_NAME
-    else
-        tmux attach -t $SESSION_NAME
+
+    # check if there is a .tmux script in the WD and run it
+    if [[ -e $WD/.tmux ]]; then
+        tmux send-keys -t $SESSION_NAME "sh $WD/.tmux" ENTER
     fi
+
+    connect_session
 
 }
