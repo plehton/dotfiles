@@ -118,8 +118,8 @@ colors.fix_bg_color = function(amount)
         "highlight clear ColorColumn",
         "highlight ColorColumn " .. bg,
         "highlight link EndOfBuffer ColorColumn",
-        "highlight clear VertSplit",
-        "highlight VertSplit guifg=" .. split
+        "highlight clear WinSeparator",
+        "highlight WinSeparator guifg=" .. split
         }
 
     -- Diagnostic Signs have same background as SignColumn
