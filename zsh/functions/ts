@@ -40,7 +40,7 @@ function ts() {
 
     # check if there is a .tmux script in the WD and run it
     if [[ -e $WD/.tmux ]]; then
-        tmux send-keys -t $SESSION_NAME "sh $WD/.tmux" ENTER
+        tmux send-keys -t $SESSION_NAME "tmux source-file $WD/.tmux" ENTER
     fi
 
     connect_session
