@@ -6,7 +6,7 @@ end
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
   properties = {
@@ -84,7 +84,7 @@ end
 local handlers = {
     ["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics,
-        { virtual_text = false, 
+        { virtual_text = true, 
           -- signs = { priority = 50 }, 
           underline = true, 
           update_in_insert = false 
