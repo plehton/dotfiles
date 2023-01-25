@@ -223,3 +223,6 @@ eval "$(pyenv virtualenv-init -)"
 #
 
 # vim: ft=zsh foldmethod=marker foldmarker={{{,}}}
+
+# added by Snowflake SnowSQL installer v1.2
+export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
