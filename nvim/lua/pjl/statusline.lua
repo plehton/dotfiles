@@ -1,8 +1,8 @@
 local statusline = {}
 
 -- set user colors
-vim.cmd [[ hi pjlStatusLhs gui=bold guifg=White guibg=Red ]]
-vim.cmd [[ hi pjlStatusLhsModified gui=bold guifg=White guibg=#00d787 ]]
+vim.cmd [[ hi pjlStatusLhs gui=bold guifg=White guibg=#00d787]]
+vim.cmd [[ hi pjlStatusLhsModified gui=bold guifg=White guibg=Red  ]]
 vim.cmd [[ hi link pjlStatusRhs Cursor ]]
 vim.cmd [[ hi pjlStatusBranch guifg=LightGrey guibg=BrightBlack ]]
 
@@ -30,6 +30,7 @@ statusline.get_branch = function()
 end
 
 statusline.lsp_status = function()
+
     -- Neovim keeps the messages send from the language server in a buffer and
     -- get_progress_messages polls the messages
     local messages = vim.lsp.util.get_progress_messages()
