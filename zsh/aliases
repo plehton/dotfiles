@@ -15,5 +15,5 @@ alias b16='color $(print -l $BASE16_SHELL/scripts/*(:t:r:s/base16-//) | fzf-tmux
 # Git
 alias glt='git log --oneline --max-count 20'
 alias gst='git status'
-
+alias gsw='git sw $(git branch -a|fzf)'
 # vi:ft=zsh
