@@ -19,7 +19,7 @@ set updatetime=2000                          " changing update time to subsecond
 set nobackup nowritebackup                  " skip backups completely
 set undolevels=1000
 set undofile
-set undodir=~/.local/tmp/nvim/undo
+set undodir=$HOME/.local/tmp/nvim/undo
 
 set shortmess+=c                            " suppress ins-completion-menu messages
 set lazyredraw                              " don't redraw screen while running macros
@@ -109,6 +109,8 @@ Plug 'kyazdani42/nvim-tree.lua'         " Project Drawer
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+
+" Plug 'NLKNguyen/papercolor-theme'
 
 " Programming
 Plug 'nvim-lua/plenary.nvim'
