@@ -1,6 +1,6 @@
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
-  ensure_installed = { "scala", "python", "lua" },
+  ensure_installed = { "vim", "vimdoc", "scala", "python", "lua", "terraform" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -10,6 +10,8 @@ require'nvim-treesitter.configs'.setup {
 
   highlight = {
     enable = true,
+
+    -- disable highlighting for files larger than 100kb
     disable = function(lang, buf)
         local max_filesize = 100 * 1024 -- 100 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
