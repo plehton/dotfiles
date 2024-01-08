@@ -43,7 +43,7 @@ set scrolloff=3
 set sidescrolloff=10
 set sidescroll=5
 set modelines=0
-set foldcolumn=1
+set foldcolumn=0
 set numberwidth=3
 set cursorline
 set cursorlineopt=number
