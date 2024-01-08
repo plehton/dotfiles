@@ -62,7 +62,7 @@ local on_attach = function(client, bufnr)
   map('n', '<leader>e' , '<cmd>lua vim.diagnostic.open_float()<CR>')
   map('n', '<leader>ee', '<cmd>lua vim.diagnostic.setqflist()<CR>')
 
-  local signs = { Error = '栗', Warn = '', Hint = '', Info = '' }
+  local signs = { Error = 'E', Warn = 'W', Hint = '!', Info = 'i' }
 
   for sign, icon in pairs(signs) do
       local hl = 'DiagnosticSign' .. sign
