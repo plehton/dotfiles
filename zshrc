@@ -71,6 +71,7 @@ setopt HIST_FIND_NO_DUPS        # ignore duplicates when searching
 setopt HIST_EXPIRE_DUPS_FIRST   # expire duplicates first
 setopt HIST_REDUCE_BLANKS       # removes blank lines from history
 setopt HIST_VERIFY              # Don't execute command substituted from history
+setopt HIST_IGNORE_SPACE        # Don't save commands starting with space char
 
 
 # Plugins                                                                 {{{1 
