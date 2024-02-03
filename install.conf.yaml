@@ -15,6 +15,7 @@
     ~/.config/bat/config: bat/config
     ~/.finicky.js: finicky.js
     ~/Library/Application Support/lazygit/config.yml: lazygit.yml
+    ~/.config/alacritty: alacritty
 
 - create:
     ~/.ssh:
