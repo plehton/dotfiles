@@ -13,5 +13,5 @@ augroup end
 
 augroup PjlQuickQuit
   autocmd!
-  autocmd FileType qf,help nnoremap <buffer> q :q<CR>
+  autocmd FileType qf,help nnoremap <buffer> gq :q<CR>
 augroup end
