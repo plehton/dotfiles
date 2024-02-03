@@ -46,8 +46,3 @@ nmap s <Plug>(vsnip-select-text)
 nmap S <Plug>(vsnip-cut-text)
 xmap s <Plug>(vsnip-select-text)
 xmap S <Plug>(vsnip-cut-text)
-
-" nvim-tree
-nnoremap <C-t> :NvimTreeToggle<CR>
-" nnoremap <leader>r :NvimTreeRefresh<CR>
-" nnoremap <leader>n :NvimTreeFindFile<CR>
