@@ -67,7 +67,7 @@ function shell_level() {
 
 RPATH='$(rprompt_path)'
 export PS_SHLVL='$(shell_level)'
-export RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}${RPATH}%f"
+export RPROMPT_BASE="\${vcs_info_msg_0_} %F{blue}${RPATH}%f"
 export RPROMPT=$RPROMPT_BASE
 # export PS1="%F{green}\${VENV_INFO}%F{blue}%1~%F{magenta}❯%f "
 export PS1="%F{green}\${VENV_INFO}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
@@ -160,7 +160,7 @@ function -report-start-time() {
           SECS="$((~~$SECS))s"
         fi
         ELAPSED="${ELAPSED}${SECS}"
-        export RPROMPT="%F{240}%{$__PJL[ITALIC_ON]%}${ELAPSED}%{$__PJL[ITALIC_OFF]%}%f $RPROMPT_BASE"
+        export RPROMPT="%F{blue}%{$__PJL[ITALIC_ON]%}${ELAPSED}%{$__PJL[ITALIC_OFF]%}%f $RPROMPT_BASE"
     unset ZSH_START_TIME
   else
     export RPROMPT="$RPROMPT_BASE"
