@@ -1,11 +1,11 @@
-import = ["/Users/pjl/.config/alacritty/colors/_default.toml"]
+import = ["/Users/pjl/.theme.toml"]
 
 [font]
 normal      = { family = "JetbrainsMono Nerd Font", style ="Light" }
 bold        = { family = "JetbrainsMono Nerd Font", style ="Bold" }
 italic      = { family = "JetbrainsMono Nerd Font", style ="Light Italic" }
 bold_italic = { family = "JetbrainsMono Nerd Font", style ="Bold Italic" }
-size        = 15
+size        = 16
 
 [env]
 TERM="xterm-256color"

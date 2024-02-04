@@ -1,7 +1,7 @@
 function theme {
 
     local ALACRITTY_HOME="${HOME}/.config/alacritty/"
-    local default_file=$ALACRITTY_HOME/colors/_default.toml
+    local default_file=$HOME/.theme.toml
     local current_theme=$(cat $HOME/.theme)
 
     # local CURRENT_THEME=$(cat $HOME/.theme)
@@ -27,7 +27,7 @@ function theme {
         fi
 
         # copy theme.toml to _default.toml (which is linked to alacritty config)
-        cp -f $theme_file $ALACRITTY_HOME/colors/_default.toml
+        cp -f $theme_file $default_file
         # force alacritty to reload configuration
         touch $ALACRITTY_HOME/alacritty.toml
         # write theme name to .theme for neovim

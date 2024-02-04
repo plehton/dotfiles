@@ -1,18 +1,15 @@
 local statusline = {}
 
 -- set user colors
-vim.cmd [[ hi pjlStatusLhs gui=bold guifg=White guibg=#00d787]]
-vim.cmd [[ hi pjlStatusLhsModified gui=bold guifg=White guibg=Red  ]]
-vim.cmd [[ hi link pjlStatusRhs Cursor ]]
-vim.cmd [[ hi pjlStatusBranch guifg=LightGrey guibg=BrightBlack ]]
+statusline.set_user_colors = function()
+end
 
 local default_lhs_color = 'pjlStatusLhs'
 local modified_lhs_color = 'pjlStatusLhsModified'
 local status_highlight = default_lhs_color
 
 statusline.changed = ' '
-statusline.branch = ''
-
+statusline.branch  = ''
 
 statusline.get_branch = function()
 
@@ -75,14 +72,6 @@ end
 
 statusline.filename = function()
 
-    -- if lsp has a status message, use that
-    local lsp_status = statusline.lsp_status()
-    if lsp_status then
-        return lsp_status
-    end
-
-    -- otherwise, return filename with additional info
-    -- filename.ext [filetype,format,encoding]
     local opts = {
         vim.bo.filetype,
         vim.bo.fileformat == 'unix' and '' or vim.bo.fileformat,
@@ -139,7 +128,7 @@ statusline.set = function()
 
     -- todo: add powerline arrows 
 
-    parts = {
+    local parts = {
         [[%1*]],
         [[%{luaeval("require'pjl.statusline'.lhs()")}]],
         [[%*]],
@@ -148,10 +137,21 @@ statusline.set = function()
         [[%=]],
         [[%#pjlStatusBranch#]],
         [[%{luaeval("require'pjl.statusline'.branch")}]],
-        [[%#pjlStatusRhs#]],
-        [[ %{luaeval("require'pjl.statusline'.rhs()")} ]],
+        -- [[%#pjlStatusRhs#]],
+        [[%{luaeval("require'pjl.statusline'.rhs()")} ]],
     }
     return table.concat(parts,'')
+
+end
+
+statusline.update_highlights = function()
+
+    vim.cmd [[ hi pjlStatusLhs gui=bold guifg=White guibg=#00d787 ]]
+    vim.cmd [[ hi pjlStatusLhsModified gui=bold guifg=White guibg=Red ]]
+    vim.cmd [[ hi link pjlStatusRhs Cursor ]]
+    vim.cmd [[ hi pjlStatusBranch guifg=LightGrey guibg=Bright_Black ]]
+
+    vim.cmd('hi link User1 ' .. status_highlight)
 
 end
 
@@ -168,12 +168,6 @@ statusline.check_modified = function()
 
     statusline.branch = statusline.get_branch()
     statusline.update_highlights()
-
-end
-
-statusline.update_highlights = function()
-
-    vim.cmd('hi link User1 ' .. status_highlight)
 
 end
 
