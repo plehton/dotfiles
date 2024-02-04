@@ -1,13 +1,17 @@
 // ~/.finicky.js
-
 module.exports = {
   defaultBrowser: "Safari",
   rewrite: [
     {
       // Redirect all urls to use https
       match: ({ url }) => url.protocol === "http",
-      url: { protocol: "https" }
-    }
+      url: { protocol: "https" },
+    },
+    {
+      // use old.reddit.com
+      match: ({ url }) => url.host.endsWith("reddit.com"),
+      url: ({url}) => ({ "host": "old.reddit.com" }),
+    },
   ],
   handlers: [
     {
@@ -21,9 +25,9 @@ module.exports = {
     {
       match: [
           "https://*youtube*",
-          "https://webars.fortum.com/myitportal/*",
+          "https://webars.*.com/myitportal/*",
       ],
       browser: "Google Chrome"
-    }
+    },
   ]
 };
