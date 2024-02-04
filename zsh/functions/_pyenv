@@ -1,0 +1,5 @@
+function _pyenv() {
+  unset -f pyenv
+  export PATH=$PATH:$HOME/.pyenv/shims
+  eval "$(pyenv init -)"
+}
