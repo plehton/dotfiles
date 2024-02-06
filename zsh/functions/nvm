@@ -1,4 +1,0 @@
-function nvm() {
-    _nvm
-    nvm $@
-}
