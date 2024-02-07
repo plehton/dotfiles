@@ -15,19 +15,19 @@ __PJL[ITALIC_OFF]=$'\e[23m'
 #
 fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ /opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functions $fpath)
 
-# Sourced                                                                   {{{1
+# Funtions, aliases                                                         {{{1
 #
 
 source $HOME/.zsh/aliases
 source $HOME/.zsh/exports
 autoload -Uz $HOME/.zsh/functions/*(:t)
+autoload -U colors && colors
+autoload -Uz vcs_info
 
 # Prompt                                                                    {{{1
 #
 
 setopt PROMPT_SUBST
-autoload -U colors && colors
-autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' use-simple true
