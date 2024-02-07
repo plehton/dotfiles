@@ -31,16 +31,16 @@ setopt PROMPT_SUBST
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' use-simple true
-zstyle ':vcs_info:*' stagedstr "%F{green}●%f" # default 'S' , ●⇡
-zstyle ':vcs_info:*' unstagedstr "%F{red}●%f" # default 'U', ●✘
-zstyle ':vcs_info:*' formats '%F{20}[%b%m%c%u%F{20}]'
-zstyle ':vcs_info:git*:*' actionformats '%F{20}[%b|%a%F{20}]'
+zstyle ':vcs_info:*' formats '%F{08}[%b%m%c%u%F{08}]'
+zstyle ':vcs_info:*' stagedstr "%F{green}●" # default 'S' , ●⇡
+zstyle ':vcs_info:*' unstagedstr "%F{yellow}●" # default 'U', ●✘
+zstyle ':vcs_info:git*:*' actionformats '%F{08}[%b|%F{yellow}%a%F{08}]'
 zstyle ':vcs_info:git+set-message:*' hooks git-untracked
 
 function +vi-git-untracked() {
   emulate -L zsh
   if [[ -n $(git ls-files --exclude-standard --others 2> /dev/null) ]]; then
-    hook_com[unstaged]+="%F{blue}●%f"
+    hook_com[unstaged]+="%F{red}●%f"
   fi
 }
 
@@ -67,9 +67,8 @@ function shell_level() {
 
 RPATH='$(rprompt_path)'
 export PS_SHLVL='$(shell_level)'
-export RPROMPT_BASE="\${vcs_info_msg_0_} %F{blue}${RPATH}%f"
+export RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}${RPATH}%f"
 export RPROMPT=$RPROMPT_BASE
-# export PS1="%F{green}\${VENV_INFO}%F{blue}%1~%F{magenta}❯%f "
 export PS1="%F{green}\${VENV_INFO}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
 
 #
@@ -224,10 +223,10 @@ fi
 # Third party settings                                                      {{{1
 #
 
-# Base16 theme for shell
-BASE16_SHELL="$HOME/.config/base16-shell"
-BASE16_THEME=$(<$HOME/.base16)
-[ -n "$PS1" ] && source "$BASE16_SHELL/scripts/$BASE16_THEME.sh"
+# # Base16 theme for shell
+# BASE16_SHELL="$HOME/.config/base16-shell"
+# BASE16_THEME=$(<$HOME/.base16)
+# [ -n "$PS1" ] && source "$BASE16_SHELL/scripts/$BASE16_THEME.sh"
 
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f --follow --hidden --exclude .git'

@@ -110,7 +110,8 @@ Plug 'kyazdani42/nvim-tree.lua'         " Project Drawer
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 
-" Plug 'NLKNguyen/papercolor-theme'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'rose-pine/neovim'
 
 " Programming
 Plug 'nvim-lua/plenary.nvim'
@@ -134,8 +135,6 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 
 " Misc. stuff
-" Plug 'dstein64/vim-startuptime'
-Plug 'chriskempson/base16-vim'
 Plug 'GEverding/vim-hocon'
 
 call plug#end()
@@ -148,10 +147,10 @@ set termguicolors
 
 function! SetColorscheme()
 
-  if filereadable(expand('~/.base16'))
-    let theme = readfile(expand('~/.base16'), '', 1)[0]
+  if filereadable(expand('~/.theme'))
+    let theme = readfile(expand('~/.theme'), '', 1)[0]
   else
-    let theme = 'base16-default-dark'
+    let theme = 'rose-pine'
   endif
 
   if exists("g:colors_name") && (g:colors_name == theme)
@@ -160,8 +159,8 @@ function! SetColorscheme()
 
   let base16colorspace=256
   execute 'colorscheme ' . theme
-  lua require'pjl.colors'.base16_customize()
-  lua require'pjl.colors'.fix_bg_color(4)
+  " lua require'pjl.colors'.base16_customize()
+  " lua require'pjl.colors'.fix_bg_color(4)
 
 endfunction
 

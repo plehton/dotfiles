@@ -1,0 +1,40 @@
+function theme {
+
+    local ALACRITTY_HOME="${HOME}/.config/alacritty/"
+    local default_file=$ALACRITTY_HOME/colors/_default.toml
+    local current_theme=$(cat $HOME/.theme)
+
+    # local CURRENT_THEME=$(cat $HOME/.theme)
+
+    # [[ -n $CURRENT_THEME ]] && echo 'rose-pine' >$HOME/.theme
+
+    # echo "Current theme = $CURRENT_THEME"
+
+    if [[ -n $1 ]]; then
+        local theme=$1
+
+        # given theme equals current > don't do anything
+        if [[ "$current_theme" == "$theme" ]]; then
+            echo "Given theme equals current. Nothing changed!"
+            return 1
+        fi
+
+        local theme_file=$ALACRITTY_HOME/colors/$theme.toml
+
+        if [[ ! -f $theme_file ]]; then
+            echo "File '$theme_file' not found!" 
+            return 1
+        fi
+
+        # copy theme.toml to _default.toml (which is linked to alacritty config)
+        cp -f $theme_file $ALACRITTY_HOME/colors/_default.toml
+        # force alacritty to reload configuration
+        touch $ALACRITTY_HOME/alacritty.toml
+        # write theme name to .theme for neovim
+        echo $theme > $HOME/.theme
+
+    else
+        echo "No theme given, keeping '$current_theme'."
+    fi
+
+}

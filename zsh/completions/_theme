@@ -1,0 +1,20 @@
+#compdef _theme theme
+
+_theme() {
+
+    local state line
+    setopt localoptions globassign
+
+    _arguments  \
+        '1: :->theme_name'
+
+    case $state in
+        theme_name)
+            names=$HOME/.config/alacritty/colors/*.toml(:t:r)
+            compadd "$@" $names
+            ;;
+    esac
+}
+
+_theme "$@"
+
