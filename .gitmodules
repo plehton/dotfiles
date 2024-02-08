@@ -1,9 +1,7 @@
 [submodule "zsh/zsh-history-substring-search"]
 	path = zsh/zsh-history-substring-search
 	url = git@github.com:zsh-users/zsh-history-substring-search.git
-[submodule "base16-shell"]
-	path = base16-shell
-	url = git@github.com:chriskempson/base16-shell.git
+	ignore = dirty
 [submodule "dotbot"]
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
