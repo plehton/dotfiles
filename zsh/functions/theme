@@ -1,40 +1,57 @@
 function theme {
 
-    local ALACRITTY_HOME="${HOME}/.config/alacritty/"
-    local default_file=$HOME/.theme.toml
+    local THEME=$1
+
     local current_theme=$(cat $HOME/.theme)
 
-    # local CURRENT_THEME=$(cat $HOME/.theme)
+    # When theme is run without parameters, just report current theme
+    if [[ ! -n $THEME ]]; then
+        echo "Current theme is '$current_theme'."
+        return 0
+    fi
 
-    # [[ -n $CURRENT_THEME ]] && echo 'rose-pine' >$HOME/.theme
+    local ALACRITTY_HOME="${HOME}/.config/alacritty"
+    local KITTY_HOME="${HOME}/.config/kitty"
 
-    # echo "Current theme = $CURRENT_THEME"
+    if [[ -n $CURRENT_THEME ]]; then
+        echo "'~/.theme' doesn't exist. Run theme with a valid theme name to set a new theme!"
+        return 1
+    fi
 
-    if [[ -n $1 ]]; then
-        local theme=$1
+    # Given theme equals current > don't do anything
+    if [[ "$current_theme" == "$THEME" ]]; then
+        echo "'$THEME' already in use."
+        return 0
+    fi
 
-        # given theme equals current > don't do anything
-        if [[ "$current_theme" == "$theme" ]]; then
-            echo "Given theme equals current. Nothing changed!"
-            return 1
-        fi
+    # ALACRITTY
+    #
+    local alacritty_source=$ALACRITTY_HOME/colors/$THEME.toml
+    local alacritty_target=$HOME/.theme.toml
 
-        local theme_file=$ALACRITTY_HOME/colors/$theme.toml
-
-        if [[ ! -f $theme_file ]]; then
-            echo "File '$theme_file' not found!" 
-            return 1
-        fi
-
-        # copy theme.toml to _default.toml (which is linked to alacritty config)
-        cp -f $theme_file $default_file
+    if [[ -f $alacritty_source ]]; then
+        cp -f $alacritty_source $alacritty_target
         # force alacritty to reload configuration
         touch $ALACRITTY_HOME/alacritty.toml
-        # write theme name to .theme for neovim
-        echo $theme > $HOME/.theme
-
-    else
-        echo "No theme given, keeping '$current_theme'."
+    else 
+       echo "File '$alacritty_source' not found!"
     fi
+
+    ## KITTY
+    ##
+    # local kitty_source=$KITTY_HOME/colors/$THEME.conf
+    # local kitty_target=$HOME/.theme-kitty.conf
+
+    # if [[ -f $kitty_source ]]; then
+    #     cp -f $kitty_source $kitty_target
+    #     # Tell kitty to use the updated color config
+    #     kitty @ set-colors $kitty_target
+    # else
+    #    echo "File '$kitty_source' not found!"
+    # fi
+
+    ## After configurations are copied, write theme name to .theme for neovim
+    ##
+    echo $THEME > $HOME/.theme
 
 }
