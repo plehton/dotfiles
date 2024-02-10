@@ -1,4 +1,4 @@
-local augrp = vim.api.nvim_create_augroup("pjlDotfiles", { clear = true })
+local augrp = vim.api.nvim_create_augroup("pjl", { clear = true })
 
 vim.api.nvim_create_autocmd({"BufRead"},{
     desc = "Turn on vim modelines for any file inside dotfiles",
@@ -15,6 +15,15 @@ vim.api.nvim_create_autocmd({"BufRead"},{
     group = augrp,
     callback = function()
         vim.o.filetype="sh"
+    end
+})
+
+vim.api.nvim_create_autocmd({"FileType"},{
+    desc = "Enable treesitter folding in source code",
+    pattern = { "scala", "python", "lua", "terraform" },
+    group = augrp,
+    callback = function()
+        vim.wo.foldexpr="nvim_treesitter#foldexpr()"
     end
 })
 
@@ -48,6 +57,7 @@ vim.api.nvim_create_autocmd({"BufRead"},{
             { noremap = true, silent = true })
     end
 })
+
 vim.api.nvim_create_autocmd({"BufRead"},{
     desc = "Opens scaliber raw configurations which refer to this table configuration",
     pattern = "**scaliber/configurations/table/*.yml",
@@ -69,6 +79,5 @@ vim.api.nvim_create_autocmd({"FocusGained", "ColorScheme", "BufWinEnter", "BufMo
         -- 
         c.Customize(3)
         require'pjl.statusline'.check_modified()
-
     end
 })
