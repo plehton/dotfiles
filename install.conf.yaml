@@ -11,7 +11,6 @@
     ~/.zsh: zsh
     ~/.config/alacritty: alacritty
     ~/.config/bat/config: bat/config
-    ~/.config/base16-shell: base16-shell
     ~/.config/karabiner/assets/complex_modifications/modifications.json: karabiner/modifications.json
     ~/.config/nvim: nvim
     ~/.tmux.conf: tmux/tmux.conf
