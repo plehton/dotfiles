@@ -11,6 +11,7 @@
     ~/.zsh: zsh
     ~/.config/alacritty: alacritty
     ~/.config/kitty: kitty
+    ~/.config/wezterm: wezterm
     ~/.config/bat/config: bat/config
     ~/.config/karabiner/assets/complex_modifications/modifications.json: karabiner/modifications.json
     ~/.config/nvim: nvim
