@@ -53,8 +53,6 @@ vim.o.listchars                  = 'tab:⇥ ,trail:·'
 vim.o.list                       = true
 
 vim.o.foldcolumn                = '0'
-vim.o.foldmethod                = "expr"
-vim.o.foldexpr                  = "nvim_treesitter#foldexpr()"
 vim.o.foldenable                = false
 
 -- set the background color of all columns right of textwidth to indicate 
