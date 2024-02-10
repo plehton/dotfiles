@@ -1,5 +1,5 @@
-vim.bo.keywordprg  = ':help'
-vim.bo.shiftwidth  = 2
-vim.bo.softtabstop = 2
-vim.wo.foldmethod  = 'marker' 
-vim.wo.foldmarker  = '{{{,}}}'
+vim.opt.keywordprg  = ':help'
+vim.opt.shiftwidth  = 2
+vim.opt.softtabstop = 2
+vim.opt.foldmethod  = 'marker'
+vim.opt.foldmarker  = '{{{,}}}'
