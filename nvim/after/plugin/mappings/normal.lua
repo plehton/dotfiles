@@ -10,7 +10,7 @@ vim.keymap.set("n", "<leader>o", ":only<CR>")
 vim.keymap.set("n", "<F6>", "<C-i>")
 
 -- Arrows mapped to quicklist
-vim.keymap.set("n", "<silent><Up>", ":cprevious<CR>")
-vim.keymap.set("n", "<silent><Down>", ":cnext<CR>")
-vim.keymap.set("n", "<silent><Left>", ":cpfile<CR>")
-vim.keymap.set("n", "<silent><Right>", ":cnfile<CR>")
+vim.keymap.set("n", "<Up>", ":cprevious<CR>", { silent = true })
+vim.keymap.set("n", "<Down>", ":cnext<CR>", { silent = true })
+vim.keymap.set("n", "<Left>", ":cpfile<CR>", { silent = true })
+vim.keymap.set("n", "<Right>", ":cnfile<CR>", { silent = true })
