@@ -3,11 +3,11 @@ return {
         Lua = {
             runtime = { version = 'LuaJIT' },
             format = {
-                enable = false
+                enable = true
             },
             diagnostics = {
-                -- globals = { 'vim' },
-                disable = { "missing-parameters", "missing-fields" }
+                globals = { 'vim' },
+                disable = { "missing-parameter", "missing-fields" }
             },
         },
     },
