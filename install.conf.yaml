@@ -10,6 +10,7 @@
     ~/.zshenv: zshenv
     ~/.zsh: zsh
     ~/.config/alacritty: alacritty
+    ~/.config/fd: fd
     ~/.config/kitty: kitty
     ~/.config/wezterm: wezterm
     ~/.config/bat/config: bat/config
