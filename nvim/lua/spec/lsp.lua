@@ -1,19 +1,21 @@
 local lsp_keymaps = function(bufnr)
-    local opts = { noremap = true, silent = true }
-    local keymap = vim.api.nvim_buf_set_keymap
 
-    keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    local opts = { buffer = bufnr, noremap = true, silent = true }
 
-    keymap(bufnr, 'n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    keymap(bufnr, 'n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 
-    keymap(bufnr, 'n', '[e', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-    keymap(bufnr, 'n', ']e', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-    keymap(bufnr, 'n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-    keymap(bufnr, 'n', 'gee', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('v', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    vim.keymap.set('n', '<leader>cr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    vim.keymap.set('n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+
+    vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+    vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+    vim.keymap.set('n', '<leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+    vim.keymap.set('n', '<leader>dq', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
+
 end
 
 local on_attach = function(_, bufnr)
@@ -50,10 +52,10 @@ lsp.config = function()
         signs = {
             active = true,
             values = {
-                { name = "DiagnosticSignError", text = 'E' },
-                { name = "DiagnosticSignWarn",  text = 'W' },
-                { name = "DiagnosticSignHint",  text = '!' },
-                { name = "DiagnosticSignInfo",  text = 'I' },
+                { name = "DiagnosticSignError", text =  '' },
+                { name = "DiagnosticSignWarn",  text = '' },
+                { name = "DiagnosticSignHint",  text = '' },
+                { name = "DiagnosticSignInfo",  text = '' },
             },
         },
         underline = true,
@@ -92,6 +94,7 @@ lsp.config = function()
 
         lspconfig[server].setup(opts)
     end
+
 end
 
 local metals = {
@@ -117,7 +120,7 @@ end
 metals.config = function(_, metals_config)
     local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
     vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "scala", "sbt", "java" },
+        pattern = { "scala", "sbt", "java", "sc" },
         callback = function()
             require("metals").initialize_or_attach(metals_config)
         end,
