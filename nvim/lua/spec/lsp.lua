@@ -6,14 +6,14 @@ local lsp_keymaps = function(bufnr)
     vim.keymap.set('n', 'gd',vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'gr',vim.lsp.buf.references, opts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('v', '<leader>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts)
 
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
-    vim.keymap.set('n', '<leader>dq',vim.diagnostic.setqflist, opts)
+    vim.keymap.set('n', '[e', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']e', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '<leader>eq',vim.diagnostic.setqflist, opts)
+    vim.keymap.set('n', '<leader>el',vim.diagnostic.setloclist, opts)
 
 end
 
@@ -24,9 +24,12 @@ end
 local common_capabilities = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
+    capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true
+    }
     return capabilities
 end
-
 
 local lsp = {
     'neovim/nvim-lspconfig',
@@ -126,6 +129,9 @@ metals.config = function(_, metals_config)
         pattern = { "scala", "sbt", "java", "sc" },
         callback = function()
             require("metals").initialize_or_attach(metals_config)
+            vim.keymap.set('n', '<leader>sc', function()
+                require('metals').hover_worksheet()
+            end)
         end,
         group = nvim_metals_group,
     })

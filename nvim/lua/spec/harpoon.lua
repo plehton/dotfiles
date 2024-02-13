@@ -13,8 +13,8 @@ return {
         vim.keymap.set("n", "ös", function() harpoon:list():select(2) end)
         vim.keymap.set("n", "öd", function() harpoon:list():select(3) end)
         vim.keymap.set("n", "öf", function() harpoon:list():select(4) end)
-        vim.keymap.set("n", "<Tab>", function() harpoon:list():next({ ui_nav_wrap = true }) end)
-        vim.keymap.set("n", "<S-Tab>", function() harpoon:list():prev({ ui_nav_wrap = true }) end)
+        vim.keymap.set("n", "`", function() harpoon:list():next({ ui_nav_wrap = true }) end)
+        vim.keymap.set("n", "<S-`>", function() harpoon:list():prev({ ui_nav_wrap = true }) end)
     end
 
 }

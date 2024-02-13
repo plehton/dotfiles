@@ -18,14 +18,14 @@ vim.api.nvim_create_autocmd({"BufRead"},{
     end
 })
 
-vim.api.nvim_create_autocmd({"FileType"},{
-    desc = "Enable treesitter folding in source code",
-    pattern = { "scala", "python", "lua", "terraform" },
-    group = augrp,
-    callback = function()
-        vim.wo.foldexpr="nvim_treesitter#foldexpr()"
-    end
-})
+-- vim.api.nvim_create_autocmd({"FileType"},{
+--     desc = "Enable treesitter folding in source code",
+--     pattern = { "scala", "python", "lua", "terraform" },
+--     group = augrp,
+--     callback = function()
+--         vim.o.foldexpr="nvim_treesitter#foldexpr()"
+--     end
+-- })
 
 vim.api.nvim_create_autocmd({"TextYankPost"},{
     desc = "Highlights yanked text",
@@ -76,7 +76,7 @@ vim.api.nvim_create_autocmd({"FocusGained", "ColorScheme", "BufWinEnter", "BufMo
         local c = require('pjl.colors')
         -- set colorscheme from ~/.theme
         c.colorscheme()
-        -- 
+        --
         c.Customize(3)
         require'pjl.statusline'.check_modified()
     end

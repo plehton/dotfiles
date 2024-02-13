@@ -9,6 +9,10 @@ vim.keymap.set("n", "<leader>o", ":only<CR>")
 -- source: Greg Hurrell
 vim.keymap.set("n", "<F6>", "<C-i>")
 
+-- Tab open/closes one or all folds
+vim.keymap.set("n", "<Tab>", "za")
+vim.keymap.set("n", "<S-Tab>", "zA")
+
 -- Arrows mapped to quicklist
 vim.keymap.set("n", "<Up>", ":cprevious<CR>", { silent = true })
 vim.keymap.set("n", "<Down>", ":cnext<CR>", { silent = true })
