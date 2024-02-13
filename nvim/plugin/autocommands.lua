@@ -81,3 +81,15 @@ vim.api.nvim_create_autocmd({"FocusGained", "ColorScheme", "BufWinEnter", "BufMo
         require'pjl.statusline'.check_modified()
     end
 })
+
+vim.api.nvim_create_autocmd({"VimResized"},{
+    desc = "Resize vim windows when terminal window is resized",
+    group = augrp,
+    command = "wincmd ="
+})
+
+vim.api.nvim_create_autocmd({"BufWritePre"},{
+    desc = "Remove trailing whitespace",
+    group = augrp,
+    command = "%s/\\s\\+$//e"
+})

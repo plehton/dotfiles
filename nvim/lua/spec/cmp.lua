@@ -2,7 +2,7 @@ return {
     'hrsh7th/nvim-cmp',
     dependencies = {
         'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-nvim-lua',
+        -- 'hrsh7th/cmp-nvim-lua',
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-cmdline',
@@ -13,8 +13,14 @@ return {
 
     config = function()
 
-        local cmp = require'cmp'
-        vim.opt.completeopt = { "menu", "menuone", "noselect" }
+        local cmp = require('cmp')
+        local luasnip = require('luasnip')
+
+        local has_words_before = function()
+          unpack = unpack or table.unpack
+          local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+          return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+        end
 
         -- https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#basic-customisations
         local kind_icons = {
@@ -45,13 +51,35 @@ return {
 
             snippet = {
                 expand = function(args)
-                    require("luasnip").lsp_expand(args.body)
+                    luasnip.lsp_expand(args.body)
                 end,
             },
 
+            preselect = cmp.PreselectMode.None, -- disable preselection
+
+            sorting = {
+                priority_weight = 2,
+                comparators = {
+                    cmp.config.compare.offset,
+                    cmp.config.compare.score,
+                    cmp.config.compare.sort_text,
+                    cmp.config.compare.recently_used,
+                    cmp.config.compare.kind,
+                    cmp.config.compare.length,
+                    cmp.config.compare.order,
+                },
+            },
             window = {
-                completion = cmp.config.window.bordered(),
-                documentation = cmp.config.window.bordered(),
+                completion = {
+                    border = "rounded",
+                    scrollbar = false,
+                    max_height = 10,
+                },
+                documentation = {
+                    border = "rounded",
+                    scrollbar = true,
+                    max_height = 20,
+                },
             },
 
             mapping = cmp.mapping.preset.insert({
@@ -59,16 +87,42 @@ return {
                 ["<C-f>"] = cmp.mapping.scroll_docs(4),
                 ["<C-Space>"] = cmp.mapping.complete(),
                 ["<C-e>"] = cmp.mapping.abort(),
-                ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                ["<CR>"] = cmp.mapping.confirm({ select = false }),
+                ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+                ["<Tab>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        cmp.select_next_item()
+                        -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
+                        -- that way you will only jump inside the snippet region
+                    elseif luasnip.expand_or_jumpable() then
+                        luasnip.expand_or_jump()
+                    elseif has_words_before() then
+                        cmp.complete()
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
+
+                ["<S-Tab>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        cmp.select_prev_item()
+                    elseif luasnip.jumpable(-1) then
+                        luasnip.jump(-1)
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
             }),
 
             sources = cmp.config.sources({
-                { name = "nvim_lsp" },
-                { name = "nvim_lua" },
-                { name = "luasnip" },
-            },
+                    { name = "nvim_lsp_signature_help" },
+                    { name = "nvim_lsp" },
+                    { name = "nvim_lua" },
+                },
                 {
-                    { name = "buffer" },
+                    -- { name = "luasnip" },
+                    { name = "buffer", keyword_length = 3 },
                     { name = "path" },
                 }),
 
@@ -76,13 +130,17 @@ return {
                 format = function(entry, vim_item)
                     -- Kind icons
                     vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+                    -- Limit the widht of completion window (especially with
+                    -- scala and the überlong function signatures 
+                    vim_item.abbr = string.sub(vim_item.abbr, 1, math.floor(vim.api.nvim_win_get_width(0)/3))
                     -- Source
                     vim_item.menu = ({
                         buffer = "[Buffer]",
                         nvim_lsp = "[LSP]",
-                        luasnip = "[LuaSnip]",
                         nvim_lua = "[NvimAPI]",
+                        luasnip = "[Snippet]",
                         path = "[Path]",
+                        cmdline = "[Cmdline]",
                     })[entry.source.name]
                     return vim_item
                 end,
@@ -101,7 +159,7 @@ return {
                 sources = cmp.config.sources({
                         { name = "path" },
                 }, {
-                        { name = "cmdline" },
+                        { name = "cmdline", keyword_length = 3 },
                 }),
         })
 

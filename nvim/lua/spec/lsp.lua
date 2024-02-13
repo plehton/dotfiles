@@ -2,19 +2,18 @@ local lsp_keymaps = function(bufnr)
 
     local opts = { buffer = bufnr, noremap = true, silent = true }
 
-    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gd',vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gr',vim.lsp.buf.references, opts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('v', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    vim.keymap.set('n', '<leader>cr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    vim.keymap.set('n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+    vim.keymap.set('v', '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts)
 
-    vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-    vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-    vim.keymap.set('n', '<leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-    vim.keymap.set('n', '<leader>dq', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '<leader>dq',vim.diagnostic.setqflist, opts)
 
 end
 
@@ -28,6 +27,7 @@ local common_capabilities = function()
     return capabilities
 end
 
+
 local lsp = {
     'neovim/nvim-lspconfig',
     -- event = { 'BufReadPre', 'BufNewFile' },
@@ -40,7 +40,7 @@ local lsp = {
 
 lsp.config = function()
     local lspconfig = require('lspconfig')
-    -- local icons = require('nvim-web-devicons')
+    local icons = require('pjl.icons')
 
     local servers = {
         'lua_ls',
@@ -52,10 +52,10 @@ lsp.config = function()
         signs = {
             active = true,
             values = {
-                { name = "DiagnosticSignError", text =  '' },
-                { name = "DiagnosticSignWarn",  text = '' },
-                { name = "DiagnosticSignHint",  text = '' },
-                { name = "DiagnosticSignInfo",  text = '' },
+                { name = "DiagnosticSignError", text = icons.diagnostics.Error },
+                { name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
+                { name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
+                { name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
             },
         },
         underline = true,
@@ -99,11 +99,14 @@ end
 
 local metals = {
     "scalameta/nvim-metals",
-    ft = 'scala',
-    dependencies = { "nvim-lua/plenary.nvim" }
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    -- ft = { "scala", "sbt", "java", "sc" },
 }
 
 metals.opts = function()
+
     local metals_config = require("metals").bare_config()
 
     metals_config = {
