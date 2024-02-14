@@ -1,11 +1,11 @@
 import = ["/Users/pjl/.theme.toml"]
 
 [window]
-decorations = "None"
-
-[window.padding]
-y = 2
-x = 2
+dimensions = { columns = 120, lines = 40 }
+decorations = "Buttonless"
+option_as_alt = "OnlyLeft"
+padding = { y = 1, x = 1 }
+dynamic_padding = true
 
 [font]
 normal      = { family = "JetbrainsMono Nerd Font", style ="ExtraLight"        }
@@ -13,6 +13,9 @@ bold        = { family = "JetbrainsMono Nerd Font", style ="Medium"            }
 italic      = { family = "JetbrainsMono Nerd Font", style ="ExtraLight Italic" }
 bold_italic = { family = "JetbrainsMono Nerd Font", style ="Medium Italic"     }
 size        = 16
+
+[mouse]
+hide_when_typing = true
 
 [env]
 TERM="xterm-256color"
