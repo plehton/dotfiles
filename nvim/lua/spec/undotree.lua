@@ -1,5 +1,6 @@
 local M = {
     'mbbill/undotree',
+    lazy = true,
     dependencies = "nvim-lua/plenary.nvim",
     init = function ()
         vim.g.undotree_WindowLayout = 1
