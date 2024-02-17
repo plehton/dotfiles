@@ -1,0 +1,24 @@
+# everforest_light_soft = &everforest_light_soft
+[colors.primary]
+background = "#F3EAD3"
+foreground = "#5C6A72"
+
+[colors.normal]
+black = "#5C6A72"
+red = "#F85552"
+green = "#8DA101"
+yellow = "#DFA000"
+blue = "#3A94C5"
+magenta = "#DF69BA"
+cyan = "#35A77C"
+white = "#D8D3BA"
+
+[colors.bright]
+black = "#5C6A72"
+red = "#F85552"
+green = "#8DA101"
+yellow = "#DFA000"
+blue = "#3A94C5"
+magenta = "#DF69BA"
+cyan = "#35A77C"
+white = "#D8D3BA"
