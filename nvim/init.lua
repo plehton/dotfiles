@@ -102,7 +102,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({ spec = "spec", change_detection = { notify = false } })
 
+
 --
--- Load my own globals
+-- Load my globals
 --
 require('globals')
+
+-- apply colorscheme customizations
+require('pjl.colors').Customize(4)
