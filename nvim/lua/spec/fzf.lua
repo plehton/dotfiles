@@ -13,6 +13,7 @@ return {
             vim.keymap.set("n", "<Leader>fm", fzf.oldfiles)
             vim.keymap.set("n", "<Leader>fg", fzf.grep)
             vim.keymap.set("n", "<Leader>fw", fzf.grep_cWORD)
+            vim.keymap.set("n", "<Leader>fh", fzf.help_tags)
 
         end,
     },
