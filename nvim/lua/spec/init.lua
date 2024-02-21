@@ -3,8 +3,9 @@
 --
 return {
     "nvim-lua/plenary.nvim",
+    'folke/neodev.nvim',
     "christoomey/vim-tmux-navigator",
-    { "godlygeek/tabular", lazy = true },
+    { "godlygeek/tabular", cmd = "Tab" },
     { "nvim-tree/nvim-tree.lua",
         enabled = false,
         config = true
