@@ -110,3 +110,5 @@ require('globals')
 
 -- apply colorscheme customizations
 require('pjl.colors').Customize(4)
+vim.cmd [[ colorscheme melange ]]
+require('pjl.colors').Customize(3)

@@ -65,7 +65,7 @@ vim.api.nvim_create_autocmd({"SourcePost"},{
     pattern = "*/colors/*",
     group = augrp,
     callback = function()
-        require('pjl.colors').Customize(4)
+        require('pjl.colors').Customize(3)
     end
 })
 
