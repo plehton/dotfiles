@@ -9,6 +9,8 @@ return {
         { 'z2', function() require('ufo').closeFoldsWith(2) end },
         { 'z3', function() require('ufo').closeFoldsWith(3) end },
         { 'z4', function() require('ufo').closeFoldsWith(4) end },
+        { ']z', function() require('ufo').goNextClosedFold() end },
+        { '[z', function() require('ufo').goPreviousClosedFold() end },
     },
     opts = {
         ---@diagnostic disable-next-line: unused-local
