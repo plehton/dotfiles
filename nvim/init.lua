@@ -21,7 +21,7 @@ vim.o.backup             = false
 vim.o.writebackup        = false
 
 vim.o.shortmess          = vim.o.shortmess .. 'rc'
-vim.o.completeopt        = "menuone,noselect"
+vim.o.completeopt        = "menuone,noselect,noinsert"
 vim.o.wildmode           = "longest:full,full"
 vim.o.diffopt            = vim.o.diffopt .. ',vertical'
 vim.o.showmatch          = true
@@ -34,7 +34,7 @@ vim.o.gdefault           = true         -- search replaces all matches instead o
 
 vim.o.splitright         = true
 vim.o.splitbelow         = true
-vim.o.fillchars          = vim.o.fillchars .. 'vert:│'
+vim.o.fillchars          = "vert:│,eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
 
 vim.o.expandtab          = true
 vim.o.shiftwidth         = 4
@@ -52,7 +52,7 @@ vim.o.cursorlineopt      = 'number'
 vim.o.listchars          = 'tab:⇥ ,trail:·'
 vim.o.list               = true
 
-vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldcolumn = '0' -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
@@ -109,6 +109,6 @@ require("lazy").setup({ spec = "spec", change_detection = { notify = false } })
 require('globals')
 
 -- apply colorscheme customizations
-require('pjl.colors').Customize(4)
 vim.cmd [[ colorscheme melange ]]
 require('pjl.colors').Customize(3)
+
