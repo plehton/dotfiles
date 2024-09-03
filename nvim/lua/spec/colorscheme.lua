@@ -27,6 +27,16 @@ return {
         end
     },
     {
+        "jacoborus/tender",
+        lazy = false,
+        priority = 1000,
+        opts = {
+        },
+        config = function()
+            vim.g.everforest_background = 'hard'
+        end
+    },
+    {
         "shaunsingh/nord.nvim",
         lazy = false,
         config = function()

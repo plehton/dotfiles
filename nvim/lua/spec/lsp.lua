@@ -1,5 +1,6 @@
+---@diagnostic disable-next-line: unused-local
 local on_attach = function(client, bufnr)
-    local opts = { buffer = bufnr, noremap = true, silent = true }
+    local opts = { buffer = bufnr }
 
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -15,6 +16,7 @@ local on_attach = function(client, bufnr)
 
     vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts)
     vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, opts)
+    vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, opts)
 end
 
 local common_capabilities = function()
@@ -42,13 +44,17 @@ end
 --
 local lsp = {
     'neovim/nvim-lspconfig',
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "LspInfo", "LspInstall", "LspUninstall" },
     dependencies = {
         'hrsh7th/nvim-cmp',
+        'folke/neodev.nvim'
     },
     opts = { inlay_hints = { enabled = true } }
 }
 
 lsp.config = function()
+
     require('neodev').setup()
 
     local lspconfig = require('lspconfig')
@@ -58,6 +64,8 @@ lsp.config = function()
         'jsonls',
         'lua_ls',
         'pyright',
+        'sqlls',
+        'spectral',
         'terraformls',
     }
 
@@ -105,17 +113,37 @@ lsp.config = function()
     end
 end
 
-
+--
 -- Scala/Metals configuration
 --
 local metals = {
     "scalameta/nvim-metals",
+    ft = { "scala", "sbt" },
     dependencies = {
         "nvim-lua/plenary.nvim",
+        "stevanmilic/neotest-scala",
+        {
+            "nvim-neotest/neotest",
+            dependencies = {
+                "antoinemadec/fixcursorhold.nvim",
+                "nvim-neotest/nvim-nio",
+            },
+            config = function()
+                require('neotest').setup({
+                adapters = {
+                    require("neotest-scala")({
+                        framework = "scalatest",
+                        runner = "sbt",
+                    })
+                    }
+                })
+            end,
+        },
     },
 }
 
 metals.opts = function()
+
     local metals_config = require("metals").bare_config()
 
     metals_config = {
@@ -125,6 +153,7 @@ metals.opts = function()
         settings = {
             showImplicitArguments = true,
             excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+            testUserInterface = "Test Explorer",
         },
         capabilities = common_capabilities(),
         on_attach = on_attach
@@ -135,6 +164,7 @@ end
 
 ---@diagnostic disable-next-line: unused-local
 metals.config = function(self, metals_config)
+
     local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
 
     vim.api.nvim_create_autocmd("FileType", {
@@ -142,7 +172,7 @@ metals.config = function(self, metals_config)
         callback = function()
             require("metals").initialize_or_attach(metals_config)
 
-            vim.keymap.set('n', '<leader>sc', function()
+            vim.keymap.set('n', 'gk', function()
                 require('metals').hover_worksheet()
             end)
         end,

@@ -1,5 +1,6 @@
 local treesitter = {
     "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPre", "BufNewFile" },
     build = ':TSUpdate',
     config = function()
 
@@ -82,7 +83,10 @@ local treesitter = {
     end
 }
 
-local ts_text_objects = { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = "nvim-treesitter" }
+local ts_text_objects = {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = "nvim-treesitter" }
 
 return {
     treesitter,

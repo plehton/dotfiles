@@ -1,33 +1,22 @@
 local M = {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = {
-        "williamboman/mason.nvim",
+    {
+        'williamboman/mason.nvim',
+        cmd = 'Mason',
+        config = function()
+            require('mason').setup()
+        end,
+    },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        cmd = { "LspInfo", "LspInstall", "LspUninstall" },
+        dependencies = {
+            "williamboman/mason.nvim",
+        },
+        config = function()
+            require('mason-lspconfig').setup {}
+        end
     }
-
 }
-
-M.config = function()
-
-    local servers = {
-        'lua_ls',
-        'pyright',
-        'terraformls',
-    }
-
-    require("mason").setup {
-        ui = {
-            border = "rounded",
-            icons = {
-                package_installed = "✓",
-                package_pending = "➜",
-                package_uninstalled = "✗"
-            }
-        }
-    }
-
-    require('mason-lspconfig').setup {
-        ensure_installed = servers
-    }
-end
 
 return M
