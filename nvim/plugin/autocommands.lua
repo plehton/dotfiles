@@ -1,4 +1,4 @@
-local augrp = vim.api.nvim_create_augroup("pjl", { clear = true })
+local augrp = vim.api.nvim_create_augroup("Pjl", { clear = true })
 
 vim.api.nvim_create_autocmd({"BufRead"},{
     desc = "Turn on vim modelines for any file inside dotfiles",
@@ -60,14 +60,6 @@ vim.api.nvim_create_autocmd({"BufRead"},{
     end
 })
 
-vim.api.nvim_create_autocmd({"SourcePost"},{
-    desc = "Customizes colorscheme when it is changed",
-    pattern = "*/colors/*",
-    group = augrp,
-    callback = function()
-        require('pjl.colors').Customize(3)
-    end
-})
 
 vim.api.nvim_create_autocmd({"VimResized"},{
     desc = "Resize vim windows when terminal window is resized",
@@ -75,8 +67,30 @@ vim.api.nvim_create_autocmd({"VimResized"},{
     command = "wincmd ="
 })
 
+
 vim.api.nvim_create_autocmd({"BufWritePre"},{
     desc = "Remove trailing whitespace",
     group = augrp,
     command = "%s/\\s\\+$//e"
 })
+
+
+vim.api.nvim_create_autocmd(
+    { "BufEnter"},
+    {
+        desc = "Use relative line numbers for active buffer",
+        group = augrp,
+        callback = function()
+            vim.wo.relativenumber = true
+        end
+    })
+
+vim.api.nvim_create_autocmd(
+    { "BufLeave"},
+    {
+        desc = "Use regular line numbers for active buffer",
+        group = augrp,
+        callback = function()
+            vim.wo.relativenumber = false
+        end
+    })

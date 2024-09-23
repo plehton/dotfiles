@@ -82,8 +82,6 @@ vim.o.breakindentopt = 'sbr,shift:' .. (vim.o.shiftwidth - 2)
 vim.o.grepprg = 'rg --vimgrep --no-heading'
 vim.o.grepformat = '%f:%l:%c:%m'
 
-vim.o.statusline = "%!v:lua.require'pjl.statusline'.set()"
-
 --
 -- Load plugins
 --
@@ -107,8 +105,3 @@ require("lazy").setup({ spec = "spec", change_detection = { notify = false } })
 -- Load my globals
 --
 require('globals')
-
--- apply colorscheme customizations
-vim.cmd [[ colorscheme melange ]]
-require('pjl.colors').Customize(3)
-

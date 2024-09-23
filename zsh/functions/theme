@@ -1,57 +1,35 @@
 function theme {
 
-    local THEME=$1
+    local COLORSCHEME=$1
 
-    local current_theme=$(cat $HOME/.theme)
+    local current_scheme=$(cat $HOME/.colorscheme)
 
     # When theme is run without parameters, just report current theme
-    if [[ ! -n $THEME ]]; then
-        echo "Current theme is '$current_theme'."
+    if [[ ! -n $COLORSCHEME ]]; then
+        echo "Current color scheme is '$current_scheme'."
         return 0
-    fi
-
-    local ALACRITTY_HOME="${HOME}/.config/alacritty"
-    local KITTY_HOME="${HOME}/.config/kitty"
-
-    if [[ -n $CURRENT_THEME ]]; then
-        echo "'~/.theme' doesn't exist. Run theme with a valid theme name to set a new theme!"
-        return 1
     fi
 
     # Given theme equals current > don't do anything
-    if [[ "$current_theme" == "$THEME" ]]; then
-        echo "'$THEME' already in use."
+    if [[ "$current_scheme" == "$COLORSCHEME" ]]; then
+        echo "'$COLORSCHEME' already in use."
         return 0
     fi
 
-    # ALACRITTY
+    echo $COLORSCHEME >$HOME/.colorscheme
+
+    # Set ALACRITTY colorscheme to the given scheme
     #
-    local alacritty_source=$ALACRITTY_HOME/colors/$THEME.toml
-    local alacritty_target=$HOME/.theme.toml
+    local ALACRITTY_HOME="${HOME}/.config/alacritty"
+    local alacritty_source=$ALACRITTY_HOME/colors/$COLORSCHEME.toml
+    local alacritty_target=$HOME/.alacritty_scheme.toml
 
     if [[ -f $alacritty_source ]]; then
         cp -f $alacritty_source $alacritty_target
         # force alacritty to reload configuration
         touch $ALACRITTY_HOME/alacritty.toml
-    else 
-       echo "File '$alacritty_source' not found!"
+    else
+       echo "Alacritty colorscheme file '$alacritty_source' not found!"
     fi
-
-    ## KITTY
-    ##
-    # local kitty_source=$KITTY_HOME/colors/$THEME.conf
-    # local kitty_target=$HOME/.theme-kitty.conf
-
-    # if [[ -f $kitty_source ]]; then
-    #     cp -f $kitty_source $kitty_target
-    #     # Tell kitty to use the updated color config
-    #     kitty @ set-colors $kitty_target
-    # else
-    #    echo "File '$kitty_source' not found!"
-    # fi
-
-    ## After configurations are copied, write theme name to .theme for neovim
-    ##
-    echo $THEME > $HOME/.theme
 
 }

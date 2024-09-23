@@ -1,119 +1,113 @@
-local bit = require('bit')
-local math = require('math')
+local Color = require('pjl.Color')
 
 local colors = {}
 
-colors.to_rgb = function(color)
-
-    -- extract r,b,g values from color number
-    local red   = bit.rshift(color, 16)
-    local green = bit.band(color, 0x0000FF)
-    local blue  = bit.band(bit.rshift(color, 8), 0x00FF)
-
-    return {red = red, blue = blue, green = green}
-
+colors.get = function(hl_name)
+    return vim.api.nvim_get_hl(0, { name = hl_name })
 end
 
--- Change vim color code in hex to an rgb color
-colors.hex_to_rgb = function(hexcolor)
-
-    -- remove leading # and change hex to int
-    local hex = hexcolor:sub(2)
-    local num = tonumber(hex,16)
-
-    colors.to_rgb(num)
+colors.set = function(hl_name, values)
+    return vim.api.nvim_set_hl(0, hl_name, values)
 end
 
-
--- Get brightness of a vim color as value between 0 and 1
-colors.get_brightness = function(color)
-
-    local rgb = colors.to_rgb(color)
-
-    return (rgb.red   / 255.0) * 0.30
-         + (rgb.green / 255.0) * 0.59
-         + (rgb.blue  / 255.0) * 0.11
-
+colors.fg = function(hl_name)
+    return colors.get(hl_name).fg
 end
 
+colors.bg = function(hl_name)
+    return colors.get(hl_name).bg
+end
 
--- Changes the brightness of a color
---
-colors.set_brightness = function(color, amount)
+colors.lighten = function(color, amount)
+    local c = Color(color)
+    local l = (1 + amount) * c.L
+    l = math.min(l, 1)
+    local c1 = c:lighten_to(l)
+    return c1:to_rgb_string()
+end
 
-    local max = function(value)
-        return math.max(math.min(value, 255), 0)
+colors.darken = function(color, amount)
+    local c = Color(color)
+    local l = (1 - amount) * c.L
+    l = math.max(l, 0)
+    local c1 = c:lighten_to(l)
+    return c1:to_rgb_string()
+end
+
+colors.italicize = function(hl_name)
+    local hl = colors.get(hl_name)
+    hl.italic = true
+    return hl
+end
+
+colors.embolden = function(hl_name)
+    local hl = colors.get(hl_name)
+    hl.bold = true
+    return hl
+end
+
+colors.invert = function(hl_name)
+    local hl = colors.get(hl_name)
+    hl.reverse = true
+    return hl
+end
+
+colors.link = function(hl_from, hl_to)
+    vim.cmd("hi link " .. hl_from .. ' ' .. hl_to)
+end
+
+colors.fade = function(color)
+    local c = Color(color)
+    -- we adjust the difference between faded and source color based
+    -- on the luminance
+    vim.notify('luminance ' .. c.L)
+    local coeff = 1
+    if c.L > 0.5 then
+        return colors.darken(color, 0.015)
+    else
+        return colors.lighten(color, 0.1)
     end
-
-    local rgb = colors.to_rgb(color)
-
-    local red = max(rgb.red + amount)
-    local green = max(rgb.green + amount)
-    local blue = max(rgb.blue + amount)
-
-    local faded = bit.bor(green, bit.lshift(blue, 8), bit.lshift(red, 16))
-
-    return faded
-    -- return string.format("#%06x", changed)
-
 end
 
+-- Darken/lighten gutter and visible area outside of the text
+colors.colorize = function()
 
--- Change brightness of Normal background
---
--- Check if we're changing light or dark background and and if bg is light,
--- lighten a bit more than what's given to make the difference more distinct.
---
-colors.fade = function(color, amount)
+    local bg = colors.bg("Normal")
+    bg = colors.fade(bg)
 
-    local brightness = colors.get_brightness(color)
-    if brightness > 0.5 then amount = -amount - 1 end
-    return colors.set_brightness(color, amount)
-
-end
-
-
--- Make buffer content pop out from background and lighten/darken background
--- color after textwidth and end of buffer.
-colors.Customize = function(amount)
-
-    local bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
-    local faded_bg = colors.fade(bg, amount)
-
-    local split_color = vim.api.nvim_get_hl(0, { name = "StatusLineNc" }).fg
-
-    vim.api.nvim_set_hl(0,"ColorColumn", { background = faded_bg })
-    vim.api.nvim_set_hl(0,"EndOfBuffer", { background = faded_bg })
-    vim.api.nvim_set_hl(0,"WinSeparator", { foreground = split_color })
+    colors.set("ColorColumn", { bg = bg })
+    colors.set("EndOfBuffer", { bg = bg })
 
     local signs = { "Error", "Warn", "Hint", "Info" }
-    local hl_signs = vim.api.nvim_get_hl(0, { name = "SignColumn"})
-    hl_signs.bg = faded_bg
     for _, sign in ipairs(signs) do
-            vim.api.nvim_set_hl(0, "Diagnostic" .. sign, { background = faded_bg })
+        colors.set("Diagnostic" .. sign, { bg = bg })
     end
 
+    -- tone down the split separators
+    local split_color = colors.fg("StatusLineNc")
+    colors.set("WinSeparator", { fg = split_color })
 end
 
+colors.sync_colorscheme = function(force)
 
-colors.colorscheme = function()
+    local file = io.open(vim.fn.expand("$HOME/.colorscheme"), "r")
+    assert(file, "Can't open ~/.colorscheme for reading!")
 
-    local theme
-    local theme_file = vim.fn.expand('~/.theme')
+    local colorscheme = file:read("*l")
+    assert(colorscheme, "Can't read colorscheme from ~/.colorscheme")
 
-    if vim.fn.filereadable(theme_file) then
-        _, theme = next(vim.fn.readfile(theme_file))
-    else
-        print("pjl.colorscheme: ~/.theme is not found! Keeping current colorscheme")
+    file:close()
+
+    if not force or colorscheme == vim.g.colors_name then
         return
     end
 
-    if vim.g.colors_name ~= nil and vim.g.colors_name == theme then
-        return
+    vim.notify("Setting colorscheme to: " .. colorscheme)
+    local status_ok, _ = pcall(vim.cmd.colorscheme, colorscheme)
+
+    if not status_ok then
+        vim.notify("Colorscheme " .. colorscheme .. " not found!")
     end
-
-    vim.cmd.colorscheme(theme)
-
 end
 
 return colors

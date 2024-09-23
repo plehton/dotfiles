@@ -31,4 +31,5 @@
 - shell:
     - brew tap homebrew/cask-fonts
     - defaults write com.apple.dock static-only -bool true; killall Dock
+    - echo rose-pine-main >$HOME/.colorscheme
 
