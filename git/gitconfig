@@ -20,11 +20,18 @@ l  = log --oneline
 lt = log --oneline -n15
 co = checkout
 cm = commit -m
+
 [credential]
 	helper = osxkeychain
+
 [pull]
 	rebase = true
+
+[push]
+	autoSetupRemote = true
+
 [fetch]
 	prune = true
+
 [core]
 	editor = nvim
