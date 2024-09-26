@@ -17,4 +17,7 @@ alias gst='git status'
 alias gsw='git sw $(git branch|fzf)'
 alias groot='cd $(git root)'
 
+# Lookup my external IP address
+alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
+
 # vi:ft=zsh
