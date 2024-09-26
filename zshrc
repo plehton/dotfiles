@@ -46,8 +46,8 @@ function +vi-git-untracked() {
 
 function rprompt_path() {
     local last_dir="/${PWD##*/}"
-    local rpath=${PWD%$last_dir}
-    local rdir=${rpath/$HOME/~}
+    local rpath="${PWD%$last_dir}"
+    local rdir="${rpath/$HOME/~}"
     echo ${rdir}
 }
 
