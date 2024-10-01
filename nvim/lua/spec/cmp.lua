@@ -7,7 +7,6 @@ return {
         event = { "BufReadPost", "BufNewFile" },
         dependencies = {
             'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-nvim-lua',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
@@ -116,7 +115,6 @@ return {
                                 return "Text" ~= require('cmp.types').lsp.CompletionItemKind[entry:get_kind()]
                             end
                         },
-                        { name = "nvim_lua" },
                     },
                     {
                         { name = "luasnip" },
@@ -137,7 +135,6 @@ return {
                         vim_item.menu = ({
                             buffer   = "[Buffer]",
                             nvim_lsp = "[LSP]",
-                            nvim_lua = "[NvimAPI]",
                             luasnip  = "[Snippet]",
                             path     = "[Path]",
                             cmdline  = "[Cmdline]",
