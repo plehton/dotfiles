@@ -8,11 +8,11 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, opts)
 
-    vim.keymap.set('n', '[e', vim.diagnostic.goto_prev, opts)
-    vim.keymap.set('n', ']e', vim.diagnostic.goto_next, opts)
-    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
-    vim.keymap.set('n', '<leader>eq', vim.diagnostic.setqflist, opts)
-    vim.keymap.set('n', '<leader>el', vim.diagnostic.setloclist, opts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist, opts)
+    vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, opts)
 
     vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts)
     vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, opts)
@@ -61,10 +61,8 @@ lsp.config = function()
     local icons = require('pjl.icons')
 
     local servers = {
-        'jsonls',
         'lua_ls',
         'pyright',
-        'sqlls',
         'spectral',
         'terraformls',
     }
