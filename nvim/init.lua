@@ -105,3 +105,6 @@ require("lazy").setup({ spec = "spec", change_detection = { notify = false } })
 -- Load my globals
 --
 require('globals')
+
+require("pjl.colors").sync_colorscheme(true)
+
