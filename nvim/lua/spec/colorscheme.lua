@@ -6,6 +6,11 @@ return {
         priority = 1000,
     },
     {
+        "folke/tokyonight.nvim",
+        name = 'tokyonight',
+        lazy = false
+    },
+    {
         "catppuccin/nvim",
         name = 'catppuccin',
         cmd = "Colorscheme",
