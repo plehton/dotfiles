@@ -1,7 +1,7 @@
 local augrp = vim.api.nvim_create_augroup("PjlColorScheme", { clear = true })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
-    desc = "Write colorscheme to file for terminal theme sync",
+    desc = "Sync selected colorscheme with terminal",
     group = augrp,
     callback = function(args)
         local colorscheme = args.match
