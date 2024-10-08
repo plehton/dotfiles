@@ -15,14 +15,6 @@ module.exports = {
   ],
   handlers: [
     {
-      match: [ 
-          "https://teams.microsoft.com/*",
-          "https://www.office.com/*",
-          "https://account.activedirectory.windowsazure.com/*",
-      ],
-      browser: "Safari"
-    },
-    {
       match: [
           "https://*youtube*",
           "https://webars.*.com/myitportal/*",
