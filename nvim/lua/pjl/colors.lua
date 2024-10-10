@@ -56,16 +56,19 @@ colors.link = function(hl_from, hl_to)
     vim.cmd("hi link " .. hl_from .. ' ' .. hl_to)
 end
 
+-- change lightness of given color a little bit lighter for dark colors
+-- and darker for light colors. Amount of fade depends of the luminance of given
+-- color: darker colors change more than light colors.
 colors.fade = function(color)
     local c = Color(color)
-    -- we adjust the difference between faded and source color based
-    -- on the luminance
-    vim.notify('luminance ' .. c.L)
-    local coeff = 1
+    local change_dark = 0.2
+    local change_light = 0.015
+    local amount = change_dark - c.L * (change_dark - change_light)
+    -- vim.notify("Fading " .. color ..": luminance = " .. c.L .. ", amount = " .. amount, vim.log.levels.DEBUG)
     if c.L > 0.5 then
-        return colors.darken(color, 0.015)
+        return colors.darken(color, amount)
     else
-        return colors.lighten(color, 0.1)
+        return colors.lighten(color, amount)
     end
 end
 
@@ -98,16 +101,19 @@ colors.sync_colorscheme = function(force)
 
     file:close()
 
-    if not force or colorscheme == vim.g.colors_name then
+    if not force and colorscheme == vim.g.colors_name then
+        vim.notify("Colorscheme " .. colorscheme .. " already selected, no changes!")
         return
     end
 
-    vim.notify("Setting colorscheme to: " .. colorscheme)
+    vim.notify("sync colorscheme " .. colorscheme .. " from .colorscheme")
     local status_ok, _ = pcall(vim.cmd.colorscheme, colorscheme)
 
     if not status_ok then
         vim.notify("Colorscheme " .. colorscheme .. " not found!")
+        return
     end
+
 end
 
 return colors
