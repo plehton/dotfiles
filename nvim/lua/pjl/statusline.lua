@@ -10,12 +10,11 @@ statusline.branch = ''
 
 statusline.check_modified = function()
     local modified = vim.bo.modified
-    if modified and lhs_color ~= modified_lhs_color then
+    if modified then
         lhs_color = modified_lhs_color
         statusline.update_highlights()
     elseif not modified then
         lhs_color = default_lhs_color
-        statusline.changed = '  '
         statusline.update_highlights()
     end
 end
@@ -61,7 +60,7 @@ statusline.update_highlights = function()
     colors.link('User1 ', lhs_color)
 
     -- powerline arrow inverts User1
-    colors.set("User2", { fg = colors.bg(lhs_color) })
+    colors.set("User2", { fg = colors.bg(lhs_color), bg = colors.bg("StatusLine")})
 
     -- branch name
     colors.set("User3", colors.invert("StatusLine"))
