@@ -13,7 +13,6 @@ vim.o.termguicolors      = true
 vim.o.clipboard          = 'unnamed'
 vim.o.history            = 1000
 
-vim.o.settermguicolors   = true
 vim.o.lazyredraw         = true
 vim.o.swapfile           = false
 vim.o.undofile           = true
@@ -25,7 +24,7 @@ vim.o.completeopt        = "menuone,noselect,noinsert"
 vim.o.wildmode           = "longest:full,full"
 vim.o.diffopt            = vim.o.diffopt .. ',vertical'
 vim.o.showmatch          = true
-vim.o.noincsearch        = true
+vim.o.incsearch          = false
 vim.o.ignorecase         = true
 vim.o.incsearch          = false
 vim.o.ignorecase         = true
@@ -72,10 +71,10 @@ vim.o.colorcolumn = set_colorcolumn(258)
 -- show symbol at the beginning of the line and
 -- indent wrapped lines using shiftwidth amount of chars
 --
-vim.o.nowrap = true
-vim.o.breakindent = true
-vim.o.linebreak = true
-vim.o.showbreak = '↪ '
+vim.o.wrap           = false
+vim.o.breakindent    = true
+vim.o.linebreak      = true
+vim.o.showbreak      = '↪ '
 vim.o.breakindentopt = 'sbr,shift:' .. (vim.o.shiftwidth - 2)
 
 -- user rg for grepping
