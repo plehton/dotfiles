@@ -102,11 +102,9 @@ colors.sync_colorscheme = function(force)
     file:close()
 
     if not force and colorscheme == vim.g.colors_name then
-        vim.notify("Colorscheme " .. colorscheme .. " already selected, no changes!")
         return
     end
 
-    vim.notify("sync colorscheme " .. colorscheme .. " from .colorscheme")
     local status_ok, _ = pcall(vim.cmd.colorscheme, colorscheme)
 
     if not status_ok then
