@@ -5,12 +5,6 @@ return {
     "nvim-lua/plenary.nvim",
     { 'folke/neodev.nvim',
        lazy = true,
-       opts = {
-            library = {
-                plugins = { "neotest" },
-                types = true
-            }
-        }
     },
     "christoomey/vim-tmux-navigator",
     { "godlygeek/tabular", cmd = "Tab" },
