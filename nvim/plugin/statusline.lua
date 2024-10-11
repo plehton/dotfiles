@@ -1,4 +1,4 @@
-# set statusline to active status
+-- set statusline to active status
 require('pjl.statusline').active()
 
 local augrp = vim.api.nvim_create_augroup("PjlStatusLine", { clear = true })
@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd(
     })
 
 vim.api.nvim_create_autocmd(
-    { "BufLeave", "WinLeave", "FocusLost" },
+    { "WinLeave", "FocusLost" },
     {
         desc = "Update modified / lhs of statusline",
         group = augrp,
