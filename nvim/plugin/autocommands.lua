@@ -81,6 +81,7 @@ vim.api.nvim_create_autocmd(
         desc = "Use relative line numbers for active buffer",
         group = augrp,
         callback = function()
+            if vim.bo.readonly then return end
             vim.wo.relativenumber = true
         end
     })
