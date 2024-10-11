@@ -1,22 +1,26 @@
 local colors = require('pjl.colors')
+local Color = require('pjl.Color')
 
 local statusline = {}
 
-local default_lhs_color  = 'PjlStatusDefault'
-local modified_lhs_color = 'PjlStatusModified'
-local lhs_color = default_lhs_color
+-- define colors for file status indicator (lhs)
+local default_lhs_highlight  = 'PjlStatusDefault'
+local modified_lhs_highlight = 'PjlStatusModified'
+local readonly_lhs_highight = 'PjlStatusReadOnly'
+local lhs_highight = default_lhs_highlight
 
 statusline.branch = ''
 
 statusline.check_modified = function()
     local modified = vim.bo.modified
-    if modified then
-        lhs_color = modified_lhs_color
-        statusline.update_highlights()
+    if vim.bo.readonly then
+        lhs_highight = readonly_lhs_highight
+    elseif modified then
+        lhs_highight = modified_lhs_highlight
     elseif not modified then
-        lhs_color = default_lhs_color
-        statusline.update_highlights()
+        lhs_highight = default_lhs_highlight
     end
+    statusline.update_highlights()
 end
 
 statusline.branch = function()
@@ -26,23 +30,29 @@ statusline.branch = function()
 end
 
 statusline.filename = function()
+
+    -- list of file options we want to (conditionally) show
     local opts = {
-        vim.bo.filetype,
-        vim.bo.fileformat == 'unix' and '' or vim.bo.fileformat,
-        vim.bo.fileencoding == 'utf-8' and '' or vim.bo.fileencoding,
+        -- show filetype only when it's not the same as file extension
+        vim.bo.filetype == vim.fn.expand("%:t") and "" or vim.bo.filetype,
+        vim.bo.fileformat == "unix" and "" or vim.bo.fileformat,
+        vim.bo.fileencoding == "utf-8" and "" or vim.bo.fileencoding,
     }
 
+
+    -- combine all options into a list and surround it with brackets
     local flags = ''
+
     for i, opt in ipairs(opts) do
-        if i > 1 and opt ~= '' then
-            flags = flags .. ','
+        if i > 1 and opt ~= "" and flags ~= "" then
+            flags = ", " .. flags
         end
         flags = flags .. opt
     end
 
-    if flags ~= '' then flags = ' [' .. flags .. ']' end
+    if flags ~= "" then flags = " [" .. flags .. "]" end
 
-    return vim.fn.expand('%:F') .. flags
+    return vim.fn.expand("%:F") .. flags
 end
 
 
@@ -55,12 +65,13 @@ statusline.update_highlights = function()
 
     colors.set("PjlStatusDefault", { fg = "White", bg = "LightGreen"})
     colors.set("PjlStatusModified", { fg = "White", bg = "Orange"})
+    colors.set("PjlStatusReadOnly", { bg = colors.fg("StatusLine") })
 
     -- Modified indicator
-    colors.link('User1 ', lhs_color)
+    colors.link('User1 ', lhs_highight)
 
     -- powerline arrow inverts User1
-    colors.set("User2", { fg = colors.bg(lhs_color), bg = colors.bg("StatusLine")})
+    colors.set("User2", { fg = colors.bg(lhs_highight), bg = colors.bg("StatusLine")})
 
     -- branch name
     colors.set("User3", colors.invert("StatusLine"))
@@ -68,6 +79,8 @@ statusline.update_highlights = function()
     --line/col
     local u4 = colors.lighten(colors.bg("Normal"), 0.5)
     colors.set("User4", { fg = colors.fg("StatusLine"), bg = u4 })
+
+    -- readonly indicator
 
 end
 
