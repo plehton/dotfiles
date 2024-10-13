@@ -1,10 +1,12 @@
 ---@diagnostic disable-next-line: unused-local
 local on_attach = function(client, bufnr)
     local opts = { buffer = bufnr }
+    local fzf = require("fzf-lua")
 
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gd', "<cmd>FzfLua lsp_definitions<cr>", opts)
+    vim.keymap.set('n', 'gr', "<cmd>FzfLua lsp_references<cr>", opts)
+    vim.keymap.set('n', 'gr', fzf.lsp_references, opts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, opts)
 
