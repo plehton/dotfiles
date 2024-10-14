@@ -1,6 +1,6 @@
 return {
     { 'L3MON4D3/LuaSnip',
-       lazy = true
+        lazy = true
     },
     {
         'hrsh7th/nvim-cmp',
