@@ -1,8 +1,9 @@
 return {
     'kevinhwang91/nvim-ufo',
-    -- lazy = true,
+    lazy = false,
     dependencies = 'kevinhwang91/promise-async',
     keys = {
+        "Tab",
         { 'zR', function() require('ufo').openAllFolds() end },
         { 'zM', function() require('ufo').closeAllFolds() end },
         { 'z1', function() require('ufo').closeFoldsWith(1) end },
@@ -27,7 +28,6 @@ return {
             end
             return { 'treesitter', 'indent' }
         end
-
     },
 
 }
