@@ -4,14 +4,14 @@ import = ["~/.alacritty_scheme.toml"]
 dimensions = { columns = 120, lines = 40 }
 decorations = "Buttonless"
 option_as_alt = "OnlyLeft"
-padding = { y = 2, x = 2 }
+padding = { y = 0, x = 0 }
 dynamic_padding = true
 
 [font]
-normal      = { family = "JetbrainsMono Nerd Font", style ="Regular"        }
-bold        = { family = "JetbrainsMono Nerd Font", style ="Medium"            }
+normal      = { family = "JetbrainsMono Nerd Font", style ="Light" }
+bold        = { family = "JetbrainsMono Nerd Font", style ="Medium"  }
 italic      = { family = "JetbrainsMono Nerd Font", style ="Regular" }
-bold_italic = { family = "JetbrainsMono Nerd Font", style ="Medium Italic"     }
+bold_italic = { family = "JetbrainsMono Nerd Font", style ="Medium Italic" }
 size        = 16
 
 [mouse]
