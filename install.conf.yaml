@@ -3,7 +3,7 @@
       relink: true
       create: true
 
-- clean: ['~']
+- clean: [ '~', '~/.config', '~/Library/Application Support/lazygit']
 
 - link:
     ~/.zshrc: zshrc
@@ -29,7 +29,7 @@
     ~/.local/tmp/nvim/undo:
 
 - shell:
-    - brew tap homebrew/cask-fonts
+    - brew bundle install --file=./Brewfile
     - defaults write com.apple.dock static-only -bool true; killall Dock
     - echo rose-pine-main >$HOME/.colorscheme
 
