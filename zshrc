@@ -11,9 +11,9 @@ typeset -A __PJL
 __PJL[ITALIC_ON]=$'\e[3m'
 __PJL[ITALIC_OFF]=$'\e[23m'
 
-# Set global variable(s)                                                    {{{1
+# Add personal functions and completions to fpath                           {{{1
 #
-fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ /opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functions $fpath)
+fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ $fpath)
 
 # Funtions, aliases                                                         {{{1
 #
@@ -76,7 +76,7 @@ export PS1="%F{green}\${VENV_INFO}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
 #
 
 HISTFILE=~/.history
-HISTSIZE=4000
+HISTSIZE=10000
 SAVEHIST=$HISTSIZE
 
 #
@@ -97,15 +97,7 @@ setopt HIST_REDUCE_BLANKS       # removes blank lines from history
 setopt HIST_VERIFY              # Don't execute command substituted from history
 setopt HIST_IGNORE_SPACE        # Don't save commands starting with space char
 
-
-# Plugins                                                                   {{{1
-#
-
-
-# NOTE: must come before zsh-history-substring-search & zsh-syntax-highlighting.
-autoload -U select-word-style
-select-word-style bash # only alphanumeric chars are considered WORDCHARS
-source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+# select-word-style bash # only alphanumeric chars are considered WORDCHARS
 
 
 # Bindings                                                                  {{{1
@@ -228,21 +220,14 @@ fi
 # BASE16_THEME=$(<$HOME/.base16)
 # [ -n "$PS1" ] && source "$BASE16_SHELL/scripts/$BASE16_THEME.sh"
 
-# fzf
-export FZF_DEFAULT_COMMAND='fd --type f --follow --hidden --exclude .git'
-export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-. ~/.fzf.zsh
-
-# z
-. /opt/homebrew/etc/profile.d/z.sh
-
-# nvm
-# LAZY THIS
-# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+# # Setup z-lua.
+# # Before eval, z points to the bin and we can do which.
+# # After eval it points to _zlua() function.
+# zdir=$(which z)
+# eval "$($zdir --init zsh)"
 
 # Personal                                                                  {{{1
 #
-
 
 # profiling output
 # zprof > /tmp/zshprof.out
