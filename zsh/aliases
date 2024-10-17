@@ -8,7 +8,7 @@ alias vi=nvim
 alias v='nvim $(fzf $1)'
 alias -g CP="|pbcopy"
 alias -g L="|less"
-alias -g FZF="|fzf"
+alias -g F="|fzf"
 alias zs='echo ''Sourcing .zshrc''; source ~/.zshrc'
 
 # Git
@@ -18,6 +18,6 @@ alias gsw='git sw $(git branch|fzf)'
 alias groot='cd $(git root)'
 
 # Lookup my external IP address
-alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias myip='echo -n $(curl -s ipinfo.io/ip) | pbcopy'
 
 # vi:ft=zsh
