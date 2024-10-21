@@ -13,23 +13,23 @@
      lib = nixpkgs.lib;
      system = "x86_64-linux";
      pkgs = nixpkgs.legacyPackages.${system};
-   in {
+	 in {
      nixosConfigurations = {
 			 wsl = lib.nixosSystem {
 				 inherit system;
 				 modules = [
 					 nixos-wsl.nixosModules.default
-						 ./wsl.nix
-						 home-manager.nixosModules.home-manager {
-							 home-manager.useGlobalPkgs = true;
-							 home-manager.useUserPackages = true;
-							 home-manager.users.pjl = {
-								 imports = [ ./home.nix ];
-							 };
-						 }
-				 ];
-			 };
-		 };
+					./wsl.nix
+					home-manager.nixosModules.home-manager {
+					  home-manager.useGlobalPkgs = true;
+						home-manager.useUserPackages = true;
+						home-manager.users.pjl = {
+							imports = [ ./home.nix ];
+						};
+					}
+				];
+			};
+		};
 
 #		 homeConfigurations = {
 #			 pjl = home-manager.lib.homeManagerConfiguration {
