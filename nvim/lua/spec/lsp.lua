@@ -64,6 +64,7 @@ lsp.config = function()
 
     local servers = {
         'lua_ls',
+        'nil_ls',
         'pyright',
         'spectral',
         'terraformls',
@@ -80,7 +81,7 @@ lsp.config = function()
             },
         },
         underline = true,
-        virtual_text = false,
+        virtual_text = true,
         severity_sort = true,
         float = {
             focusable = true,
@@ -94,9 +95,9 @@ lsp.config = function()
 
     vim.diagnostic.config(diagnostic_config)
 
-    for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
-        vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
-    end
+    -- for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
+    --     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+    -- end
 
     for _, server in pairs(servers) do
         local opts = {
