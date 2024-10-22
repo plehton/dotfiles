@@ -13,30 +13,34 @@
 		zsh = {
 			enable = true;
 			enableCompletion = true;
-			# shellAliases = { };
+			shellAliases = {
+				ll = "ls -l";
+				cl = "clear";
+			};
 		};
 	};
 
   home.packages = with pkgs; [
+		curl
+		git
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
 		lazygit
+		ripgrep
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
-  home.file = {
-		".gitconfig".text = ''
-			[user]
-			name = Petri Lehtonen
-			email = petri.j.lehtonen@gmail.com
+  home.file.".gitconfig".text = ''
+		[user]
+		name = Petri Lehtonen
+		email = petri.j.lehtonen@gmail.com
 
-			[alias]
-			sw = switch
-		'';
-  };
+		[alias]
+		sw = switch
+	'';
 
   home.sessionVariables = {
-    # EDITOR = "emacs";
+
   };
 
 }
