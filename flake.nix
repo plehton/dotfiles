@@ -1,5 +1,5 @@
 {
-  description = "Petri's NixOS";
+	description = "Petri's NixOS";
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-24.05";
@@ -8,27 +8,30 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs  = { self, nixpkgs, home-manager, nixos-wsl, ... }:
+  outputs = { self, nixpkgs, home-manager, nixos-wsl, ... }:
    let
      lib = nixpkgs.lib;
-     system = "x86_64-linux";
+     system = "aarch64-linux";
      pkgs = nixpkgs.legacyPackages.${system};
-	 in {
+		 username = "pjl";
+   in {
      nixosConfigurations = {
-			 wsl = lib.nixosSystem {
-				 inherit system;
-				 modules = [
-					 nixos-wsl.nixosModules.default
-					./wsl.nix
-					home-manager.nixosModules.home-manager {
-					  home-manager.useGlobalPkgs = true;
-						home-manager.useUserPackages = true;
-						home-manager.users.pjl = {
-							imports = [ ./home.nix ];
-						};
-					}
-				];
-			};
-		};
+       vmware = lib.nixosSystem {
+			 inherit system;
+			 modules = [
+				 ./configuration.nix
+				 home-manager.nixosModules.home-manager {
+					 home-manager.useGlobalPkgs = true;
+					 home-manager.useUserPackages = true;
+					 home-manager.users.${username} = {
+						 imports = [ ./home.nix ];
+					 };
+				 }
+			 ];
+			 specialArgs = {
+				 inherit username;
+			 };
+			 };
+		 };
 	 };
 }
