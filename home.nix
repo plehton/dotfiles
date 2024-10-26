@@ -10,12 +10,33 @@
     zsh = {
       enable = true;
       autocd = true;
+      autosuggestion = {
+        enable = true;
+        strategy = [ "history" "completion" ];
+      };
       enableCompletion = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
+      history = {
+        append = true;
+        expireDuplicatesFirst = true;
+        ignoreAllDups = true;
+        ignoreSpace = true;
+      };
+      historySubstringSearch.enable = true;
+      initExtra = {};
+      initLocal = {};
+      shellGlobalAliases = {
+        CP = "|pbcopy";
+        FZF = "|fzf";
+      };
       shellAliases = {
         cl = "clear";
       };
+      syntaxHighlighting.enable = true;
+    };
+    z-lua = {
+      enable = true;
+      enableZshIntegration = true;
+      options = [ "once" "fzf" ];
     };
   };
 
@@ -26,7 +47,6 @@
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     lazygit
     ripgrep
-    z-lua
   ];
 
 # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -34,12 +54,12 @@
   home.file.".gitconfig".text = ''
     [user]
     name = Petri Lehtonen
-      email = petri.j.lehtonen@gmail.com
+    email = petri.j.lehtonen@gmail.com
 
-      [alias]
-      sw = switch
-        co = checkout
-        '';
+    [alias]
+    sw = switch
+    co = checkout
+    '';
   home.sessionVariables = {
   };
 

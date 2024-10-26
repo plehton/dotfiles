@@ -5,19 +5,21 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware/aarch64utm.nix
-    ];
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  # Define hostname
+  networking.hostName = "nixos";
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Shells
+  programs.zsh.enable = true;
+  environment.shells = [ pkgs.bash pkgs.zsh ];
+  users.users.pjl.shell = pkgs.zsh;
+
 
   # Set your time zone.
   time.timeZone = "Europe/Helsinki";
@@ -50,9 +52,6 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
-
-  # Enable automatic login for the user.
-  services.getty.autologinUser = "pjl";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

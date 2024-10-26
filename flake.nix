@@ -18,6 +18,7 @@
       nixos = lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
+          ./hardware/aarch64utm.nix
           ./configuration.nix
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
