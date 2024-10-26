@@ -19,7 +19,12 @@
     nixosConfigurations = 
     {
       # UTM Virtual machine
-      ${hostName} = lib.nixosSystem rec {
+      utmos = lib.nixosSystem rec {
+        specialArgs = {
+          hostName = "utmos";
+          inherit userName;
+          inherit userRealName;
+        };
         system = "aarch64-linux";
         modules = [
           ./hardware/aarch64utm.nix
@@ -33,11 +38,6 @@
             home-manager.extraSpecialArgs = specialArgs;
           }
         ];
-        specialArgs = {
-          inherit userName;
-          inherit userRealName;
-          inherit hostName;
-        };
       };
     };
   };
