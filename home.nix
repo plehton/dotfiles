@@ -61,6 +61,7 @@
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     lazygit
     ripgrep
+    tree
   ];
 
   home.sessionVariables = {
