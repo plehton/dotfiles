@@ -7,6 +7,7 @@
   programs.home-manager.enable = true;
 
   programs = {
+    bat.enable = true;
     git = {
       enable = true;
       userName = "Petri Lehtonen";
@@ -22,6 +23,16 @@
       settings.git_protocol = "ssh";
     };
     gh-dash.enable = true;
+    tmux = {
+      enable = true;
+      prefix = "C-a";
+      baseIndex = 1;
+      clock24 = true;
+      historyLimit = 10000;
+      keyMode = "vi";
+      terminal = "xterm-256color";
+      extraConfig = "";
+    };
     zsh = {
       enable = true;
       autocd = true;
@@ -58,8 +69,10 @@
   home.packages = with pkgs; [
     curl
     fd
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    fswatch
+    jq
     lazygit
+    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     ripgrep
     tree
   ];
