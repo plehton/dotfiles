@@ -12,10 +12,14 @@
   let
     lib = nixpkgs.lib;
     pkgs = nixpkgs.legacyPackages.aarch64-linux;
-    username = "pjl";
+    userName = "pjl";
+    userRealName = "Petri Lehtonen";
+    hostName = "utmos";
   in {
-    nixosConfigurations = {
-      nixos = lib.nixosSystem {
+    nixosConfigurations = 
+    {
+      # UTM Virtual machine
+      ${hostName} = lib.nixosSystem rec {
         system = "aarch64-linux";
         modules = [
           ./hardware/aarch64utm.nix
@@ -23,13 +27,16 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${username} = {
+            home-manager.users.${userName} = {
               imports = [ ./home.nix ];
             };
+            home-manager.extraSpecialArgs = specialArgs;
           }
         ];
         specialArgs = {
-          inherit username;
+          inherit userName;
+          inherit userRealName;
+          inherit hostName;
         };
       };
     };

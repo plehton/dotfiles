@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, userName, userRealName, hostName, ... }:
 
 {
   # Bootloader.
@@ -10,7 +10,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Define hostname
-  networking.hostName = "nixos";
+  networking.hostName = hostName;
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -18,7 +18,16 @@
   # Shells
   programs.zsh.enable = true;
   environment.shells = [ pkgs.bash pkgs.zsh ];
-  users.users.pjl.shell = pkgs.zsh;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.${userName}= {
+    isNormalUser = true;
+    description = userRealName;
+    shell = pkgs.zsh;
+    extraGroups = [ "networkmanager" "wheel" ];
+  };
+ 
+  nix.settings.trusted-users = [ "root" userName ];
 
   environment.pathsToLink = [ "/share/zsh" ];
 
@@ -46,31 +55,20 @@
     variant = "";
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.pjl = {
-    isNormalUser = true;
-    description = "Petri Lehtonen";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    curl
     git
-    ripgrep
     vim    
     wget
   ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "root" "pjl" ];
   
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
