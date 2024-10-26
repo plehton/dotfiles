@@ -20,6 +20,7 @@
   environment.shells = [ pkgs.bash pkgs.zsh ];
   users.users.pjl.shell = pkgs.zsh;
 
+  environment.pathsToLink = [ "/share/zsh" ];
 
   # Set your time zone.
   time.timeZone = "Europe/Helsinki";
