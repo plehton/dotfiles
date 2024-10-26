@@ -22,8 +22,8 @@
         ignoreSpace = true;
       };
       historySubstringSearch.enable = true;
-      initExtra = {};
-      initLocal = {};
+      initExtra = "";
+      localVariables = {};
       shellGlobalAliases = {
         CP = "|pbcopy";
         FZF = "|fzf";
