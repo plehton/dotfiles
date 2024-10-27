@@ -23,6 +23,7 @@
       settings.git_protocol = "ssh";
     };
     gh-dash.enable = true;
+    direnv.enable = true;
     tmux = {
       enable = true;
       prefix = "C-a";
@@ -67,14 +68,19 @@
   };
 
   home.packages = with pkgs; [
+    # Base
     curl
     fd
-    fswatch
-    jq
     lazygit
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     ripgrep
     tree
+
+    # Work
+    awscli2
+    fswatch
+    databricks-cli
+    jq
   ];
 
   home.sessionVariables = {
