@@ -8,6 +8,11 @@
 
   programs = {
     bat.enable = true;
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      defaultCommand = "fd --type f --follow --hidden --exclude .git";
+    };
     git = {
       enable = true;
       userName = "Petri Lehtonen";
