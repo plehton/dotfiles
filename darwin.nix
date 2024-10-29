@@ -4,9 +4,14 @@
 	services.nix-daemon.enable = true;
 	system.stateVersion = 5;
 
-	nix.extraOptions.experimental-features = [ "nix-command" "flakes" ];
+	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-	users.users.pjl.home = "/Users/pjl";
+	users.users.pjl = {
+    home = "/Users/pjl";
+    packages = with pkgs; [
+      karabiner-elements 
+      ];
+    };
 
 	# Shell
 	environment.loginShell = pkgs.zsh;
@@ -32,4 +37,7 @@
 		finder._FXShowPosixPathInTitle = true;
 		screensaver.askForPasswordDelay = 60;
 	};
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 }

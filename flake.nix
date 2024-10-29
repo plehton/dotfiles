@@ -11,15 +11,18 @@
   };
 
   outputs = { self, nixpkgs, home-manager, nixos-wsl, darwin, ... }:
-    let
+  let
     lib = nixpkgs.lib;
-  pkgs = nixpkgs.legacyPackages.aarch64-linux;
-  userName = "pjl";
-  userRealName = "Petri Lehtonen";
+    pkgs = nixpkgs.legacyPackages.aarch64-linux;
+    userName = "pjl";
+    userRealName = "Petri Lehtonen";
   in {
 
     # Macbook
-    darwinConfigurations.MV9J7YK4N9 = darwin.lib.darwinSystem {
+    darwinConfigurations.MV9J7YK4N9 = darwin.lib.darwinSystem rec {
+      specialArgs = {
+        inherit userName;
+      };
       modules = [
         ./darwin.nix
         home-manager.darwinModules.home-manager
@@ -28,36 +31,37 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             users.${userName}.imports = [
-              ./home.nix
+              ./home_macbook.nix
             ];
+            extraSpecialArgs = specialArgs;
           };
         }
       ];
     };
 
     # UTM VM
-      nixosConfigurations.utmos = lib.nixosSystem rec {
-        specialArgs = {
-          hostName = "utmos";
-          inherit userName;
-          inherit userRealName;
-        };
-        system = "aarch64-linux";
-        modules = [
-          ./hardware/aarch64utm.nix
-          ./configuration.nix
-          home-manager.nixosModules.home-manager 
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.${userName}.imports = [
-                ./home.nix
-              ];
-              extraSpecialArgs = specialArgs;
-            };
-          }
-        ];
+    nixosConfigurations.utmos = lib.nixosSystem rec {
+      specialArgs = {
+        hostName = "utmos";
+        inherit userName;
+        inherit userRealName;
       };
+      system = "aarch64-linux";
+      modules = [
+        ./hardware/aarch64utm.nix
+        ./configuration.nix
+        home-manager.nixosModules.home-manager 
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.${userName}.imports = [
+              ./home.nix
+            ];
+            extraSpecialArgs = specialArgs;
+          };
+        }
+      ];
+    };
   };
 }

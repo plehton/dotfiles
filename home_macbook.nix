@@ -1,7 +1,7 @@
 { config, pkgs, userName, ... }:
 {
   home.username = userName;
-  home.homeDirectory = "/home/${userName}";
+  home.homeDirectory = "/Users/${userName}";
 
   imports = [
    ./modules/zsh.nix
