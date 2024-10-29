@@ -19,7 +19,6 @@
   programs.zsh.enable = true;
   environment.shells = [ pkgs.bash pkgs.zsh ];
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${userName}= {
     isNormalUser = true;
     description = userRealName;
@@ -31,12 +30,9 @@
 
   environment.pathsToLink = [ "/share/zsh" ];
 
-  # Set your time zone.
   time.timeZone = "Europe/Helsinki";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "fi_FI.UTF-8";
     LC_IDENTIFICATION = "fi_FI.UTF-8";
