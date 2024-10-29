@@ -8,7 +8,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-wsl, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, nixos-wsl, ... }:
   let
     lib = nixpkgs.lib;
     pkgs = nixpkgs.legacyPackages.aarch64-linux;
@@ -24,6 +24,7 @@
           hostName = "utmos";
           inherit userName;
           inherit userRealName;
+          inherit inputs;
         };
         system = "aarch64-linux";
         modules = [
@@ -35,6 +36,7 @@
               useUserPackages = true;
               users.${userName}.imports = [
                   ./home.nix
+                  ./hyprland.nix
                 ];
               extraSpecialArgs = specialArgs;
             };
