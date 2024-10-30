@@ -15,6 +15,17 @@ in
         ./modules/home-packages.nix
       ];
 
+      xdg.configFile = {
+        nvim = {
+          enable = true;
+          source = ./config/nvim;
+        };
+        wezterm = {
+          enable = true;
+          source = ./config/wezterm;
+        };
+      };
+
       home.stateVersion = "24.05";
 }
 
