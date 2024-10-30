@@ -1,6 +1,5 @@
 {...} : {
   programs = {
-    alacritty.enable = true;
     bat.enable = true;
     fzf = {
       enable = true;
@@ -15,14 +14,22 @@
         co = "checkout";
         st = "status";
         sw = "switch";
+        l = "log --oneline";
       };
     };
     gh = {
       enable = true;
     };
-    gh-dash.enable = true;
     direnv.enable = true;
-    kitty.enable = true;
+    neovim = {
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      #withPython3 = true;
+      #withNodeJs= true;
+      #withRuby = true;
+    };
     tmux = {
       enable = true;
       prefix = "C-a";
@@ -33,11 +40,10 @@
       terminal = "xterm-256color";
       extraConfig = "";
     };
-    wezterm.enable = true;
     z-lua = {
       enable = true;
       enableZshIntegration = true;
       options = [ "once" "fzf" ];
     };
   };
-     }
+}

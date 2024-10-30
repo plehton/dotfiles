@@ -12,7 +12,14 @@ in
       imports = [
         ./modules/zsh.nix
         ./modules/cli.nix
+        ./modules/gui.nix
         ./modules/home-packages.nix
+      ];
+
+      xdg.enable = true;
+
+      home.packages = [
+        (pkgs.nerdfonts.override { fonts = [ "BitstreamVeraSansMono" "FiraCode" "JetBrainsMono" ]; })
       ];
 
       xdg.configFile = {
@@ -20,7 +27,11 @@ in
           enable = true;
           source = ./config/nvim;
         };
-        wezterm = {
+        #"wezterm/wezterm.lua" = {
+        #  enable = true;
+        #  source = ./config/wezterm/wezterm.lua;
+        #};
+        "wezterm" = {
           enable = true;
           source = ./config/wezterm;
         };
