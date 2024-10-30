@@ -1,28 +1,24 @@
-{ pkgs, ... }:
+{ pkgs, userName, ... }:
 {
 	nixpkgs.hostPlatform = "aarch64-darwin";
 	services.nix-daemon.enable = true;
-	system.stateVersion = 5;
-
-	nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-	users.users.pjl = {
-    home = "/Users/pjl";
-    packages = with pkgs; [
-      karabiner-elements 
-      ];
-    };
 
 	# Shell
 	environment.loginShell = pkgs.zsh;
 	environment.shells = [ pkgs.bash pkgs.zsh ];
 	programs.zsh.enable = true; # default shell on catalina
 
+	users.users.pjl = {
+    home = "/Users/${userName}";
+    packages = with pkgs; [
+      karabiner-elements 
+      ];
+    };
+
+  environment.pathsToLink = [ "/share/zsh" ];
   environment.systemPackages = with pkgs; [
-    coreutils
     git
     vim
-    wget
 	];
 
 	# MacOS Settings
@@ -38,6 +34,7 @@
 		screensaver.askForPasswordDelay = 60;
 	};
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+	nix.settings.experimental-features = [ "nix-command" "flakes" ];
+	system.stateVersion = 5;
 }

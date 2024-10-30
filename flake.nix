@@ -17,25 +17,21 @@
     userName = "pjl";
     userRealName = "Petri Lehtonen";
   in {
-
     # Macbook
     darwinConfigurations.MV9J7YK4N9 = darwin.lib.darwinSystem rec {
       specialArgs = {
         inherit userName;
       };
       modules = [
-        ./darwin.nix
-        home-manager.darwinModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.${userName}.imports = [
-              ./home_macbook.nix
-            ];
-            extraSpecialArgs = specialArgs;
-          };
-        }
+        ./system/darwin.nix
+          home-manager.darwinModules.home-manager {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = specialArgs;
+              users.${userName}.imports = [ ./home-manager.nix ];
+            };
+          }
       ];
     };
 
@@ -49,15 +45,12 @@
       system = "aarch64-linux";
       modules = [
         ./hardware/aarch64utm.nix
-        ./configuration.nix
-        home-manager.nixosModules.home-manager 
-        {
+        ./system/linux.nix
+        home-manager.nixosModules.home-manager {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.${userName}.imports = [
-              ./home.nix
-            ];
+            users.${userName}.imports = [ ./home-manager.nix ];
             extraSpecialArgs = specialArgs;
           };
         }
