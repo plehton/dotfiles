@@ -11,6 +11,7 @@ local treesitter = {
                 "hocon",
                 "json",
                 "lua",
+                "nix",
                 "python",
                 "scala",
                 "vim",
