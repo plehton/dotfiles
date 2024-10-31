@@ -21,7 +21,7 @@
     shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" ];
   };
- 
+
   nix.settings.trusted-users = [ "root" userName ];
 
   environment.pathsToLink = [ "/share/zsh" ];
@@ -50,7 +50,7 @@
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     git
-    vim    
+    vim
   ];
 
   # Enable the OpenSSH daemon.

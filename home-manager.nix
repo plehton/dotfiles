@@ -1,4 +1,4 @@
-{ pkgs, stdenv, userName, ... } :  
+{ pkgs, stdenv, userName, ... } :
 let
   isDarwin = pkgs.stdenv.isDarwin;
 in
@@ -15,8 +15,6 @@ in
         ./modules/gui.nix
         ./modules/home-packages.nix
       ];
-
-      xdg.enable = true;
 
       home.packages = [
         (pkgs.nerdfonts.override { fonts = [ "BitstreamVeraSansMono" "FiraCode" "JetBrainsMono" ]; })
