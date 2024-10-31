@@ -49,6 +49,7 @@
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
+    gcc
     git
     vim
   ];
