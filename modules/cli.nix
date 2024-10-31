@@ -21,15 +21,6 @@
       enable = true;
     };
     direnv.enable = true;
-    neovim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      #withPython3 = true;
-      #withNodeJs= true;
-      #withRuby = true;
-    };
     tmux = {
       enable = true;
       prefix = "C-a";

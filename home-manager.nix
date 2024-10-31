@@ -13,28 +13,13 @@ in
         ./modules/zsh.nix
         ./modules/cli.nix
         ./modules/gui.nix
+        ./modules/nvim.nix
         ./modules/home-packages.nix
       ];
 
       home.packages = [
         (pkgs.nerdfonts.override { fonts = [ "BitstreamVeraSansMono" "FiraCode" "JetBrainsMono" ]; })
       ];
-
-      xdg.configFile = {
-        nvim = {
-          enable = true;
-          source = ./config/nvim;
-        };
-        #"wezterm/wezterm.lua" = {
-        #  enable = true;
-        #  source = ./config/wezterm/wezterm.lua;
-        #};
-        "wezterm" = {
-          enable = true;
-          source = ./config/wezterm;
-        };
-      };
-
       home.stateVersion = "24.05";
 }
 
