@@ -6,15 +6,25 @@
       enable = true;
       strategy = [ "completion" "history" ];
     };
-    enableCompletion = true;
+    completionInit = /* bash */''
+      autoload -Uz compinit
+      if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $HOME/.zcompdump) ]; then
+        compinit
+      else
+        compinit -C
+      fi
+    '';
     history = {
       append = true;
       expireDuplicatesFirst = true;
-      ignoreAllDups = true;
       ignoreSpace = true;
+      path = "$HOME/.history";
     };
-    historySubstringSearch.enable = true;
-    initExtra = "";
+    historySubstringSearch = {
+      enable = true;
+      searchUpKey = "^P";
+      searchDownKey = "^N";
+    };
     localVariables = {};
     shellGlobalAliases = {
       CP = "|pbcopy";
