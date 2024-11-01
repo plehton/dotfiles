@@ -1,26 +1,19 @@
-{...} : {
+{ pkgs, ... } : {
   programs = {
     bat.enable = true;
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
     fzf = {
       enable = true;
       enableZshIntegration = true;
       defaultCommand = "fd --type f --follow --hidden --exclude .git";
     };
-    git = {
-      enable = true;
-      userName = "Petri Lehtonen";
-      userEmail = "petri.j.lehtonen@gmail.com";
-      aliases = {
-        co = "checkout";
-        st = "status";
-        sw = "switch";
-        l = "log --oneline";
-      };
-    };
     gh = {
       enable = true;
     };
-    direnv.enable = true;
     tmux = {
       enable = true;
       prefix = "C-a";
@@ -29,7 +22,7 @@
       historyLimit = 10000;
       keyMode = "vi";
       terminal = "xterm-256color";
-      extraConfig = "";
+      extraConfig = "set -g default-command ${pkgs.zsh}/bin/zsh";
     };
     z-lua = {
       enable = true;
@@ -37,4 +30,5 @@
       options = [ "once" "fzf" ];
     };
   };
+
 }

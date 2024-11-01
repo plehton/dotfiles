@@ -1,10 +1,10 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
     # Base
+    (nerdfonts.override { fonts = [ "BitstreamVeraSansMono" "FiraCode" "JetBrainsMono" ]; })
     curl
     fd
     lazygit
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     ripgrep
     tree
 
@@ -13,7 +13,8 @@
     fswatch
     databricks-cli
     jq
+
+    # Dev
+    devenv
   ];
 }
-
-
