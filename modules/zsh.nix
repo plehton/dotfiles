@@ -6,14 +6,6 @@
       enable = true;
       strategy = [ "completion" "history" ];
     };
-    completionInit = /* bash */''
-      autoload -Uz compinit
-      if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $HOME/.zcompdump) ]; then
-        compinit
-      else
-        compinit -C
-      fi
-    '';
     history = {
       append = true;
       expireDuplicatesFirst = true;
@@ -22,8 +14,8 @@
     };
     historySubstringSearch = {
       enable = true;
-      searchUpKey = "^P";
-      searchDownKey = "^N";
+      searchUpKey = [ "^[[A" "^P" ];
+      searchDownKey = ["^[[B" "^N" ];
     };
     localVariables = {};
     shellGlobalAliases = {
@@ -37,5 +29,18 @@
       cl = "clear";
     };
     syntaxHighlighting.enable = true;
+
+    initExtra = builtins.readFile ./zsh.init;
+
+    completionInit = /* bash */''
+      autoload -Uz compinit
+      if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' $HOME/.zcompdump) ]; then
+        compinit
+      else
+        compinit -C
+      fi
+    '';
+
   };
+
 }
