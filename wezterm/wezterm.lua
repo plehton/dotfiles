@@ -41,8 +41,12 @@ end
 -- Do the actual configuration
 --
 config = {
-    font = wezterm.font('JetBrains Mono', { weight = 'Thin' }),
+
+    front_end = 'WebGpu',
+
+    font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'ExtraLight' }),
     font_size = 16,
+
     window_decorations = "RESIZE",
     enable_tab_bar = false,
     adjust_window_size_when_changing_font_size = false,
