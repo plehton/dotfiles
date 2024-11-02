@@ -29,7 +29,6 @@ local COLORSCHEMES = {
 }
 
 local get_colorscheme_name = function(cf)
-    local colorschemes = require("colorschemes")
     local file = io.open(cf, "r")
     if file then
         local scheme = file:read("*l")
