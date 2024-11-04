@@ -1,0 +1,4 @@
+function pyenv() {
+  _pyenv
+  pyenv $@
+}

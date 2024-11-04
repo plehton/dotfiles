@@ -1,0 +1,23 @@
+alias cl=clear
+alias ls='ls -G'
+alias ll='ls -l'
+alias la='ls -a'
+alias lal='ls -al'
+alias vim=nvim
+alias vi=nvim
+alias v='nvim $(fzf $1)'
+alias -g CP="|pbcopy"
+alias -g L="|less"
+alias -g F="|fzf"
+alias zs='echo ''Sourcing .zshrc''; source ~/.zshrc'
+
+# Git
+alias glt='git log --oneline --max-count 20'
+alias gst='git status'
+alias gsw='git sw $(git branch|fzf)'
+alias groot='cd $(git root)'
+
+# Lookup my external IP address
+alias myip='echo -n $(curl -s ipinfo.io/ip) | pbcopy'
+
+# vi:ft=zsh

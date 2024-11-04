@@ -1,0 +1,37 @@
+#compdef _theme theme
+
+# List of known color themes to use in the completion
+colors=(
+    catppuccin-frappe
+    catppuccin-latte
+    catppuccin-macchiato
+    catppuccin-mocha
+    kanagawa-dragon
+    kanagawa-lotus
+    kanagawa-wave
+    melange-dark
+    melange-light
+    nord
+    rose-pine-dawn
+    rose-pine-main
+    rose-pine-moon
+    tender
+    tokyonight-day
+    tokyonight-moon
+    tokyonight-night
+    tokyonight-storm
+)
+
+_theme() {
+    local state line
+    setopt localoptions globassign
+    _arguments  '1: :->theme_name'
+    case $state in
+        theme_name)
+            compadd "$@" $colors
+            ;;
+    esac
+}
+
+_theme "$@"
+
