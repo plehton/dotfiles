@@ -5,6 +5,7 @@ return {
     config =  function()
       require("nvim-tree").setup()
     end,
+    enabled = true,
     keys = {
       {
         '<C-P>',
