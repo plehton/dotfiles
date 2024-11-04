@@ -1,0 +1,4 @@
+function aws-login {
+    export AWS_PROFILE=$1
+    aws sso login --profile $1
+}
