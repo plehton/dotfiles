@@ -1,19 +1,18 @@
 return {
-  {
-    'nvim-tree/nvim-tree.lua',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config =  function()
-      require("nvim-tree").setup()
-    end,
-    enabled = true,
-    keys = {
-      {
-        '<C-P>',
-        function()
-          require("nvim-tree.api").tree.open({ find_file = true })
+    {
+        'nvim-tree/nvim-tree.lua',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config =  function()
+            require("nvim-tree").setup()
         end,
-        desc = 'Find file in Tree'
-      },
-    }
-  },
+        keys = {
+          {
+            '<C-t>',
+            function()
+              require("nvim-tree.api").tree.open({ find_file = true })
+            end,
+            desc = 'Find file in Tree'
+          },
+        }
+    },
 };
