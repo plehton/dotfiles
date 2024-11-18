@@ -25,7 +25,7 @@ end
 statusline.branch = function()
     local branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\n'")
     if branch == '' or branch == nil then return '' end
-    return string.format("  %s ", branch)
+    return string.format(" %s", branch)
 end
 
 statusline.filename = function()
@@ -139,7 +139,9 @@ statusline.active = function()
         .. '%{v:lua.require("pjl.statusline").filename()}'
         .. '%='
         .. '%3*'
+        .. ' '
         .. '%{v:lua.require("pjl.statusline").branch()}'
+        .. ' '
         .. '%*'
         .. '%4*'
         .. ' '
