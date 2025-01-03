@@ -1,4 +1,0 @@
-export EDITOR=nvim
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.zsh/bin:$PATH"
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-export LESS=RFX
