@@ -1,7 +1,7 @@
 return {
     { "ibhagwan/fzf-lua",
         name = "fzf",
-        dependencies = { "devicons" },
+        dependencies = { "ryanoasis/vim-devicons" },
         config = function()
 
             local fzf = require('fzf-lua')
