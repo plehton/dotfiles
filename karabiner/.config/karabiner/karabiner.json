@@ -148,13 +148,25 @@
                             {
                                 "conditions": [
                                     {
-                                        "type": "device_if",
                                         "identifiers": [
-                                            { "product_id": 320, "vendor_id": 9456 },
-                                            { "product_id": 666, "vendor_id": 1452 },
-                                            { "product_id": 666, "vendor_id": 76 },
-                                            { "product_id": 835, "vendor_id": 1452 }
-                                        ]
+                                            {
+                                                "product_id": 320,
+                                                "vendor_id": 9456
+                                            },
+                                            {
+                                                "product_id": 666,
+                                                "vendor_id": 1452
+                                            },
+                                            {
+                                                "product_id": 666,
+                                                "vendor_id": 76
+                                            },
+                                            {
+                                                "product_id": 835,
+                                                "vendor_id": 1452
+                                            }
+                                        ],
+                                        "type": "device_if"
                                     }
                                 ],
                                 "from": {
@@ -172,13 +184,25 @@
                             {
                                 "conditions": [
                                     {
-                                        "type": "device_if",
                                         "identifiers": [
-                                            { "product_id": 320, "vendor_id": 9456 },
-                                            { "product_id": 666, "vendor_id": 1452 },
-                                            { "product_id": 666, "vendor_id": 76 },
-                                            { "product_id": 835, "vendor_id": 1452 }
-                                        ]
+                                            {
+                                                "product_id": 320,
+                                                "vendor_id": 9456
+                                            },
+                                            {
+                                                "product_id": 666,
+                                                "vendor_id": 1452
+                                            },
+                                            {
+                                                "product_id": 666,
+                                                "vendor_id": 76
+                                            },
+                                            {
+                                                "product_id": 835,
+                                                "vendor_id": 1452
+                                            }
+                                        ],
+                                        "type": "device_if"
                                     }
                                 ],
                                 "from": {
@@ -196,41 +220,39 @@
                             {
                                 "conditions": [
                                     {
-                                        "type": "device_if",
                                         "identifiers": [
-                                            { "product_id": 320, "vendor_id": 9456 }
-                                        ]
+                                            {
+                                                "product_id": 320,
+                                                "vendor_id": 9456
+                                            }
+                                        ],
+                                        "type": "device_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "left_alt",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [
-                                    {
-                                        "key_code": "left_command"
-                                    }
-                                ],
+                                "to": [{ "key_code": "left_command" }],
                                 "type": "basic"
                             },
                             {
                                 "conditions": [
                                     {
-                                        "type": "device_if",
                                         "identifiers": [
-                                            { "product_id": 320, "vendor_id": 9456 }
-                                        ]
+                                            {
+                                                "product_id": 320,
+                                                "vendor_id": 9456
+                                            }
+                                        ],
+                                        "type": "device_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "right_alt",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [
-                                    {
-                                        "key_code": "right_command"
-                                    }
-                                ],
+                                "to": [{ "key_code": "right_command" }],
                                 "type": "basic"
                             }
                         ]
@@ -238,7 +260,18 @@
                 ]
             },
             "name": "pjl-default",
-            "selected": true
+            "selected": true,
+            "simple_modifications": [
+                {
+                    "from": { "key_code": "grave_accent_and_tilde" },
+                    "to": [{ "key_code": "non_us_backslash" }]
+                },
+                {
+                    "from": { "key_code": "non_us_backslash" },
+                    "to": [{ "key_code": "grave_accent_and_tilde" }]
+                }
+            ],
+            "virtual_hid_keyboard": { "keyboard_type_v2": "iso" }
         }
     ]
 }
