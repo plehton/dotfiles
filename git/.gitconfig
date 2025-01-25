@@ -35,3 +35,4 @@ cm = commit -m
 
 [core]
 	editor = nvim
+	excludesfile = ~/.gitignore_global
