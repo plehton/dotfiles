@@ -45,7 +45,7 @@ local RPATH='$(rprompt_path)'
 export PS_SHLVL='$(shell_level)'
 export RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}${RPATH}%f"
 export RPROMPT=$RPROMPT_BASE
-export PS1="%F{green}\${VENV_INFO}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
+export PS1="%F{green}\${VENV_PROMPT}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
 
 
 # Set up shell hooks for prompt
@@ -128,14 +128,10 @@ add-zsh-hook chpwd -show-vcs-info-when-entering-git-dir
 
 
 function -venv_info() {
-    if [[ -n $PYENV_SHELL ]]; then
-        local version
-        version=$(pyenv version-name)
-    fi
-    if [[ $version != 'system' ]]; then
-        export VENV_INFO="(${version}) "
+    if [[ -n $VIRTUAL_ENV ]]; then
+        export VENV_PROMPT="(${VIRTUAL_ENV:t}) "
     else
-        export VENV_INFO=""
+        export VENV_PROMPT=""
     fi
 }
 add-zsh-hook precmd -venv_info
