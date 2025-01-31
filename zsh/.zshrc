@@ -103,17 +103,15 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 # z
 . /opt/homebrew/etc/profile.d/z.sh
 
-# nvm
-# LAZY THIS
-# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-
-# Personal                                                                  {{{1
-#
-
-
 # profiling output
 # zprof > /tmp/zshprof.out
 # unsetopt xtrace
 # exec 2>&3 3>&-
+
+# Run chdpwd hooks when starting new shell
+-pyenv-virtualenv-hook
+-show-vcs-info-when-entering-git-dir
+
+
 
 # vim: ft=zsh foldmethod=marker foldmarker={{{,}}}

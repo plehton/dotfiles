@@ -48,13 +48,8 @@ export RPROMPT=$RPROMPT_BASE
 export PS1="%F{green}\${VENV_PROMPT}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
 
 
-# Set up shell hooks for prompt
-#
-autoload -U add-zsh-hook
-
 # Elapsed time
 #
-
 typeset -F SECONDS
 function -record-start-time() {
   emulate -L zsh
@@ -122,10 +117,6 @@ function -show-vcs-info-when-entering-git-dir() {
     [[ -n $(git rev-parse --is-inside-work-tree 2>/dev/null) ]] && vcs_info
 }
 add-zsh-hook chpwd -show-vcs-info-when-entering-git-dir
-
-# Conditionally update vcs info when entering new shell (sourcing this file)
-# -show-vcs-info-when-entering-git-dir
-
 
 function -venv_info() {
     if [[ -n $VIRTUAL_ENV ]]; then
