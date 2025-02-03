@@ -1,18 +1,38 @@
 #!/bin/zsh
 
 stows=(
+    bat
+    fd
+    finicky
+    git
     homebrew
+    karabiner
+    kitty
     nvim
+    ssh
+    tmux
+    wezterm
     zsh
 )
 
 # stow stuff
 function do_stow {
     for s in $stows[@]; do
-        echo stow $s
+	echo "stow $s"
         stow --restow --adopt $s
     done
 }
+
+
+
+# un-stow stuff
+function do_unstow {
+    for s in $stows[@]; do
+	echo "unstow $s"
+        stow --delete $s
+    done
+}
+
 
 
 function do_homebrew {
@@ -54,8 +74,21 @@ function do_homebrew {
     done
 }
 
-echo "Stow configs"
-do_stow
+echo $1
+if [[ "$1" == "stow" ]]; then
+	echo "Stow configs"
+	do_stow
+	return 0
+fi;
 
-echo "Install homebrew bundle"
-do_homebrew
+if [[ "$1" == "unstow" ]]; then
+	echo "Unstow configs"
+	do_unstow
+	return 0
+fi;
+
+if [[ $1 == "brew" ]]; then
+	echo "Install homebrew bundle"
+	do_homebrew
+	return 0
+fi
