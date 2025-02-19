@@ -45,6 +45,7 @@ setopt INC_APPEND_HISTORY       # adds commands as they are typed, not at shell 
 setopt EXTENDED_HISTORY         # add metadata to history
 setopt SHARE_HISTORY            # share history between sessions
 setopt HIST_IGNORE_DUPS         # do not store duplicates
+setopt HIST_IGNORE_SPACE        # do not store commands starting with space
 setopt HIST_FIND_NO_DUPS        # ignore duplicates when searching
 setopt HIST_EXPIRE_DUPS_FIRST   # expire duplicates first
 setopt HIST_REDUCE_BLANKS       # removes blank lines from history
