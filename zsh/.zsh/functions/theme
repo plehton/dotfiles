@@ -18,18 +18,4 @@ function theme {
 
     echo $COLORSCHEME >$HOME/.colorscheme
 
-    # Set ALACRITTY colorscheme to the given scheme
-    #
-    local ALACRITTY_HOME="${HOME}/.config/alacritty"
-    local alacritty_source=$ALACRITTY_HOME/colors/$COLORSCHEME.toml
-    local alacritty_target=$HOME/.alacritty_scheme.toml
-
-    if [[ -f $alacritty_source ]]; then
-        cp -f $alacritty_source $alacritty_target
-        # force alacritty to reload configuration
-        touch $ALACRITTY_HOME/alacritty.toml
-    else
-       echo "Alacritty colorscheme file '$alacritty_source' not found!"
-    fi
-
 }
