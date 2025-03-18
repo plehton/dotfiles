@@ -20,7 +20,8 @@ end
 
 colors.lighten = function(color, amount)
     local c = Color(color)
-    local l = (1 + amount) * c.L
+    -- local l = (1 + amount) * c.L
+    local l = c.L + amount
     l = math.min(l, 1)
     local c1 = c:lighten_to(l)
     return c1:to_rgb_string()
@@ -28,7 +29,8 @@ end
 
 colors.darken = function(color, amount)
     local c = Color(color)
-    local l = (1 - amount) * c.L
+    -- local l = (1 - amount) * c.L
+    local l = c.L - amount
     l = math.max(l, 0)
     local c1 = c:lighten_to(l)
     return c1:to_rgb_string()
@@ -56,15 +58,16 @@ colors.link = function(hl_from, hl_to)
     vim.cmd("hi link " .. hl_from .. ' ' .. hl_to)
 end
 
--- change lightness of given color a little bit lighter for dark colors
--- and darker for light colors. Amount of fade depends of the luminance of given
--- color: darker colors change more than light colors.
+-- Lighten or darken the given color: light colors are darkened and vice versa.
+-- Amount of the change depends on luminance : darker colors change less than
+-- light colors.
 colors.fade = function(color)
+
     local c = Color(color)
-    local change_dark = 0.2
-    local change_light = 0.015
-    local amount = change_dark - c.L * (change_dark - change_light)
-    -- vim.notify("Fading " .. color ..": luminance = " .. c.L .. ", amount = " .. amount, vim.log.levels.DEBUG)
+
+    local amount = 0.065 - 0.05 * c.L
+
+    vim.notify("Fading " .. color ..": luminance = " .. c.L .. ", amount = " .. amount, vim.log.levels.DEBUG)
     if c.L > 0.5 then
         return colors.darken(color, amount)
     else
@@ -74,7 +77,6 @@ end
 
 -- Darken/lighten gutter and visible area outside of the text
 colors.colorize = function()
-
     local bg = colors.bg("Normal")
     bg = colors.fade(bg)
 
@@ -96,22 +98,35 @@ colors.sync_colorscheme = function(force)
     local file = io.open(vim.fn.expand("$HOME/.colorscheme"), "r")
     assert(file, "Can't open ~/.colorscheme for reading!")
 
-    local colorscheme = file:read("*l")
-    assert(colorscheme, "Can't read colorscheme from ~/.colorscheme")
+    local colorscheme_full = file:read("*l")
+    assert(colorscheme_full, "Can't read colorscheme from ~/.colorscheme")
 
     file:close()
 
-    if not force and colorscheme == vim.g.colors_name then
+    -- first try if we get a match using full name
+    if not force and colorscheme_full == vim.g.colors_name then
         return
     end
 
-    local status_ok, _ = pcall(vim.cmd.colorscheme, colorscheme)
+    local status_ok, _ = pcall(vim.cmd.colorscheme, colorscheme_full)
+    if status_ok then
+        return
+    end
 
+    -- Full name is not a valid scheme, so the it must be a 'scheme-background'
+    -- and so we split the name and use the parts
+    local colorscheme = string.sub(colorscheme_full, 1, string.find(colorscheme_full, "-") - 1)
+    local background = string.sub(colorscheme_full, string.find(colorscheme_full, "-") + 1)
+
+    if not force and colorscheme == vim.g.colors_name and background == vim.o.background then
+        return
+    end
+
+    status_ok, _ = pcall(vim.cmd.colorscheme, colorscheme)
     if not status_ok then
-        vim.notify("Colorscheme " .. colorscheme .. " not found!")
         return
     end
-
+    vim.o.background = background
 end
 
 return colors
