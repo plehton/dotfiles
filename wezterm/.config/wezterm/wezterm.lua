@@ -19,22 +19,27 @@ local get_colorscheme_name = function(cf)
     return nil
 end
 
+local color_scheme = get_colorscheme_name(colorscheme_file) or ''
+local weight = string.find(color_scheme,'light') and 'Medium' or 'Regular'
+local font = wezterm.font('JetBrainsMono Nerd Font', { weight = weight })
+
 --
--- Do the actual configuration
+-- Actual configuration
 --
 config = {
 
-    front_end = 'WebGpu',
+    color_scheme = color_scheme,
 
-    font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'ExtraLight' }),
+    -- front_end = 'WebGpu',
+
+    font = font,
     font_size = 16,
+    -- disable ligatures
     harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
 
     window_decorations = "RESIZE",
     enable_tab_bar = false,
     adjust_window_size_when_changing_font_size = false,
-    color_scheme = get_colorscheme_name(colorscheme_file),
-    -- color_scheme = "Forestbones_dark",
     window_padding = {
         left = 10,
         right = 10,
