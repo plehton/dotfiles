@@ -15,6 +15,7 @@ tool = nvim
 prompt = false
 
 [alias]
+sw = switch
 st = status
 l  = log --oneline
 lt = log --oneline -n15
