@@ -4,9 +4,8 @@ local on_attach = function(client, bufnr)
     local fzf = require("fzf-lua")
 
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gd', "<cmd>FzfLua lsp_definitions<cr>", opts)
-    vim.keymap.set('n', 'gr', "<cmd>FzfLua lsp_references<cr>", opts)
-    vim.keymap.set('n', 'gr', fzf.lsp_references, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition , opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, opts)
 
@@ -65,30 +64,39 @@ lsp.config = function()
     local servers = {
         'lua_ls',
         'pyright',
+        -- 'ruff',
         'spectral',
         'terraformls',
     }
 
     local diagnostic_config = {
-        signs = {
-            active = true,
-            values = {
-                { name = "DiagnosticSignError", text = icons.diagnostics.Error },
-                { name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
-                { name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
-                { name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
-            },
-        },
         underline = true,
-        virtual_text = false,
+        virtual_text = true,
+        virtual_lines = false,
+        update_in_insert = false,
         severity_sort = true,
         float = {
+            scope = "line",
             focusable = true,
-            style = "minimal",
             border = "rounded",
-            source = "always",
-            header = "",
-            prefix = "",
+        },
+        signs = {
+            active = true,
+            text = {
+                [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+                [vim.diagnostic.severity.WARN]  = icons.diagnostics.Warning,
+                [vim.diagnostic.severity.INFO]  = icons.diagnostics.Information,
+                [vim.diagnostic.severity.HINT]  = icons.diagnostics.Hint,
+            },
+            linehl = {
+                [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+            },
+            numhl = {
+                [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+                [vim.diagnostic.severity.WARN]  = "WarningMsg",
+                [vim.diagnostic.severity.INFO]  = "InformationMsg",
+                [vim.diagnostic.severity.HINT]  = "HintMsg",
+            },
         },
     }
 
