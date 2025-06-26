@@ -67,7 +67,7 @@ colors.fade = function(color)
 
     local amount = 0.065 - 0.05 * c.L
 
-    vim.notify("Fading " .. color ..": luminance = " .. c.L .. ", amount = " .. amount, vim.log.levels.DEBUG)
+    -- vim.notify("Fading " .. color ..": luminance = " .. c.L .. ", amount = " .. amount, vim.log.levels.DEBUG)
     if c.L > 0.5 then
         return colors.darken(color, amount)
     else
@@ -114,8 +114,14 @@ colors.sync_colorscheme = function(force)
     end
 
     -- Full name is not a valid scheme, so the it must be a 'scheme-background'
-    -- and so we split the name and use the parts
-    local colorscheme = string.sub(colorscheme_full, 1, string.find(colorscheme_full, "-") - 1)
+    -- thus we split the name into scheme and background
+    local has_hyphen = string.find(colorscheme_full, "-")
+    if not has_hyphen then
+        vim.notify("Unable to switch colors to '" .. colorscheme_full .. "'.")
+        return
+    end
+
+    local colorscheme = string.sub(colorscheme_full, 1, has_hyphen - 1)
     local background = string.sub(colorscheme_full, string.find(colorscheme_full, "-") + 1)
 
     if not force and colorscheme == vim.g.colors_name and background == vim.o.background then
