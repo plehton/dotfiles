@@ -1,0 +1,10 @@
+function gsw {
+
+  branch=${1:-$(git branch|sed -e 's/\* //'|fzf)}
+
+  if [[ -n $branch ]]
+  then
+    git sw $branch
+  fi
+
+}
