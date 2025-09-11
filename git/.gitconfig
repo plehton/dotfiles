@@ -1,5 +1,5 @@
 [user]
-email = petri.j.lehtonen@gmail.com
+email = petri.lehtonen@fortum.com
 name = Petri Lehtonen
 
 # define command which will be used when "nvim" is set as a merge tool
@@ -21,19 +21,20 @@ l  = log --oneline
 lt = log --oneline -n15
 co = checkout
 cm = commit -m
+root = !git rev-parse --show-toplevel
 
 [credential]
-	helper = osxkeychain
+helper = osxkeychain
 
 [pull]
-	rebase = true
+rebase = true
 
 [push]
-	autoSetupRemote = true
+autoSetupRemote = true
 
 [fetch]
-	prune = true
+prune = true
 
 [core]
-	editor = nvim
-	excludesfile = ~/.gitignore_global
+editor = nvim
+excludesfile = ~/.gitignore_global
