@@ -7,10 +7,10 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' use-simple true
-zstyle ':vcs_info:*' formats '%F{08}[%b%m%c%u%F{08}]'
+zstyle ':vcs_info:*' formats '%F{244}[%b%m%c%u%F{244}]'
 zstyle ':vcs_info:*' stagedstr "%F{green}•" # default 'S'
 zstyle ':vcs_info:*' unstagedstr "%F{yellow}•" # default 'U'
-zstyle ':vcs_info:git*:*' actionformats '%F{08}[%b|%F{yellow}%a%F{08}]'
+zstyle ':vcs_info:git*:*' actionformats '%F{244}[%b|%F{yellow}%a%F{244}]'
 zstyle ':vcs_info:git+set-message:*' hooks git-untracked
 
 function +vi-git-untracked() {
@@ -103,7 +103,7 @@ function -maybe-show-vcs-info() {
   # Check first word; via:
   # http://tim.vanwerkhoven.org/post/2012/10/28/ZSH/Bash-string-manipulation
   case "$LAST[(w)1]" in
-    git|rm|touch|mv|cp)
+    git|rm|touch|mv|cp|mkdir)
       vcs_info
       ;;
     *)
