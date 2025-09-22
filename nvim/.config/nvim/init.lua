@@ -9,6 +9,7 @@ vim.g.loaded_netrw       = 1
 vim.g.loaded_netrwPlugin = 1
 
 vim.o.termguicolors      = true
+vim.o.winborder          = 'rounded'
 
 vim.o.clipboard          = 'unnamed'
 vim.o.history            = 1000
@@ -29,7 +30,7 @@ vim.o.ignorecase         = true
 vim.o.incsearch          = false
 vim.o.ignorecase         = true
 vim.o.smartcase          = true
-vim.o.gdefault           = true         -- search replaces all matches instead of one
+vim.o.gdefault           = true -- search replaces all matches instead of one
 
 vim.o.splitright         = true
 vim.o.splitbelow         = true
@@ -51,10 +52,26 @@ vim.o.cursorlineopt      = 'number'
 vim.o.listchars          = 'tab:⇥ ,trail:·'
 vim.o.list               = true
 
-vim.o.foldcolumn = '0' -- '0' is not bad
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
+vim.o.foldmethod         = 'expr'
+vim.o.foldexpr           = 'v:lua.vim.treesitter.foldexpr()'
+vim.o.foldcolumn         = '0' -- '0' is not bad
+vim.o.foldlevel          = 99
+vim.o.foldenable         = true
+
+-- when wrap is on, break lines on linebreak characters,
+-- show symbol at the beginning of the line and
+-- indent wrapped lines using shiftwidth amount of chars
+--
+vim.o.wrap               = false
+vim.o.breakindent        = true
+vim.o.linebreak          = true
+vim.o.showbreak          = '↪ '
+vim.o.breakindentopt     = 'sbr,shift:' .. (vim.o.shiftwidth - 2)
+
+-- user rg for grepping
+vim.o.grepprg            = 'rg --vimgrep --no-heading'
+vim.o.grepformat         = '%f:%l:%c:%m'
+
 
 -- set the background color of all columns right of textwidth to indicate
 -- long lines
@@ -67,22 +84,14 @@ local function set_colorcolumn(max_column)
 end
 vim.o.colorcolumn = set_colorcolumn(258)
 
--- when wrap is on, break lines on linebreak characters,
--- show symbol at the beginning of the line and
--- indent wrapped lines using shiftwidth amount of chars
---
-vim.o.wrap           = false
-vim.o.breakindent    = true
-vim.o.linebreak      = true
-vim.o.showbreak      = '↪ '
-vim.o.breakindentopt = 'sbr,shift:' .. (vim.o.shiftwidth - 2)
-
--- user rg for grepping
-vim.o.grepprg = 'rg --vimgrep --no-heading'
-vim.o.grepformat = '%f:%l:%c:%m'
-
 --
 -- Load plugins
+--
+require('globals')
+require('lsp')
+
+--
+-- Load lazy plugins
 --
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -98,9 +107,3 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({ spec = "spec", change_detection = { notify = false } })
-
-
---
--- Load my globals
---
-require('globals')

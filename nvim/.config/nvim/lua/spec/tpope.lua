@@ -1,10 +1,10 @@
 return {
-        { "tpope/vim-fugitive",
-        config = function ()
-
+    "tpope/vim-commentary",
+    {
+        "tpope/vim-fugitive",
+        config = function()
             vim.keymap.set("n", "<leader>g", ":G<CR>")
             vim.keymap.set("n", "<leader>ge", ":Ge:<CR>")
-
         end
     },
     "tpope/vim-repeat",
