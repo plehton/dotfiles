@@ -18,3 +18,7 @@ vim.keymap.set("n", "<Up>", ":cprevious<CR>", { silent = true })
 vim.keymap.set("n", "<Down>", ":cnext<CR>", { silent = true })
 vim.keymap.set("n", "<Left>", ":cpfile<CR>", { silent = true })
 vim.keymap.set("n", "<Right>", ":cnfile<CR>", { silent = true })
+
+-- KILL ALL BUFFERS
+vim.keymap.set("n", "<leader>bd", ":bufdo bd<CR>", { silent = true })
+vim.keymap.set("n", "<leader>BD", ":bufdo bd!<CR>", { silent = true })
