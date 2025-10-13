@@ -16,10 +16,17 @@ module.exports = {
   handlers: [
     {
       match: [
-          "https://*youtube*",
           "https://webars.*.com/myitportal/*",
+          "https://fortum.service-now.com/*",
+          "https://arsazureforms.fortum.com/*",
       ],
       browser: "Google Chrome"
+    },
+    {
+      match: [
+          "https://*youtube*",
+      ],
+      browser: "Brave Browser"
     },
   ]
 };
