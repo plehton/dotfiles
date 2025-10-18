@@ -2,17 +2,12 @@
 email = petri.lehtonen@fortum.com
 name = Petri Lehtonen
 
-# define command which will be used when "nvim" is set as a merge tool
-[mergetool "nvim"]
-cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
+[credential]
+helper = osxkeychain
 
-# set "nvim" as tool for merging
-[merge]
-tool = nvim
-
-# automatically launch merge tool without displaying a prompt
-[mergetool]
-prompt = false
+[core]
+editor = nvim
+excludesfile = ~/.gitignore_global
 
 [alias]
 sw = switch
@@ -23,18 +18,26 @@ co = checkout
 cm = commit -m
 root = !git rev-parse --show-toplevel
 
-[credential]
-helper = osxkeychain
+# set "nvim" as tool for merging
+[merge]
+tool = nvim
 
-[pull]
-rebase = true
+# automatically launch merge tool without displaying a prompt
+[mergetool]
+prompt = false
 
-[push]
-autoSetupRemote = true
+# define command which will be used when "nvim" is set as a merge tool
+[mergetool "nvim"]
+cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
 
 [fetch]
 prune = true
 
-[core]
-editor = nvim
-excludesfile = ~/.gitignore_global
+[pull]
+rebase = true
+
+[rebase]
+updateRefs = true
+
+[push]
+autoSetupRemote = true
