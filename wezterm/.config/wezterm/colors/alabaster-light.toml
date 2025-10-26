@@ -1,0 +1,11 @@
+# Alabaster light
+[colors]
+foreground = "#000000"
+background = "#f7f7f7"
+cursor_bg = "#bfdbfe"
+cursor_border = "#bfdbfe"
+cursor_fg = "#f7f7f7"
+selection_bg = "#bfdbfe"
+selection_fg = "#000000"
+ansi = [ "#000000", "#aa3731", "#448c37", "#cb9000", "#325cc0", "#7a3e9d", "#0083b2", "#bbbbbb" ]
+bright = [ "#777777", "#f05050", "#60cb00", "#ffbc5d", "#007acc", "#e64ce6", "#00aacb", "#ffffff" ]
