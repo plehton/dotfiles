@@ -20,7 +20,7 @@ local get_colorscheme_name = function(cf)
 end
 
 local color_scheme = get_colorscheme_name(colorscheme_file) or ''
-local weight = string.find(color_scheme,'light') and 'Medium' or 'Regular'
+local weight = string.find(color_scheme, 'light') and 'Regular' or 'Regular'
 local font = wezterm.font('JetBrainsMono Nerd Font', { weight = weight })
 
 --
@@ -28,9 +28,8 @@ local font = wezterm.font('JetBrainsMono Nerd Font', { weight = weight })
 --
 config = {
 
+    force_reverse_video_cursor = true,
     color_scheme = color_scheme,
-
-    -- front_end = 'WebGpu',
 
     font = font,
     font_size = 16,
@@ -46,7 +45,9 @@ config = {
         top = 10,
         bottom = 10,
     },
-    keys = {}
+    key_modifier_alias = {
+        LeftCtrl = 'META',
+    },
 }
 
 return config
