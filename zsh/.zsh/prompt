@@ -3,23 +3,72 @@ __PJL[ITALIC_ON]=$'\e[3m'
 __PJL[ITALIC_OFF]=$'\e[23m'
 
 setopt PROMPT_SUBST
+
 autoload -Uz vcs_info
+#:vcs_info:vcs-string+hook-name:user-context:repo-root-name
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' use-simple true
 zstyle ':vcs_info:*' formats '%F{244}[%b%m%c%u%F{244}]'
-zstyle ':vcs_info:*' stagedstr "%F{green}•" # default 'S'
-zstyle ':vcs_info:*' unstagedstr "%F{yellow}•" # default 'U'
-zstyle ':vcs_info:git*:*' actionformats '%F{244}[%b|%F{yellow}%a%F{244}]'
+zstyle ':vcs_info:*' stagedstr "%F{green}" #• default 'S'
+zstyle ':vcs_info:*' unstagedstr "%F{yellow}" #•󱈸 default 'U'
+zstyle ':vcs_info:git*:*' actionformats '%F{244}[%b|%F{cyan}%a%F{244}]'
 zstyle ':vcs_info:git+set-message:*' hooks git-untracked
 
 function +vi-git-untracked() {
 emulate -L zsh
 if [[ -n $(git rev-parse --is-inside-work-tree 2>/dev/null) && -n $(git ls-files --exclude-standard --others 2> /dev/null) ]]; then
-  hook_com[unstaged]+="%F{red}•%f"
+  hook_com[unstaged]+="%F{red}%F" #
 fi
 }
 
+# Remember each command we run.
+function -record-command() {
+  __PJL[LAST_COMMAND]="$2"
+}
+add-zsh-hook preexec -record-command
+
+# Update vcs_info (slow) only after a command that probably changed it
+function -maybe-show-vcs-info() {
+
+  # LAST = first Word of the last executed command line
+  local LAST=${${__PJL[LAST_COMMAND]}[(w)1]}
+
+  # In case user just hit enter, overwrite LAST_COMMAND, because preexec
+  # wont run and it will otherwise linger.
+  __PJL[LAST_COMMAND]="<clear>"
+
+  case "$LAST" in
+    cp|git|mv|rm|touch)
+      vcs_info
+      ;;
+    *)
+      ;;
+  esac
+}
+add-zsh-hook precmd -maybe-show-vcs-info
+
+# show vcs info when entering git directory
+function -show-vcs-info-in-git-dir() {
+  if [[ -n $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
+    vcs_info
+  else
+    vcs_info_msg_0_=""
+  fi
+}
+add-zsh-hook chpwd -show-vcs-info-in-git-dir
+
+# add python virtuan env
+function -venv_info() {
+    if [[ -n $VIRTUAL_ENV ]]; then
+        export VENV_PROMPT="(${VIRTUAL_ENV:t}) "
+    else
+        export VENV_PROMPT=""
+    fi
+}
+add-zsh-hook precmd -venv_info
+
+# replace $HOME with ~
 function rprompt_path() {
   local last_dir="/${PWD##*/}"
   local rpath="${PWD%$last_dir}"
@@ -27,6 +76,7 @@ function rprompt_path() {
   echo ${rdir}
 }
 
+# show shell level in the prompt: >, >>, >>>
 function shell_level() {
   local level_char="❯"
   local level_start=1
@@ -40,13 +90,6 @@ function shell_level() {
 
   echo ${level_string}
 }
-
-local RPATH='$(rprompt_path)'
-export PS_SHLVL='$(shell_level)'
-export RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}${RPATH}%f"
-export RPROMPT=$RPROMPT_BASE
-export PS1="%F{green}\${VENV_PROMPT}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
-
 
 # Elapsed time
 #
@@ -85,44 +128,13 @@ fi
 }
 add-zsh-hook precmd -report-start-time
 
-# Remember each command we run.
-function -record-command() {
-  __PJL[LAST_COMMAND]="$2"
-}
-add-zsh-hook preexec -record-command
 
-# Update vcs_info (slow) after any command that probably changed it.
-#
-function -maybe-show-vcs-info() {
-  local LAST="$__PJL[LAST_COMMAND]"
+# Construct PROMPTS
 
-  # In case user just hit enter, overwrite LAST_COMMAND, because preexec
-  # wont run and it will otherwise linger.
-  __PJL[LAST_COMMAND]="<unset>"
+local RPATH='$(rprompt_path)'
+export PS_SHLVL='$(shell_level)'
+export RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}${RPATH}%f"
+export RPROMPT=$RPROMPT_BASE
+export PS1="%F{green}\${VENV_PROMPT}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
 
-  # Check first word; via:
-  # http://tim.vanwerkhoven.org/post/2012/10/28/ZSH/Bash-string-manipulation
-  case "$LAST[(w)1]" in
-    git|rm|touch|mv|cp|mkdir)
-      vcs_info
-      ;;
-    *)
-      ;;
-  esac
-}
-add-zsh-hook precmd -maybe-show-vcs-info
-
-# When entering directory in a git repo, show vcs info
-function -show-vcs-info-when-entering-git-dir() {
-    [[ -n $(git rev-parse --is-inside-work-tree 2>/dev/null) ]] && vcs_info
-}
-add-zsh-hook chpwd -show-vcs-info-when-entering-git-dir
-
-function -venv_info() {
-    if [[ -n $VIRTUAL_ENV ]]; then
-        export VENV_PROMPT="(${VIRTUAL_ENV:t}) "
-    else
-        export VENV_PROMPT=""
-    fi
-}
-add-zsh-hook precmd -venv_info
+# vim: ft=zsh sw=2 foldmethod=marker foldmarker={{{,}}}

@@ -3,11 +3,13 @@
 # Initial settings                                                          {{{1
 
 # per function profiling
+
 # zmodload zsh/zprof
 # zmodload zsh/datetime
 # PS4='+$EPOCHREALTIME %N:%i> '
 # exec 3>&2 2>/tmp/zshstart.out
 # setopt xtrace prompt_subst
+
 
 # Set global variable(s)                                                    {{{1
 #
@@ -19,7 +21,6 @@ fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ /opt/homebrew/completions/z
 source $HOME/.zsh/aliases
 source $HOME/.zsh/exports
 autoload -Uz $HOME/.zsh/functions/*(:t)
-autoload -U colors && colors
 autoload -Uz vcs_info
 
 # Prompt                                                                    {{{1
@@ -85,12 +86,10 @@ bindkey ' ' magic-space # do history expansion on space
 # Init completion system                                                    {{{1
 #
 autoload -Uz compinit
-if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $HOME/.zcompdump) ]; then
+for dump in ~/.zcompdump(N.mh+24) ; do
   compinit
-else
-  compinit -C
-fi
-
+done
+compinit -C
 
 #
 # Third party settings                                                      {{{1
@@ -109,10 +108,6 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 # unsetopt xtrace
 # exec 2>&3 3>&-
 
-# Run chdpwd hooks when starting new shell
--pyenv-virtualenv-hook
--show-vcs-info-when-entering-git-dir
-
-
+-show-vcs-info-in-git-dir
 
 # vim: ft=zsh foldmethod=marker foldmarker={{{,}}}
