@@ -9,7 +9,7 @@ selected_session=$(echo "$sessions" | fzf --tmux center \
     --style full \
     --border \
     --padding 1,1 \
-    --border-label ' Choose session ' \
+    --border-label ' Choose tmux session ' \
     --input-label  '')
 
 # If a session was selected, attach to it
