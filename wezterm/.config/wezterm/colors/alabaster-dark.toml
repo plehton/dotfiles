@@ -1,30 +1,35 @@
 # Alabaster
 [colors]
-foreground = "#cecece"
-background = "#0e1415"
-cursor_bg = "#cd974b"
-cursor_border = "#cd974b"
-cursor_fg = "#0e1415"
-selection_bg = "#293334"
-selection_fg = "#cecece"
+# Alabaster Dark Colorscheme
+background = "#0e1415"  # Dark slate background
+# background = "#1c2526"  # Dark slate background
+foreground = "#d4d4d4"  # Light gray foreground for text
+cursor_bg = "#d4d4d4"   # Light gray cursor
+cursor_fg = "#1c2526"   # Dark background for cursor text
+cursor_border = "#d4d4d4"
+selection_bg = "#3e4b4d"  # Subtle dark selection background
+selection_fg = "#d4d4d4"  # Light gray selection text
+
+# ANSI colors (normal)
 ansi = [
-    "#000000",
-    "#d2322d",
-    "#6abf40",
-    "#cd974b",
-    "#217EBC",
-    "#9B3596",
-    "#178F79",
-    "#cecece"
+  "#0F1415",  # Black
+  "#c0392b",  # Red
+  "#9ECB81",  # Green
+  "#d59120",  # Yellow
+  "#80A8E7",  # Blue
+  "#C48BC9",  # Magenta
+  "#16a085",  # Cyan
+  "#d4d4d4",  # White
 ]
 
-brights = [
-    "#333333",
-    "#c33c33",
-    "#95cb82",
-    "#dfdf8e",
-    "#71aed7",
-    "#cc8bc9",
-    "#47BEA9",
-    "#ffffff"
+# Bright ANSI colors
+bright = [
+  "#3e4b4d",  # Bright Black
+  "#e74c3c",  # Bright Red
+  "#27ae60",  # Bright Green
+  "#f1c40f",  # Bright Yellow
+  "#3498db",  # Bright Blue
+  "#9b59b6",  # Bright Magenta
+  "#1abc9c",  # Bright Cyan
+  "#f5f5f5",  # Bright White
 ]
