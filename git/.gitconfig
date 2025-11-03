@@ -1,5 +1,5 @@
 [user]
-email = petri.lehtonen@fortum.com
+email = petri.j.lehtonen@gmail.com
 name = Petri Lehtonen
 
 [credential]
@@ -41,3 +41,11 @@ updateRefs = true
 
 [push]
 autoSetupRemote = true
+
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
