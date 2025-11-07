@@ -24,7 +24,6 @@ require("lazy").setup({
         -- import plugins which need configuration etc.
         { import = "plugins" },
         -- and add small plugins which require no configuration
-        "christoomey/vim-tmux-navigator",
         "justinmk/vim-dirvish",
         "romainl/vim-cool",
         "tpope/vim-eunuch",
