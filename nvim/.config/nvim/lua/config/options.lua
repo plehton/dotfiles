@@ -39,3 +39,7 @@ vim.o.writebackup    = false
 vim.o.foldlevel      = 99
 vim.o.foldnestmax    = 4
 -- }}}
+
+-- }}}
+
+-- vi:foldenable:foldmethod=marker:foldlevel=2
