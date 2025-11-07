@@ -22,7 +22,6 @@ require("lazy").setup({
         -- import plugins which need configuration etc.
         { import = "plugins" },
         -- and add small plugins which require no configuration
-        { "/rose-pine/neovim", name = "rose-pine" },
         "christoomey/vim-tmux-navigator",
         "justinmk/vim-dirvish",
         "romainl/vim-cool",
