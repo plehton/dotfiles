@@ -5,6 +5,7 @@ require 'config.mappings'
 require 'config.lsp'
 require 'config.autocommands'
 
+-- lazy.nvim and plugins {{{
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -18,6 +19,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
+    change_detection = { enabled = false },
     spec = {
         -- import plugins which need configuration etc.
         { import = "plugins" },
@@ -25,11 +27,12 @@ require("lazy").setup({
         "christoomey/vim-tmux-navigator",
         "justinmk/vim-dirvish",
         "romainl/vim-cool",
+        "tpope/vim-eunuch",
         "tpope/vim-repeat",
         "tpope/vim-surround",
         "tpope/vim-unimpaired",
-        "tpope/vim-eunuch"
     }
 })
+-- }}}
 
 vim.cmd.colorscheme("rose-pine")
