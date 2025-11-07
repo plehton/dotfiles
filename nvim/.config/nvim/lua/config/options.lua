@@ -35,4 +35,7 @@ vim.o.backup         = false
 vim.o.writebackup    = false
 -- }}}
 
+-- Folding {{{
+vim.o.foldlevel      = 99
+vim.o.foldnestmax    = 4
 -- }}}
