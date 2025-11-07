@@ -23,7 +23,7 @@ vim.o.hlsearch       = true
 vim.o.incsearch      = true
 vim.o.ignorecase     = true
 vim.o.smartcase      = true
-vim.o.grepprg        = 'rg --vimgrep --no-heading'
+vim.o.grepprg        = 'rg --vimgrep --no-heading --smart-case'
 vim.o.grepformat     = '%f:%l:%c:%m'
 vim.o.gdefault       = true
 -- }}}
