@@ -4,6 +4,7 @@ stows=(
     bat
     fd
     finicky
+    ghostty
     git
     homebrew
     karabiner

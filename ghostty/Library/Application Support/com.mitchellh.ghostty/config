@@ -1,0 +1,7 @@
+theme = Iceberg Dark
+
+font-family = JetbrainsMono NFM Light
+font-thicken = true
+font-thicken-strength = 100
+
+# vim: ft=toml
