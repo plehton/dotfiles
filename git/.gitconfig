@@ -2,6 +2,9 @@
 email = petri.j.lehtonen@gmail.com
 name = Petri Lehtonen
 
+[includeIf "gitdir:~/code/work/"]
+path = ~/code/work/.gitconfig
+
 [credential]
 helper = osxkeychain
 
