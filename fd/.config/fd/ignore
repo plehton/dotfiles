@@ -1,6 +1,9 @@
+.git
 Applications
 Desktop
-Library
+!Library
+Library/*
+!Library/Application\ Support/
 Movies
 Music
 OneDrive\ -\ personal
