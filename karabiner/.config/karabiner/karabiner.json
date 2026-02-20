@@ -73,8 +73,7 @@
                                             "^com\\.apple\\.Terminal$",
                                             "^org\\.alacritty$",
                                             "^com\\.github\\.wez\\.wezterm$",
-                                            "^net\\.kovidgoyal\\.kitty$",
-                                            "^com\\.mitchellh\\.ghostty$"
+                                            "^net\\.kovidgoyal\\.kitty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
