@@ -2,11 +2,17 @@
 email = petri.j.lehtonen@gmail.com
 name = Petri Lehtonen
 
+# set email, name and other work related settings
 [includeIf "gitdir:~/code/work/"]
 path = ~/code/work/.gitconfig
 
-[credential]
-helper = osxkeychain
+[credential "https://github.com"]
+helper =
+helper = !/opt/homebrew/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+helper =
+helper = !/opt/homebrew/bin/gh auth git-credential
 
 [core]
 editor = nvim
@@ -20,10 +26,12 @@ lt = log --oneline -n15
 co = checkout
 cm = commit -m
 root = !git rev-parse --show-toplevel
+pushf = push --force-with-lease --force-if-includes
 
 # set "nvim" as tool for merging
 [merge]
 tool = nvim
+conflictStyle = zdiff3
 
 # automatically launch merge tool without displaying a prompt
 [mergetool]
@@ -45,10 +53,3 @@ updateRefs = true
 [push]
 autoSetupRemote = true
 
-[credential "https://github.com"]
-	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
-
-[credential "https://gist.github.com"]
-	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
