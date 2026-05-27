@@ -12,10 +12,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
         end
 
-        -- if client:supports_method('textDocument/foldingRange') then
-        --     local win = vim.api.nvim_get_current_win()
-        --     vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
-        -- end
+        if client:supports_method('textDocument/foldingRange') then
+            local win = vim.api.nvim_get_current_win()
+            vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+        end
 
         if not client:supports_method('textDocument/willSaveWaitUntil')
             and client:supports_method('textDocument/formatting') then
