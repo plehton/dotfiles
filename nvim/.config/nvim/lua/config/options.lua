@@ -18,6 +18,10 @@ vim.o.smartindent    = true
 vim.o.expandtab      = true
 -- }}}
 
+-- Completion {{{
+vim.o.completeopt    = 'menu,menuone,noselect'
+-- }}}
+
 -- Searching {{{
 vim.o.hlsearch       = true
 vim.o.incsearch      = true
