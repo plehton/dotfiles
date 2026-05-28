@@ -18,8 +18,7 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 
 -- yank to system clipboard
-vim.keymap.set('n', 'gy', '"+y')
-vim.keymap.set('n', 'gyy', '"+yy')
+vim.keymap.set('n', 'gy', '"+y', { noremap = true })
 
 -- put from system clipboard
-vim.keymap.set('n', 'gp', '"+p')
+vim.keymap.set('n', 'gp', '"+p', { noremap = true })
