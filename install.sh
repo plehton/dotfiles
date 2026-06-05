@@ -18,20 +18,32 @@ stows=(
 
 # stow stuff
 function do_stow {
-    for s in $stows[@]; do
-	echo "stow $s"
-        stow --restow --adopt $s
-    done
+    if [[ -n "$1" ]]; then
+        echo "stow $1"
+        stow --restow --adopt $1
+    else
+        for s in $stows[@]; do
+            echo "stow $s"
+            stow --restow --adopt $s
+        done
+    fi
+    return 0
 }
 
 
 
 # un-stow stuff
 function do_unstow {
-    for s in $stows[@]; do
-	echo "unstow $s"
-        stow --delete $s
-    done
+    if [[ -n "$1" ]]; then
+        echo "unstow $1"
+        stow --delete $1
+    else
+        for s in $stows[@]; do
+            echo "unstow $s"
+            stow --delete $s
+        done
+    fi
+    return 0
 }
 
 
@@ -75,16 +87,15 @@ function do_homebrew {
     done
 }
 
-echo $1
 if [[ "$1" == "stow" ]]; then
-	echo "Stow configs"
-	do_stow
+	echo "Stowing..."
+	do_stow $2
 	return 0
 fi;
 
 if [[ "$1" == "unstow" ]]; then
-	echo "Unstow configs"
-	do_unstow
+	echo "Unstowing..."
+	do_unstow $2
 	return 0
 fi;
 
