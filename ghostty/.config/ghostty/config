@@ -3,6 +3,7 @@ theme = meowsoot
 macos-option-as-alt = left
 
 font-family = JetbrainsMonoNL NFM Regular
+font-size = 12
 #font-thicken = true
 #font-thicken-strength = 100
 
