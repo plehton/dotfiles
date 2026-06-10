@@ -8,7 +8,6 @@ _theme() {
     _arguments  '1: :->theme_name'
     case $state in
         theme_name)
-            compadd "$@" $colors
             ;;
     esac
 }
