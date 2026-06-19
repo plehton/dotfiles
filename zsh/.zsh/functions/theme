@@ -1,8 +1,9 @@
 function theme {
 
     local COLORSCHEME=$1
+    local ghostty_cfg=$HOME/.config/ghostty/config
 
-    local current_scheme=$(cat $HOME/.colorscheme)
+    local current_scheme=$(cat $HOME/.colorscheme 2>/dev/null)
 
     # When theme is run without parameters, just report current theme
     if [[ ! -n $COLORSCHEME ]]; then
@@ -18,4 +19,13 @@ function theme {
 
     echo $COLORSCHEME >$HOME/.colorscheme
 
+    # Update Ghostty config and reload
+    if grep -q '^theme ' "$ghostty_cfg" 2>/dev/null; then
+        if [[ "$(uname)" == "Darwin" ]]; then
+            sed -i '' "s/^theme = .*/theme = $COLORSCHEME/" "$ghostty_cfg"
+        else
+            sed -i "s/^theme = .*/theme = $COLORSCHEME/" "$ghostty_cfg"
+        fi
+        killall -USR1 ghostty 2>/dev/null && echo "Ghostty reloaded." || echo "Ghostty theme updated — reload terminal (Ctrl+Shift+R) to apply."
+    fi
 }

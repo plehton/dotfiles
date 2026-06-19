@@ -1,7 +1,18 @@
 # set default java version
 function jdk {
       version=$1
-      unset JAVA_HOME;
-      export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
+      unset JAVA_HOME
+      if [[ "$(uname)" == "Darwin" ]]; then
+        export JAVA_HOME=$(/usr/libexec/java_home -v"$version")
+      else
+        # Linux fallback: manually pick JDK from /usr/lib/jvm
+        local jdks=(/usr/lib/jvm/java-${version}-*)
+        if [[ ${#jdks} -gt 0 ]]; then
+          export JAVA_HOME=${jdks[1]}
+        else
+          echo "No JDK found for version $version"
+          return 1
+        fi
+      fi
       java -version
 }

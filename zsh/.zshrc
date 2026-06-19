@@ -13,7 +13,10 @@
 
 # Set global variable(s)                                                    {{{1
 #
-fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ /opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functions $fpath)
+fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ $fpath)
+if [[ -d /opt/homebrew/completions/zsh ]]; then
+  fpath=(/opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functions $fpath)
+fi
 
 # Funtions, aliases                                                         {{{1
 #
@@ -61,7 +64,9 @@ setopt HIST_IGNORE_SPACE        # Don't save commands starting with space char
 # NOTE: must come before zsh-history-substring-search & zsh-syntax-highlighting.
 autoload -U select-word-style
 select-word-style bash # only alphanumeric chars are considered WORDCHARS
-source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+if [[ -f /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh ]]; then
+  source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+fi
 
 
 # Bindings                                                                  {{{1
@@ -100,8 +105,10 @@ export FZF_DEFAULT_COMMAND='fd --type f --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 source <(fzf --zsh)
 
-# z
-. /opt/homebrew/etc/profile.d/z.sh
+# z / zoxide
+if [[ -f /opt/homebrew/etc/profile.d/z.sh ]]; then
+  . /opt/homebrew/etc/profile.d/z.sh
+fi
 
 # profiling output
 # zprof > /tmp/zshprof.out
@@ -111,3 +118,6 @@ source <(fzf --zsh)
 -show-vcs-info-in-git-dir
 
 # vim: ft=zsh foldmethod=marker foldmarker={{{,}}}
+
+# opencode
+export PATH=/home/pjl/.opencode/bin:$PATH

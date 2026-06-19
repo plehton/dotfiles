@@ -1,19 +1,27 @@
 #!/bin/zsh
 
+# macOS-only packages (not stowed on Linux)
+if [[ "$(uname)" == "Darwin" ]]; then
+  macos_stows=(
+      finicky
+      karabiner
+      ghostty
+      homebrew)
+else
+  macos_stows=()
+fi
+
 stows=(
     bat
     fd
-    finicky
-    ghostty
     git
-    homebrew
-    karabiner
-    kitty
+    keeb
+    lazygit
     nvim
     ssh
     tmux
-    wezterm
     zsh
+    $macos_stows
 )
 
 # stow stuff
@@ -60,47 +68,72 @@ function do_homebrew {
     fi
 
 
-    # install xcode command line tools
-    xcode-select -p >/dev/null
-    if [[ $? ]]
-    then
-        echo "xcode command line tools already installed. Continue with next step."
-    else
-        echo "Installing xcode command line tools."
-        xcode-select --install || return 0
+    # install xcode command line tools (macOS only)
+    if [[ "$(uname)" == "Darwin" ]]; then
+      xcode-select -p >/dev/null
+      if [[ $? ]]
+      then
+          echo "xcode command line tools already installed. Continue with next step."
+      else
+          echo "Installing xcode command line tools."
+          xcode-select --install || return 0
+      fi
     fi
 
     # install homebrew bundle
     echo "Install brew bundle"
-    brew bundle install --file=./homebrew/Brewfile || return 0
+    if [[ "$(uname)" == "Darwin" ]]; then
+      brew bundle install --file=./homebrew/Brewfile || return 0
+    else
+      brew bundle install --no-cask --file=./homebrew/Brewfile || return 0
+    fi
 
     # Brew installs a few jdk's, so they need to be linked to the
-    # system "catalog"
-    echo "Linking JDK's to /Library/Java/JavaVirtualMachines"
-    for f in /opt/homebrew/opt/openjdk@*/libexec/openjdk.jdk ; do
-        # extract jdk version from path
-        local version=${${${f/*@//}:h2}:t}
-        # add symlink to system jvm dir
-        local link_target=openjdk.v${version}.jdk
-        echo "Linking $f to $link_target"
-        sudo ln -sfn $f /Library/Java/JavaVirtualMachines/$link_target
-    done
+    # system "catalog" (macOS only)
+    if [[ "$(uname)" == "Darwin" ]]; then
+      echo "Linking JDK's to /Library/Java/JavaVirtualMachines"
+      for f in /opt/homebrew/opt/openjdk@*/libexec/openjdk.jdk ; do
+          # extract jdk version from path
+          local version=${${${f/*@//}:h2}:t}
+          # add symlink to system jvm dir
+          local link_target=openjdk.v${version}.jdk
+          echo "Linking $f to $link_target"
+          sudo ln -sfn $f /Library/Java/JavaVirtualMachines/$link_target
+      done
+    fi
+}
+
+function do_apk {
+	local -a pkgs
+	pkgs=("${(f)$(grep -v '^\s*#' "${0:A:h}/alpine-packages")}")
+	if (( ${#pkgs} )); then
+		echo "Installing Alpine packages: $pkgs"
+		sudo apk add "$pkgs[@]"
+	else
+		echo "No packages to install."
+	fi
 }
 
 if [[ "$1" == "stow" ]]; then
 	echo "Stowing..."
 	do_stow $2
-	return 0
+	exit 0
 fi;
 
 if [[ "$1" == "unstow" ]]; then
 	echo "Unstowing..."
 	do_unstow $2
-	return 0
+	exit 0
 fi;
 
 if [[ $1 == "brew" ]]; then
 	echo "Install homebrew bundle"
 	do_homebrew
-	return 0
+	exit 0
+fi
+
+if [[ $1 == "apk" ]]; then
+	echo "Install Alpine packages"
+	do_apk
+	exit 0
 fi

@@ -11,12 +11,21 @@ alias -g L="|less"
 alias -g F="|fzf"
 alias zs='echo ''Sourcing .zshrc''; source ~/.zshrc'
 
+# Platform-aware clipboard
+if [[ "$(uname)" == "Darwin" ]]; then
+  alias clip=pbcopy
+elif command -v wl-copy &>/dev/null; then
+  alias clip=wl-copy
+else
+  alias clip='xclip -selection clipboard'
+fi
+
 # Git
 alias glt='git log --oneline --max-count 20'
 alias gst='git status'
 alias groot='cd $(git root)'
 
 # Lookup my external IP address
-alias myip='echo -n $(curl -s ipinfo.io/ip) | pbcopy'
+alias myip='if [[ "$(uname)" == "Darwin" ]]; then echo -n $(curl -s ipinfo.io/ip) | clip; else curl -s ipinfo.io/ip; fi'
 
 # vi:ft=zsh

@@ -1,0 +1,39 @@
+# Alpine apk packages for `install.sh apk`
+# Lines starting with # are ignored. Uncomment or add packages as needed.
+
+bat
+curl
+fd
+fzf
+git
+github-cli
+go
+jq
+lazygit
+lua-language-server
+neovim
+nodejs
+ripgrep
+7zip
+sqlite
+stow
+tmux
+tree
+tree-sitter-cli
+wget
+xz
+yq
+zoxide
+zsh-history-substring-search
+
+# Alternative installs (not in Alpine repos):
+#   awscli -> pip install awscli
+#   pyright -> pip install pyright
+#   uv -> curl -LsSf https://astral.sh/uv/install.sh | sh
+#   yt -> uv tool install yt-dlp
+#   azure-cli -> pip install azure-cli
+#   databricks-cli -> pip install databricks-cli
+#   gh -> see github-cli above (available as apk package `github-cli`)
+#   jqp -> go install github.com/noahgorstein/jqp@latest
+#   sevenzip -> see 7zip above (available as apk package `7zip`)
+#   inotify-tools -> apk add inotify-tools (replaces fswatch)
