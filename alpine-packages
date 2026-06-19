@@ -25,6 +25,7 @@ xz
 yq
 zoxide
 zsh-history-substring-search
+zsh-vcs
 
 # Alternative installs (not in Alpine repos):
 #   awscli -> pip install awscli

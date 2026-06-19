@@ -11,12 +11,17 @@
 # setopt xtrace prompt_subst
 
 
-# Set global variable(s)                                                    {{{1
+# OS detection                                                                {{{1
 #
-fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ $fpath)
-if [[ -d /opt/homebrew/completions/zsh ]]; then
-  fpath=(/opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functions $fpath)
-fi
+typeset -g _brew_prefix
+[[ "$(uname)" == "Darwin" ]] && _brew_prefix=/opt/homebrew
+
+# Set global variable(s)                                                      {{{1
+#
+fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ \
+  ${_brew_prefix:+"$_brew_prefix/completions/zsh/"} \
+  ${_brew_prefix:+"$_brew_prefix/share/zsh/site-functions"} \
+  $fpath)
 
 # Funtions, aliases                                                         {{{1
 #
@@ -64,9 +69,9 @@ setopt HIST_IGNORE_SPACE        # Don't save commands starting with space char
 # NOTE: must come before zsh-history-substring-search & zsh-syntax-highlighting.
 autoload -U select-word-style
 select-word-style bash # only alphanumeric chars are considered WORDCHARS
-if [[ -f /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh ]]; then
-  source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-fi
+_hss_path="${_brew_prefix:+$_brew_prefix/share/zsh-history-substring-search/zsh-history-substring-search.zsh}"
+_hss_path=${_hss_path:-/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh}
+[[ -f $_hss_path ]] && source $_hss_path
 
 
 # Bindings                                                                  {{{1
@@ -106,9 +111,8 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 source <(fzf --zsh)
 
 # z / zoxide
-if [[ -f /opt/homebrew/etc/profile.d/z.sh ]]; then
-  . /opt/homebrew/etc/profile.d/z.sh
-fi
+_z_path="${_brew_prefix:+$_brew_prefix/etc/profile.d/z.sh}"
+[[ -f $_z_path ]] && source $_z_path
 
 # profiling output
 # zprof > /tmp/zshprof.out
@@ -121,3 +125,5 @@ fi
 
 # opencode
 export PATH=/home/pjl/.opencode/bin:$PATH
+
+. "$HOME/.local/bin/env"
