@@ -2,21 +2,25 @@
 email = petri.j.lehtonen@gmail.com
 name = Petri Lehtonen
 
+# include local gitconfig
+[includeIf "gitdir:~/code/dotfiles/git/gitconfig.local"]
+path = ~/code/dotfiles/git/gitconfig.local
+
 # set email, name and other work related settings
 [includeIf "gitdir:~/code/work/"]
 path = ~/code/work/.gitconfig
 
 [credential "https://github.com"]
 helper =
-helper = !/opt/homebrew/bin/gh auth git-credential
+helper = !gh auth git-credential
 
 [credential "https://gist.github.com"]
 helper =
-helper = !/opt/homebrew/bin/gh auth git-credential
+helper = !gh auth git-credential
 
 [core]
 editor = nvim
-excludesfile = ~/.gitignore_global
+excludesfile = ~/code/dotfiles/git/gitignore.local
 
 [alias]
 sw = switch
@@ -52,4 +56,3 @@ updateRefs = true
 
 [push]
 autoSetupRemote = true
-
