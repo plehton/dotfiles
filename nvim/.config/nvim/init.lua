@@ -5,33 +5,52 @@ require 'config.mappings'
 require 'config.lsp'
 require 'config.autocommands'
 
--- lazy.nvim and plugins {{{
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable",
-        lazypath,
-    })
-end
-vim.opt.rtp:prepend(lazypath)
-require("lazy").setup({
-    change_detection = { enabled = false },
-    spec = {
-        -- import plugins which need configuration etc.
-        { import = "plugins" },
-        -- and add small plugins which require no configuration
-        "justinmk/vim-dirvish",
-        "romainl/vim-cool",
-        "tpope/vim-eunuch",
-        "tpope/vim-repeat",
-        "tpope/vim-surround",
-        "tpope/vim-unimpaired",
-    }
+vim.pack.add({
+    -- Colorschemes
+    "https://github.com/catppuccin/nvim",
+    "https://github.com/p00f/alabaster.nvim",
+    "https://github.com/marekh19/meowsoot.nvim",
+    "https://github.com/rose-pine/neovim",
+    -- Core
+    "https://github.com/tpope/vim-eunuch",
+    "https://github.com/tpope/vim-repeat",
+    "https://github.com/tpope/vim-surround",
+    "https://github.com/tpope/vim-unimpaired",
+    "https://github.com/nvim-reesitter/nvim-treesitter",
+    -- "https://github.com/ibhagwan/fzf-lua",
+    "https://github.com/nvim-telescope/telescope.nvim",
+    "https://github.com/nvim-telescope/telescope-fzf-native.nvim",
+    "https://github.com/nvim-lua/plenary.nvim",
+    -- File manager
+    "https://github.com/justinmk/vim-dirvish",
+    -- Git
+    "https://github.com/tpope/vim-fugitive",
+    -- UI
+    "https://github.com/lukas-reineke/indent-blankline.nvim",
+    -- LSP
+    "https://github.com/scalameta/nvim-metals",
+    -- AI
+    "https://github.com/zbirenbaum/copilot.lua",
+    "https://github.com/CopilotC-Nvim/CopilotChat.nvim",
+    -- Disabled
+    -- "https://github.com/artemave/workspace-diagnostics.nvim",
 })
--- }}}
 
-vim.cmd.colorscheme("rose-pine")
+-- Synchronous build for telescope-fzf-native (PackChanged doesn't fire during initial add)
+local fzf_path = vim.fn.stdpath('data') .. '/site/pack/core/opt/telescope-fzf-native.nvim'
+if vim.fn.isdirectory(fzf_path) == 1 and vim.fn.filereadable(fzf_path .. '/build/libfzf.so') == 0 then
+    vim.system({ 'make' }, { cwd = fzf_path }):wait()
+end
+
+-- Build hook for future updates via PackChanged
+vim.api.nvim_create_autocmd('PackChanged', {
+    callback = function(ev)
+        local name, kind = ev.data.spec.name, ev.data.kind
+        if name == 'telescope-fzf-native' and kind == 'update' then
+            vim.system({ 'make' }, { cwd = ev.data.path }):wait()
+        end
+    end,
+})
+
+vim.cmd.colorscheme("catppuccin")
+
