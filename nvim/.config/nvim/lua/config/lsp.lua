@@ -1,6 +1,6 @@
 local icons = require('pjl.icons')
 
-vim.lsp.enable({ 'lua_ls', 'pyright', 'terraformls' })
+vim.lsp.enable({ 'lua_ls', 'marksman', 'pyright', 'terraformls', 'yamlls' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)
