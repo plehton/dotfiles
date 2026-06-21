@@ -1,3 +1,4 @@
 .DS_Store
 nvim/.config/nvim/lazy-lock.json
 karabiner/.config/karabiner/automatic_backups
+zsh/.zsh/exports.local

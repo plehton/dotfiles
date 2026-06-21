@@ -54,7 +54,7 @@ brew "tree-sitter-cli"
 brew "wget"
 brew "xz"
 brew "yq"
-brew "z", args: ["HEAD"]
+brew "zoxide"
 brew "zlib"
 brew "zsh-history-substring-search"
 cask "1password"

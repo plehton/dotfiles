@@ -53,11 +53,11 @@ Homebrew at `/opt/homebrew` (see `homebrew/Brewfile`). Uses macOS tools:
 ## Zsh
 
 - `.zprofile` → brew shellenv (multi-path fallback) + pyenv init (guarded)
-- `.zshrc` → aliases, exports, prompt, fzf+z/zoxide
+- `.zshrc` → aliases, exports, prompt, fzf+zoxide
 - Functions in `.zsh/functions/` autoloaded by name
 - Prompt shows vcs_info (git), venv, elapsed time, shell level
 - `gsw` — fuzzy git branch switch
-- `ts` — tmux session manager (uses `z`/`zoxide` for directory history)
+- `ts` — tmux session manager (uses `zoxide` for directory history)
 
 ## Neovim
 
@@ -93,4 +93,3 @@ Homebrew at `/opt/homebrew` (see `homebrew/Brewfile`). Uses macOS tools:
 - Aliases: `git root` (toplevel), `git pushf` (force-with-lease)
 - `push.autoSetupRemote = true`, `pull.rebase = true`
 - Global gitignore: `.DS_Store`, `.python-version`
-

@@ -1,10 +1,10 @@
 function gsw {
 
-  branch=${1:-$(git branch|sed -e 's/\* //'|fzf)}
+  local branch=${1:-$(git branch --format='%(refname:short)' | fzf)}
 
   if [[ -n $branch ]]
   then
-    git sw $branch
+    git sw "$branch"
   fi
 
 }

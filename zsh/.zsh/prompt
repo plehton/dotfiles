@@ -10,15 +10,15 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' use-simple true
 zstyle ':vcs_info:*' formats '%F{244}[%b%m%c%u%F{244}]'
-zstyle ':vcs_info:*' stagedstr "%F{green}" #• default 'S'
-zstyle ':vcs_info:*' unstagedstr "%F{yellow}" #•󱈸 default 'U'
+zstyle ':vcs_info:*' stagedstr "%F{green}󰸞" # default 'S'
+zstyle ':vcs_info:*' unstagedstr "%F{yellow}" #•󱈸 default 'U'
 zstyle ':vcs_info:git*:*' actionformats '%F{244}[%b|%F{cyan}%a%F{244}]'
 zstyle ':vcs_info:git+set-message:*' hooks git-untracked
 
 function +vi-git-untracked() {
 emulate -L zsh
 if [[ -n $(git rev-parse --is-inside-work-tree 2>/dev/null) && -n $(git ls-files --exclude-standard --others 2> /dev/null) ]]; then
-  hook_com[unstaged]+="%F{red}%F" #
+  hook_com[unstaged]+="%F{red}?%F" #
 fi
 }
 
@@ -28,42 +28,12 @@ function -record-command() {
 }
 add-zsh-hook preexec -record-command
 
-# Update vcs_info (slow) only after a command that probably changed it
-function -maybe-show-vcs-info() {
-
-  # LAST = first Word of the last executed command line
-  local LAST=${${__PJL[LAST_COMMAND]}[(w)1]}
-
-  # In case user just hit enter, overwrite LAST_COMMAND, because preexec
-  # wont run and it will otherwise linger.
-  __PJL[LAST_COMMAND]="<clear>"
-
-  case "$LAST" in
-    cp|git|mv|rm|touch)
-      vcs_info
-      ;;
-    *)
-      ;;
-  esac
-}
-add-zsh-hook precmd -maybe-show-vcs-info
-
-# show vcs info when entering git directory
-function -show-vcs-info-in-git-dir() {
-  if [[ -n $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
-    vcs_info
-  else
-    vcs_info_msg_0_=""
-  fi
-}
-add-zsh-hook chpwd -show-vcs-info-in-git-dir
-
-# add python virtuan env
+# add python virtual env
 function -venv_info() {
     if [[ -n $VIRTUAL_ENV ]]; then
-        export VENV_PROMPT="(${VIRTUAL_ENV:t}) "
+        VENV_PROMPT="(${VIRTUAL_ENV:t}) "
     else
-        export VENV_PROMPT=""
+        VENV_PROMPT=""
     fi
 }
 add-zsh-hook precmd -venv_info
@@ -83,6 +53,7 @@ function shell_level() {
   local level_string=""
 
   test -n "$TMUX" && level_start=2
+  (( level_start > SHLVL )) && return
 
   for i in {$level_start..$SHLVL}; do
     level_string+="$level_char"
@@ -120,21 +91,54 @@ if [ $ZSH_START_TIME ]; then
     SECS="$((~~$SECS))s"
   fi
   ELAPSED="${ELAPSED}${SECS}"
-  export RPROMPT="%F{blue}%{$__PJL[ITALIC_ON]%}${ELAPSED}%{$__PJL[ITALIC_OFF]%}%f $RPROMPT_BASE"
+  RPROMPT="%F{blue}%{$__PJL[ITALIC_ON]%}${ELAPSED}%{$__PJL[ITALIC_OFF]%}%f $RPROMPT_BASE"
   unset ZSH_START_TIME
 else
-  export RPROMPT="$RPROMPT_BASE"
+  RPROMPT="$RPROMPT_BASE"
 fi
 }
 add-zsh-hook precmd -report-start-time
 
+# Update vcs_info (slow) only after a command that probably changed it
+function -maybe-show-vcs-info() {
+
+  # LAST = first Word of the last executed command line
+  local LAST=${${__PJL[LAST_COMMAND]}[(w)1]}
+
+  # In case user just hit enter, overwrite LAST_COMMAND, because preexec
+  # wont run and it will otherwise linger.
+  __PJL[LAST_COMMAND]="<clear>"
+
+  case "$LAST" in
+    cp|git|gsw|lazygit|lg|mv|nvim|vim|vi|rm|rmdir|mkdir|touch)
+      vcs_info
+      ;;
+    *)
+      ;;
+  esac
+}
+add-zsh-hook precmd -maybe-show-vcs-info
+
+# show vcs info when entering git directory
+function -show-vcs-info-in-git-dir() {
+  if [[ -n $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
+    vcs_info
+  else
+    vcs_info_msg_0_=""
+  fi
+}
+add-zsh-hook chpwd -show-vcs-info-in-git-dir
+
+
+# Call vcs info when we start the shell, so that we have the info in the prompt when we start in a git directory.
+-show-vcs-info-in-git-dir
 
 # Construct PROMPTS
 
 local RPATH='$(rprompt_path)'
-export PS_SHLVL='$(shell_level)'
-export RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}${RPATH}%f"
-export RPROMPT=$RPROMPT_BASE
-export PS1="%F{green}\${VENV_PROMPT}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
+PS_SHLVL='$(shell_level)'
+RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}${RPATH}%f"
+RPROMPT=$RPROMPT_BASE
+PS1="%F{green}\${VENV_PROMPT}%F{blue}%1~%F{red} ${PS_SHLVL}%f "
 
-# vim: ft=zsh sw=2 foldmethod=marker foldmarker={{{,}}}
+# vim: ft=zsh sw=2 foldmethod=marker

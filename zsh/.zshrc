@@ -11,16 +11,26 @@
 # setopt xtrace prompt_subst
 
 
-# Set global variable(s)                                                    {{{1
+# OS detection                                                                {{{1
 #
-fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ /opt/homebrew/completions/zsh/ /opt/homebrew/share/zsh/site-functions $fpath)
+typeset -g _brew_prefix
+[[ $OSTYPE == darwin* ]] && _brew_prefix=/opt/homebrew
+
+# Set global variable(s)                                                      {{{1
+#
+fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ \
+  ${_brew_prefix:+"$_brew_prefix/completions/zsh/"} \
+  ${_brew_prefix:+"$_brew_prefix/share/zsh/site-functions"} \
+  $fpath)
+typeset -U path fpath
 
 # Funtions, aliases                                                         {{{1
 #
-
 source $HOME/.zsh/aliases
-source $HOME/.zsh/exports
+source $HOME/.zsh/exports # interactive shell only exports
+[[ -r $HOME/.zsh/exports.local ]] && source $HOME/.zsh/exports.local
 autoload -Uz $HOME/.zsh/functions/*(:t)
+autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
 
 # Prompt                                                                    {{{1
@@ -29,7 +39,6 @@ autoload -Uz vcs_info
 
 # History                                                                   {{{1
 #
-
 HISTFILE=~/.history
 HISTSIZE=4000
 SAVEHIST=$HISTSIZE
@@ -61,35 +70,40 @@ setopt HIST_IGNORE_SPACE        # Don't save commands starting with space char
 # NOTE: must come before zsh-history-substring-search & zsh-syntax-highlighting.
 autoload -U select-word-style
 select-word-style bash # only alphanumeric chars are considered WORDCHARS
-source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+_hss_path="${_brew_prefix:+$_brew_prefix/share/zsh-history-substring-search/zsh-history-substring-search.zsh}"
+_hss_path=${_hss_path:-/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh}
+[[ -t 0 && -t 1 && -f $_hss_path ]] && source $_hss_path
 
 
 # Bindings                                                                  {{{1
 #
 
-if tput cbt &> /dev/null; then
-  bindkey "$(tput cbt)" reverse-menu-complete # make Shift-tab go to previous completion
+if [[ -t 0 && -t 1 ]]; then
+  if tput cbt &> /dev/null; then
+    bindkey "$(tput cbt)" reverse-menu-complete # make Shift-tab go to previous completion
+  fi
+
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+  bindkey '^P' history-substring-search-up
+  bindkey '^N' history-substring-search-down
+
+  autoload -U edit-command-line
+  zle -N edit-command-line
+  bindkey '^x^x' edit-command-line
+
+  bindkey ' ' magic-space # do history expansion on space
 fi
-
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-bindkey '^P' history-substring-search-up
-bindkey '^N' history-substring-search-down
-
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^x^x' edit-command-line
-
-bindkey ' ' magic-space # do history expansion on space
 
 #
 # Init completion system                                                    {{{1
 #
 autoload -Uz compinit
-for dump in ~/.zcompdump(N.mh+24) ; do
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
   compinit
-done
-compinit -C
+else
+  compinit -C
+fi
 
 #
 # Third party settings                                                      {{{1
@@ -98,16 +112,21 @@ compinit -C
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-source <(fzf --zsh)
+if [[ -t 0 && -t 1 ]] && command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
 
-# z
-. /opt/homebrew/etc/profile.d/z.sh
+# zoxide
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
 
 # profiling output
 # zprof > /tmp/zshprof.out
 # unsetopt xtrace
 # exec 2>&3 3>&-
 
--show-vcs-info-in-git-dir
 
 # vim: ft=zsh foldmethod=marker foldmarker={{{,}}}
+
+# vim: ft=zsh sw=2 foldmethod=marker

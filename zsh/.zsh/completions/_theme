@@ -1,6 +1,6 @@
 #compdef _theme theme
 
-colors=($HOME/.config/wezterm/colors/*.toml(:t:r))
+colors=($HOME/.config/ghostty/themes/*(:t))
 
 _theme() {
     local state line
@@ -8,6 +8,7 @@ _theme() {
     _arguments  '1: :->theme_name'
     case $state in
         theme_name)
+            _values 'theme name' $colors
             ;;
     esac
 }

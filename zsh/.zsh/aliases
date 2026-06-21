@@ -1,12 +1,25 @@
 alias cl=clear
-alias ls='ls -G'
+if [[ $OSTYPE == darwin* ]]; then
+  alias ls='ls -G'
+else
+  alias ls='ls --color=auto'
+fi
 alias ll='ls -l'
 alias la='ls -a'
 alias lal='ls -al'
 alias vim=nvim
 alias vi=nvim
-alias v='nvim $(fzf $1)'
-alias -g CP="|pbcopy"
+
+# Platform-aware clipboard
+if [[ $OSTYPE == darwin* ]]; then
+  alias clip=pbcopy
+elif command -v wl-copy &>/dev/null; then
+  alias clip=wl-copy
+else
+  alias clip='xclip -selection clipboard'
+fi
+
+alias -g CP="|clip"
 alias -g L="|less"
 alias -g F="|fzf"
 alias zs='echo ''Sourcing .zshrc''; source ~/.zshrc'
@@ -17,6 +30,6 @@ alias gst='git status'
 alias groot='cd $(git root)'
 
 # Lookup my external IP address
-alias myip='echo -n $(curl -s ipinfo.io/ip) | pbcopy'
+alias myip='if [[ $OSTYPE == darwin* ]]; then echo -n $(curl -s ipinfo.io/ip) | clip; else curl -s ipinfo.io/ip; fi'
 
 # vi:ft=zsh

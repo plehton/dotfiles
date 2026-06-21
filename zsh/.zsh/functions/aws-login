@@ -1,4 +1,11 @@
 function aws-login {
-    export AWS_PROFILE=$1
-    aws sso login --profile $1
+    local profile=$1
+
+    if [[ -z $profile ]]; then
+        echo "Usage: aws-login <profile>" >&2
+        return 1
+    fi
+
+    export AWS_PROFILE=$profile
+    aws sso login --profile "$profile"
 }

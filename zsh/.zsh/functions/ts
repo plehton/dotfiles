@@ -1,46 +1,56 @@
 function ts() {
 
-    SESSION_NAME=${1-__NA__}
+    local SESSION_NAME=${1-__NA__}
+    local WD
+
+    for cmd in tmux fzf zoxide; do
+        if ! command -v $cmd >/dev/null 2>&1; then
+            echo "ts: required command not found: $cmd" >&2
+            return 127
+        fi
+    done
 
     local session_exists() {
-        tmux has-session -t $SESSION_NAME 2>/dev/null
+        tmux has-session -t "$SESSION_NAME" 2>/dev/null
     }
 
     local connect_session() {
         if [[ -v TMUX ]]; then
-            tmux switch -t $SESSION_NAME
+            tmux switch -t "$SESSION_NAME"
         else
-            tmux attach -t $SESSION_NAME
+            tmux attach -t "$SESSION_NAME"
         fi
     }
 
     session_exists && connect_session && return
 
-    # set working directory to top match of z or pick one from z database
+    # Set working directory from zoxide history.
     if [[ $SESSION_NAME == "__NA__" ]]; then
-        WD=$(z -l | sort -rn | cut -w -f2 | fzf --tmux --reverse --style full --border-label ' Create new tmux session ')
+        WD=$(zoxide query --list | fzf --tmux --reverse --style full --border-label ' Create new tmux session ')
     else
-        WD=$(z -e $SESSION_NAME)
+        WD=$(zoxide query "$SESSION_NAME")
     fi
 
     # if there's no match/nothing selected from fzf list, return
     if [[ -z "$WD" ]]; then
-        echo "No matches for $SESSION in z database. Session not created."
+        echo "No matches for $SESSION_NAME in zoxide database. Session not created."
         return
     fi
 
     # set session name according to the found wd:
     # extract tail from path and remove unwanted prefixes
-    SESSION_NAME=${WD:t:s/[adp|fdp]-//}
+    SESSION_NAME=${WD:t}
+    SESSION_NAME=${SESSION_NAME/#adp-/}
+    SESSION_NAME=${SESSION_NAME/#fdp-/}
 
     session_exists && connect_session && return
 
     # create new session in wd and switch to it
-    tmux new -ds $SESSION_NAME -c $WD
+    tmux new -ds "$SESSION_NAME" -c "$WD"
 
     # check if there is a .tmux script in the WD and run it
     if [[ -e $WD/.tmux ]]; then
-        tmux send-keys -t $SESSION_NAME "tmux source-file $WD/.tmux" ENTER
+        tmux send-keys -t "$SESSION_NAME" "tmux source-file ${(q)WD}/.tmux" ENTER
     fi
 
     connect_session

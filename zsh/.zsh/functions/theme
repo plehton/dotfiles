@@ -1,8 +1,10 @@
 function theme {
 
     local COLORSCHEME=$1
+    local ghostty_theme_dir=$HOME/.config/ghostty/auto
+    local ghostty_theme_cfg=$ghostty_theme_dir/theme.ghostty
 
-    local current_scheme=$(cat $HOME/.colorscheme)
+    local current_scheme=$(< $HOME/.colorscheme 2>/dev/null)
 
     # When theme is run without parameters, just report current theme
     if [[ ! -n $COLORSCHEME ]]; then
@@ -16,6 +18,15 @@ function theme {
         return 0
     fi
 
-    echo $COLORSCHEME >$HOME/.colorscheme
+    print -r -- "$COLORSCHEME" >$HOME/.colorscheme
 
+    # Update Ghostty config and reload
+    if [[ -d $HOME/.config/ghostty ]]; then
+        mkdir -p "$ghostty_theme_dir"
+        print -r -- "theme = $COLORSCHEME" >"$ghostty_theme_cfg"
+
+        if [[ $OSTYPE == darwin* ]]; then
+            killall -USR1 ghostty 2>/dev/null && echo "Ghostty reloaded." || echo "Ghostty theme updated; reload terminal to apply."
+        fi
+    fi
 }
