@@ -45,7 +45,7 @@ cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
 prune = true
 
 [pull]
-rebase = true
+	rebase = true
 
 [rebase]
 updateRefs = true
