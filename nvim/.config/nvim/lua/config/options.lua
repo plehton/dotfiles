@@ -23,8 +23,6 @@ vim.o.completeopt    = 'menu,menuone,noselect'
 -- }}}
 
 -- Searching {{{
-vim.o.hlsearch       = true
-vim.o.incsearch      = true
 vim.o.ignorecase     = true
 vim.o.smartcase      = true
 vim.o.grepprg        = 'rg --vimgrep --no-heading --smart-case'
@@ -35,7 +33,6 @@ vim.o.gdefault       = true
 -- Use undofile, no swap, no backups {{{
 vim.o.undofile       = true
 vim.o.swapfile       = false
-vim.o.backup         = false
 vim.o.writebackup    = false
 -- }}}
 
