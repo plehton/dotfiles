@@ -145,6 +145,14 @@ function do_apk {
         echo "Error: wsl/packages not found"
         return 1
     fi
+
+    # add edge/community with @edge tag for bleeding-edge packages
+    # (pinned per-package via @edge suffix to avoid pulling everything from edge)
+    local edge_repo="http://dl-cdn.alpinelinux.org/alpine/edge/community"
+    if ! grep -q "@edge" /etc/apk/repositories 2>/dev/null; then
+        echo "$edge_repo" | sed 's|^|@edge |' | sudo tee -a /etc/apk/repositories
+    fi
+
     echo "Installing Alpine packages..."
     apk add --no-cache $(cat ./wsl/packages | grep -v '^#' | xargs)
 }

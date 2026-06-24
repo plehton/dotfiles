@@ -44,7 +44,7 @@ Homebrew at `/opt/homebrew` (see `homebrew/Brewfile`). Uses macOS tools:
 
 ### Alpine Linux (WSL)
 
-- Package manager: `apk` (see `alpine-packages` at repo root)
+- Package manager: `apk` (see `wsl/packages` in repo)
 - Clipboard: `xclip` (Wayland: `wl-clipboard`)
 - File watch: `inotify-tools` replaces macOS `fswatch`
 - `zoxide` replaces `z`
