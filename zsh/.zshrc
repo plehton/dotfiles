@@ -1,6 +1,8 @@
 # Interactive shell config (after .zprofile)
 
 # Initial settings                                                          {{{1
+# ------------------------------------------------------------------------------
+#
 
 # per function profiling
 
@@ -10,41 +12,27 @@
 # exec 3>&2 2>/tmp/zshstart.out
 # setopt xtrace prompt_subst
 
-
-# OS detection                                                                {{{1
-#
+# OS detection
 typeset -g _brew_prefix
 [[ $OSTYPE == darwin* ]] && _brew_prefix=/opt/homebrew
 
-# Set global variable(s)                                                      {{{1
-#
+# Set global variable(s)
 fpath=($HOME/.zsh/functions/ $HOME/.zsh/completions/ \
   ${_brew_prefix:+"$_brew_prefix/completions/zsh/"} \
   ${_brew_prefix:+"$_brew_prefix/share/zsh/site-functions"} \
   $fpath)
 typeset -U path fpath
 
-# Funtions, aliases                                                         {{{1
-#
-source $HOME/.zsh/aliases
-source $HOME/.zsh/exports # interactive shell only exports
-[[ -r $HOME/.zsh/exports.local ]] && source $HOME/.zsh/exports.local
-autoload -Uz $HOME/.zsh/functions/*(:t)
-autoload -Uz add-zsh-hook
-autoload -Uz vcs_info
 
-# Prompt                                                                    {{{1
-#
-. $HOME/.zsh/prompt
-
-# History                                                                   {{{1
+# History
 #
 HISTFILE=~/.history
 HISTSIZE=4000
 SAVEHIST=$HISTSIZE
+#}}}
 
-#
 # Options                                                                   {{{1
+# ------------------------------------------------------------------------------
 #
 setopt EMACS                    # Command line editing in EMACS mode
 setopt AUTO_CD                  # Change dirs without cd and with ../...
@@ -61,7 +49,23 @@ setopt HIST_EXPIRE_DUPS_FIRST   # expire duplicates first
 setopt HIST_REDUCE_BLANKS       # removes blank lines from history
 setopt HIST_VERIFY              # Don't execute command substituted from history
 setopt HIST_IGNORE_SPACE        # Don't save commands starting with space char
+# }}}
 
+# Funtions, aliases                                                         {{{1
+# ------------------------------------------------------------------------------
+#
+
+source $HOME/.zsh/aliases
+source $HOME/.zsh/exports # interactive shell only exports
+[[ -r $HOME/.zsh/exports.local ]] && source $HOME/.zsh/exports.local
+autoload -Uz $HOME/.zsh/functions/*(:t)
+autoload -Uz add-zsh-hook
+autoload -Uz vcs_info
+# }}}
+
+# Prompt                                                                    {{{1
+#
+. $HOME/.zsh/prompt
 
 # Plugins                                                                   {{{1
 #
@@ -95,8 +99,9 @@ if [[ -t 0 && -t 1 ]]; then
   bindkey ' ' magic-space # do history expansion on space
 fi
 
-#
+
 # Init completion system                                                    {{{1
+# ------------------------------------------------------------------------------
 #
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
@@ -105,8 +110,9 @@ else
   compinit -C
 fi
 
-#
+
 # Third party settings                                                      {{{1
+# ------------------------------------------------------------------------------
 #
 
 # fzf
@@ -127,6 +133,4 @@ fi
 # exec 2>&3 3>&-
 
 
-# vim: ft=zsh foldmethod=marker foldmarker={{{,}}}
-
-# vim: ft=zsh sw=2 foldmethod=marker
+# vim: set ft=zsh foldmethod=marker:
