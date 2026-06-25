@@ -8,6 +8,11 @@ module.exports = {
       url: { protocol: "https" },
     },
     {
+      // Redirect all localhost urls use http
+        match: ({ url }) => url.host === "localhost",
+      url: { protocol: "http" },
+    },
+    {
       // use old.reddit.com
       match: ({ url }) => url.host.endsWith("reddit.com"),
       url: ({url}) => ({ "host": "old.reddit.com" }),

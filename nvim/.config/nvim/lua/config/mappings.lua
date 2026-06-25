@@ -6,6 +6,12 @@ vim.keymap.set("x", ",", ":")
 -- expand current buffer's directory in command mode
 vim.cmd [[ cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%' ]]
 
+-- togle folds with tab
+vim.keymap.set('n', '<Tab>', 'za', { noremap = true, silent = true, desc = "Toggle fold" })
+
+-- Map F6 to the jump forward command
+vim.keymap.set('n', '<F6>', '<C-i>', { noremap = true, desc = "Jump forward" })
+
 vim.keymap.set("n", "<leader>o", "<cmd>only<CR>")
 vim.keymap.set("n", "<leader>u", "<cmd>undotree<cr>")
 
