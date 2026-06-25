@@ -1,10 +1,5 @@
 vim.g.mapleader = " "
 
-require 'config.options'
-require 'config.mappings'
-require 'config.lsp'
-require 'config.autocommands'
-
 vim.pack.add({
     -- Core
     "https://github.com/tpope/vim-eunuch",
@@ -49,5 +44,10 @@ vim.api.nvim_create_autocmd('PackChanged', {
         end
     end,
 })
+
+require 'config.options'
+require 'config.mappings'
+require 'config.lsp'
+require 'config.autocommands'
 
 vim.cmd.colorscheme("catppuccin")

@@ -25,7 +25,7 @@
       "src": "https://github.com/rose-pine/neovim"
     },
     "nvim": {
-      "rev": "49a926655a2f5579e9c276470fc300baaa49e524",
+      "rev": "e068ab5f8261f23f6f71ffd8791ae40315b77b9c",
       "src": "https://github.com/catppuccin/nvim"
     },
     "nvim-metals": {
@@ -34,7 +34,7 @@
     },
     "nvim-treesitter": {
       "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
-      "src": "https://github.com/nvim-reesitter/nvim-treesitter",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
     "plenary.nvim": {
@@ -50,7 +50,7 @@
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "vim-dirvish": {
-      "rev": "ad478b4ac86484edc525bfc5379f261204dfbf4c",
+      "rev": "09c60f20ddc248fa2955c58b3183d44e1885f151",
       "src": "https://github.com/justinmk/vim-dirvish"
     },
     "vim-eunuch": {
