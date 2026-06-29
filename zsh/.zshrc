@@ -127,10 +127,12 @@ if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh --cmd cd)"
 fi
 
+# Warm up node.js in background (reduces cold start latency for pi, etc.)
+(node -e '' &) 2>/dev/null
+
 # profiling output
 # zprof > /tmp/zshprof.out
 # unsetopt xtrace
 # exec 2>&3 3>&-
-
 
 # vim: set ft=zsh foldmethod=marker:
