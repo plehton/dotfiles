@@ -10,6 +10,12 @@ local TYPES = {
     'zsh',
 }
 
+-- nvim-treesitter has its query files under runtime/queries/, but vim.pack
+-- only adds the plugin root to 'runtimepath', not the runtime/ subdirectory.
+-- Add runtime/ explicitly so queries (highlights, folds, etc.) are findable.
+local ts_root = vim.fn.stdpath('data') .. '/site/pack/core/opt/nvim-treesitter'
+vim.opt.rtp:append(ts_root .. '/runtime')
+
 require 'nvim-treesitter'.install(TYPES)
 
 local augroup = vim.api.nvim_create_augroup("pjl-treesitter", { clear = true })
