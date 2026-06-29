@@ -19,9 +19,6 @@ vim.pack.add({
     -- LSP
     "https://github.com/scalameta/nvim-metals",
     -- "https://github.com/artemave/workspace-diagnostics.nvim",
-    -- AI
-    "https://github.com/zbirenbaum/copilot.lua",
-    "https://github.com/CopilotC-Nvim/CopilotChat.nvim",
     -- Colorschemes
     "https://github.com/catppuccin/nvim",
     "https://github.com/p00f/alabaster.nvim",
