@@ -35,7 +35,7 @@ SAVEHIST=$HISTSIZE
 # ------------------------------------------------------------------------------
 #
 setopt EMACS                    # Command line editing in EMACS mode
-setopt AUTO_CD                  # Change dirs without cd and with ../...
+setopt AUTOCD                   # Change dirs without cd and with ../...
 setopt NO_CASE_GLOB             # Case insensitive globbing
 setopt GLOB_COMPLETE            # Don't insert completion results to command line, use menu instead
 setopt APPEND_HISTORY           # append history, do not owerwrite
@@ -136,3 +136,5 @@ fi
 # exec 2>&3 3>&-
 
 # vim: set ft=zsh foldmethod=marker:
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
