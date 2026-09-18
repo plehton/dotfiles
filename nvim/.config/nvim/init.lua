@@ -18,6 +18,7 @@ vim.pack.add({
     "https://github.com/lukas-reineke/indent-blankline.nvim",
     "https://github.com/nvim-mini/mini.align",
     "https://github.com/lewis6991/gitsigns.nvim",
+    'https://github.com/MeanderingProgrammer/render-markdown.nvim',
     -- LSP
     "https://github.com/scalameta/nvim-metals",
     -- "https://github.com/artemave/workspace-diagnostics.nvim",
