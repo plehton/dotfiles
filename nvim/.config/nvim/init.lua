@@ -27,6 +27,7 @@ vim.pack.add({
     "https://github.com/p00f/alabaster.nvim",
     "https://github.com/marekh19/meowsoot.nvim",
     "https://github.com/rose-pine/neovim",
+    "https://github.com/Shatur/neovim-ayu",
 })
 
 -- Synchronous build for telescope-fzf-native (PackChanged doesn't fire during initial add)
@@ -50,4 +51,4 @@ require 'config.mappings'
 require 'config.lsp'
 require 'config.autocommands'
 
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("ayu")
