@@ -10,6 +10,7 @@ vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
 vim.keymap.set("n", "<leader>o", "<cmd>only<CR>")
+vim.keymap.set("n", "<leader><leader>", "<cmd>nohl<CR>")
 
 -- Map F6 to the jump forward command
 vim.keymap.set('n', '<F6>', '<C-i>', { noremap = true, desc = "Jump forward" })
