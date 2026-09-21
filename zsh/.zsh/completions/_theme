@@ -1,17 +1,27 @@
-#compdef _theme theme
+#compdef theme
 
-colors=($HOME/.config/ghostty/themes/*(:t))
+local -a raw themes
+local theme
 
-_theme() {
-    local state line
-    setopt localoptions globassign
-    _arguments  '1: :->theme_name'
-    case $state in
-        theme_name)
-            _values 'theme name' $colors
-            ;;
-    esac
-}
+# Only complete the first argument to `theme`.
+(( CURRENT == 2 )) || return 0
 
-_theme "$@"
+if (( $+commands[ghostty] )); then
+    # Prefer the action name supported by current Ghostty releases.
+    raw=("${(@f)$(ghostty +list-themes 2>/dev/null)}")
+fi
+
+for theme in "${raw[@]}"; do
+    # Ghostty prints entries like: "Aardvark Blue (resources)"
+    theme="${theme%% \(*}"
+    [[ -n $theme ]] && themes+=("$theme")
+done
+
+# Fallback if Ghostty isn't available or returned nothing.
+if (( ! ${#themes} )); then
+    themes=($HOME/.config/ghostty/themes/*(:tN))
+fi
+
+typeset -U themes
+compadd -- "${themes[@]}"
 

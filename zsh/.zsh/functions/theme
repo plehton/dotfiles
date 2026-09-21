@@ -1,15 +1,18 @@
 function theme {
-
     local COLORSCHEME=$1
-    local ghostty_theme_dir=$HOME/.config/ghostty/auto
-    local ghostty_theme_cfg=$ghostty_theme_dir/theme.ghostty
-
+    local ghostty_theme_cfg=$HOME/.config/ghostty/auto/theme.ghostty
     local current_scheme=$(< $HOME/.colorscheme 2>/dev/null)
 
-    # When theme is run without parameters, just report current theme
-    if [[ ! -n $COLORSCHEME ]]; then
-        echo "Current color scheme is '$current_scheme'."
-        return 0
+    # Gather themes
+    typeset -U themes
+    themes=("${(@f)$(ghostty +list-themes 2>/dev/null | sed 's/ (resources)//')}")
+
+    # If no argument provided, open fzf picker
+    if [[ -z $COLORSCHEME ]]; then
+        COLORSCHEME=$(printf '%s\n' "${themes[@]}" | fzf --prompt="Theme>")
+
+        # If user cancelled fzf
+        [[ -z $COLORSCHEME ]] && return 0
     fi
 
     # Given theme equals current > don't do anything
@@ -22,11 +25,7 @@ function theme {
 
     # Update Ghostty config and reload
     if [[ -d $HOME/.config/ghostty ]]; then
-        mkdir -p "$ghostty_theme_dir"
+        mkdir -p "${ghostty_theme_cfg:h}"
         print -r -- "theme = $COLORSCHEME" >"$ghostty_theme_cfg"
-
-        if [[ $OSTYPE == darwin* ]]; then
-            killall -USR1 ghostty 2>/dev/null && echo "Ghostty reloaded." || echo "Ghostty theme updated; reload terminal to apply."
-        fi
     fi
 }
