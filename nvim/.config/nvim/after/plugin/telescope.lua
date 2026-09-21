@@ -46,6 +46,7 @@ end
 
 require('telescope').setup({
     defaults = {
+        file_ignore_patterns = { "%.git/" },
         sorting_strategy = "ascending",
         scroll_strategy = "limit",
         layout_config = {
@@ -71,7 +72,13 @@ require('telescope').setup({
     },
     pickers = {
         find_files = {
-            hidden = vim.fn.fnamemodify(vim.fn.getcwd(), ":t") == "dotfiles",
+            hidden = function()
+                local dirs = {
+                    ["dotfiles"] = true,
+                    ["agentic_dev"] = true
+                }
+                return dirs[vim.fn.fnamemodify(vim.fn.getcwd(), ":t")]
+            end
         },
         grep_string = {
             hidden = true,
