@@ -130,6 +130,12 @@ fi
 # Warm up node.js in background (reduces cold start latency for pi, etc.)
 (node -e '' &) 2>/dev/null
 
+# worktrunk
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# direnv
+eval "$(direnv hook zsh)"
+
 # profiling output
 # zprof > /tmp/zshprof.out
 # unsetopt xtrace
@@ -137,4 +143,3 @@ fi
 
 # vim: set ft=zsh foldmethod=marker:
 
-if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
