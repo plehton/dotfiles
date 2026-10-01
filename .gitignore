@@ -1,4 +1,5 @@
 .DS_Store
 nvim/.config/nvim/nvim-pack-lock.json
+tmux/.config/tmux/theme.conf
 karabiner/.config/karabiner/automatic_backups
 zsh/.zsh/exports.local

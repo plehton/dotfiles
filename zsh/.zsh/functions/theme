@@ -28,4 +28,11 @@ function theme {
         mkdir -p "${ghostty_theme_cfg:h}"
         print -r -- "theme = $COLORSCHEME" >"$ghostty_theme_cfg"
     fi
+
+    local tmux_theme_sync=$HOME/.zsh/bin/tmux-sync-ghostty-theme
+    if [[ -x $tmux_theme_sync ]]; then
+        if ! "$tmux_theme_sync" "$COLORSCHEME"; then
+            print -u2 -- "Could not update tmux colors for '$COLORSCHEME'."
+        fi
+    fi
 }
